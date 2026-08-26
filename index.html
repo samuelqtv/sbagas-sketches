@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sbagas House — Protótipos</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0c0c0c;color:#e8e2d9;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+    h1{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;letter-spacing:0.08em;margin-bottom:12px}
+    p{color:rgba(232,226,217,0.45);font-size:0.8rem;margin-bottom:48px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:700px;width:100%}
+    a.card{border:1px solid rgba(232,226,217,0.12);padding:32px 24px;text-decoration:none;color:#e8e2d9;transition:background 0.3s,border-color 0.3s;text-align:left}
+    a.card:hover{background:rgba(232,226,217,0.04);border-color:rgba(232,226,217,0.25)}
+    .card h2{font-size:1.1rem;font-weight:400;letter-spacing:0.04em;margin-bottom:8px}
+    .card p{color:rgba(232,226,217,0.35);font-size:0.7rem;margin-bottom:0;line-height:1.6}
+    .tag{display:inline-block;border:1px solid rgba(232,226,217,0.18);padding:3px 10px;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.4);margin-bottom:14px}
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Sbagas House · Protótipos</h1>
+    <p>SaaS de Agendamento para Barbearias — variantes de design</p>
+    <div class="cards">
+      <a class="card" href="001-editorial-dark/">
+        <div class="tag">Variante 1</div>
+        <h2>Editorial Dark</h2>
+        <p>Preto, tipografia serifada, restrito. Sofisticação pela contenção. Inspirado na Sartor Barbearia.</p>
+      </a>
+      <a class="card" href="002-premium-gold/">
+        <div class="tag">Variante 2</div>
+        <h2>Premium Gold</h2>
+        <p>Mármore claro, dourado, sombra leve. Luxo clássico, acessível, tradicional.</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navalha & Arte — Barbearia Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0c;
+    --text: #e8e2d9;
+    --muted: rgba(232,226,217,0.45);
+    --border: rgba(232,226,217,0.08);
+    --border-light: rgba(232,226,217,0.15);
+    --hover: rgba(232,226,217,0.04);
+    --display: 'Cormorant Garamond', serif;
+    --body: 'Inter', sans-serif;
+    --radius: 0;
+    --transition: 0.35s ease;
+  }
+  * { margin:0; padding:0; box-sizing:border-box }
+  html { scroll-behavior:smooth }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  header {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 18px 48px;
+    background: rgba(12,12,12,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: var(--display); font-size: 1.7rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase }
+  .logo span { display:block; font-family: var(--body); font-size: 0.52rem; font-weight: 300; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); margin-top: 2px }
+  .nav-links { display:flex; align-items:center; gap: 36px }
+  .nav-links a { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color var(--transition) }
+  .nav-links a:hover { color: var(--text) }
+  .btn-outline {
+    border: 1px solid var(--text); padding: 11px 26px;
+    font-size: 0.62rem; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text); text-decoration: none;
+    transition: all var(--transition); cursor:pointer; background: none; font-family: var(--body);
+  }
+  .btn-outline:hover { background: var(--text); color: var(--bg) }
+  .btn-solid {
+    border: 1px solid var(--text); padding: 14px 36px;
+    font-size: 0.66rem; font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--bg); text-decoration: none;
+    transition: all var(--transition); cursor:pointer; background: var(--text); font-family: var(--body);
+  }
+  .btn-solid:hover { background: #fff; border-color: #fff }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh; display:flex; align-items:center; justify-content:center;
+    text-align:center; position:relative; overflow:hidden; padding-top: 80px;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0c0c0c 40%, #141414 100%);
+  }
+  .hero-accent {
+    position:absolute; top:30%; left:-20%; width:60%; height:40%;
+    background: radial-gradient(ellipse, rgba(232,226,217,0.03) 0%, transparent 70%);
+  }
+  .hero-content { position:relative; z-index:2; max-width: 720px; padding: 0 32px }
+  .hero-eyebrow {
+    font-size: 0.58rem; font-weight: 400; letter-spacing: 0.45em;
+    text-transform: uppercase; color: rgba(232,226,217,0.4); margin-bottom: 28px;
+  }
+  .hero-titulo {
+    font-family: var(--display); font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+    font-weight: 300; line-height: 1.06; margin-bottom: 24px;
+  }
+  .hero-titulo em { font-style:italic }
+  .hero-sub {
+    font-size: 0.85rem; font-weight: 300; line-height: 1.8;
+    color: rgba(232,226,217,0.5); max-width: 480px; margin: 0 auto 40px;
+  }
+  .hero-scroll {
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    font-size: 0.52rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: rgba(232,226,217,0.2); z-index:2;
+  }
+
+  /* ── Section labels ── */
+  .section-label {
+    font-size: 0.56rem; font-weight: 400; letter-spacing: 0.45em;
+    text-transform: uppercase; color: rgba(232,226,217,0.3); margin-bottom: 18px;
+  }
+  .section-title {
+    font-family: var(--display); font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 300; line-height: 1.1; margin-bottom: 14px;
+  }
+  .section-title em { font-style:italic }
+  .section-line { width: 32px; height: 1px; background: rgba(232,226,217,0.25); margin-bottom: 28px }
+
+  /* ── Serviços ── */
+  .servicos {
+    padding: 100px 48px; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto;
+  }
+  .servicos-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border); margin-top: 48px;
+  }
+  .svc-card {
+    padding: 36px 28px; border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); transition: background var(--transition);
+  }
+  .svc-card:hover { background: var(--hover) }
+  .svc-card:nth-child(4n) { border-right: none }
+  .svc-card:nth-child(n+5) { border-bottom: none }
+  .svc-num { font-size: 0.55rem; letter-spacing: 0.2em; color: rgba(232,226,217,0.2); margin-bottom: 16px }
+  .svc-nome { font-family: var(--display); font-size: 1.3rem; font-weight: 400; margin-bottom: 10px }
+  .svc-desc { font-size: 0.74rem; line-height: 1.7; color: var(--muted); margin-bottom: 12px }
+  .svc-preco { font-family: var(--display); font-size: 1.15rem; font-weight: 400; color: var(--text) }
+  .svc-duracao { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(232,226,217,0.3); margin-top: 4px }
+
+  /* ── Barbeiros ── */
+  .barbeiros {
+    padding: 100px 48px; border-top: 1px solid var(--border); max-width: 1200px; margin: 0 auto;
+  }
+  .barbeiros-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 48px }
+  .barb-card { position:relative; overflow:hidden; aspect-ratio:3/4; cursor:pointer }
+  .barb-img {
+    width:100%; height:100%; object-fit:cover; object-position:center 20%;
+    filter: grayscale(100%) contrast(1.05) brightness(0.85);
+    transition: transform 0.5s ease, filter 0.4s;
+  }
+  .barb-card:hover .barb-img { transform: scale(1.04); filter: grayscale(80%) contrast(1.05) brightness(0.9) }
+  .barb-info { position:absolute; bottom:0; left:0; right:0; padding: 20px;
+    background: linear-gradient(transparent, rgba(12,12,12,0.9)); }
+  .barb-nome { font-family: var(--display); font-size: 1.3rem; font-weight: 400 }
+  .barb-tag { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,226,217,0.45); margin-top: 4px }
+
+  /* ── Booking ── */
+  .booking {
+    padding: 100px 48px; border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto;
+  }
+  .booking-steps { margin-top: 48px }
+  .step-indicator { display:flex; gap:0; margin-bottom: 48px; border: 1px solid var(--border); }
+  .step-dot {
+    flex:1; text-align:center; padding: 14px 8px; font-size: 0.55rem;
+    letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400;
+    color: rgba(232,226,217,0.25); border-right: 1px solid var(--border);
+    transition: all var(--transition); cursor:pointer;
+  }
+  .step-dot:last-child { border-right: none }
+  .step-dot.active { color: var(--text); background: var(--hover) }
+  .step-dot.done { color: rgba(232,226,217,0.5) }
+
+  .step-panel { display:none }
+  .step-panel.active { display:block; animation: fadeIn 0.4s ease }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:translateY(0) } }
+
+  .option-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap: 2px }
+  .option-card {
+    border: 1px solid var(--border); padding: 28px 24px; cursor:pointer;
+    transition: all var(--transition); text-align:left; background: none; font-family: var(--body); color: var(--text); width:100%;
+  }
+  .option-card:hover { background: var(--hover); border-color: var(--border-light) }
+  .option-card.selected { border-color: var(--text); background: rgba(232,226,217,0.03) }
+  .opt-name { font-family: var(--display); font-size: 1.15rem; font-weight: 400; margin-bottom: 4px }
+  .opt-detail { font-size: 0.7rem; color: var(--muted) }
+
+  /* Time slots */
+  .slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 24px }
+  .slot {
+    border: 1px solid var(--border); padding: 12px; text-align:center;
+    font-size: 0.72rem; letter-spacing: 0.05em; cursor:pointer;
+    transition: all var(--transition); background: none; color: var(--text); font-family: var(--body);
+  }
+  .slot:hover { background: var(--hover); border-color: var(--border-light) }
+  .slot.selected { border-color: var(--text); background: var(--text); color: var(--bg) }
+
+  /* Form */
+  .form-group { margin-bottom: 24px }
+  .form-label { display:block; font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(232,226,217,0.35); margin-bottom: 8px }
+  .form-input {
+    width:100%; padding: 14px 16px; background: rgba(232,226,217,0.03);
+    border: 1px solid var(--border); color: var(--text); font-family: var(--body);
+    font-size: 0.8rem; font-weight: 300; transition: border-color var(--transition);
+  }
+  .form-input:focus { outline:none; border-color: rgba(232,226,217,0.3) }
+
+  /* Summary */
+  .summary-card {
+    border: 1px solid var(--border); padding: 36px;
+  }
+  .summary-row { display:flex; justify-content:space-between; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 0.78rem }
+  .summary-row:last-child { border-bottom: none }
+  .summary-label { color: var(--muted) }
+  .summary-val { font-weight: 400 }
+
+  /* Confirmation */
+  .confirm-icon {
+    width: 64px; height: 64px; border: 1px solid var(--text); border-radius: 50%;
+    display:flex; align-items:center; justify-content:center; margin: 0 auto 32px;
+    font-family: var(--display); font-size: 1.8rem; font-weight: 300;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border); padding: 28px 48px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(232,226,217,0.15);
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 16px 24px }
+    .nav-links { display:none }
+    .servicos, .barbeiros, .booking { padding: 60px 24px }
+    .servicos-grid { grid-template-columns: 1fr }
+    .svc-card { border-right: none }
+    .svc-card:nth-child(n+5) { border-bottom: 1px solid var(--border) }
+    .svc-card:last-child { border-bottom: none }
+    .barbeiros-grid { grid-template-columns: 1fr }
+    .option-grid { grid-template-columns: 1fr }
+    .slot-grid { grid-template-columns: repeat(3, 1fr) }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ───── -->
+<header>
+  <a href="#" onclick="resetAll(); return false" style="text-decoration:none;color:inherit">
+    <div class="logo">Navalha <span>barbearia</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#barbeiros">Barbeiros</a>
+    <a href="#booking" class="btn-outline" style="display:inline-block">Agendar</a>
+  </div>
+</header>
+
+<!-- ─── HERO ───── -->
+<section class="hero" style="min-height:95vh">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Barbearia Premium · São Paulo</p>
+    <h1 class="hero-titulo">O ritual <em>masculino</em> reinventado</h1>
+    <p class="hero-sub">
+      Cada corte é uma experiência. Cada detalhe, uma escolha. 
+      Em um ambiente pensado para o homem que entende que estilo 
+      não se explica — se percebe.
+    </p>
+    <a href="#booking" class="btn-solid" style="display:inline-block; text-decoration:none">Agende seu horário</a>
+  </div>
+  <div class="hero-scroll">↓ Role para descobrir</div>
+</section>
+
+<!-- ─── SERVIÇOS ───── -->
+<section class="servicos" id="servicos">
+  <p class="section-label">Serviços</p>
+  <h2 class="section-title">O que <em>oferecemos</em></h2>
+  <div class="section-line"></div>
+  <p style="font-size:0.8rem; color:var(--muted); max-width:500px; margin-bottom:8px">
+    Cada serviço é executado com precisão, produtos importados e o tempo que o ritual merece.
+  </p>
+  <div class="servicos-grid">
+    <div class="svc-card">
+      <div class="svc-num">01</div>
+      <div class="svc-nome">Corte Premium</div>
+      <div class="svc-desc">Tesoura, navalha e máquina. Consultoria de estilo inclusa.</div>
+      <div class="svc-preco">R$ 85</div>
+      <div class="svc-duracao">45 min</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">02</div>
+      <div class="svc-nome">Barba Completa</div>
+      <div class="svc-desc">Toalha quente, navalha artesanal e balm pós-barba.</div>
+      <div class="svc-preco">R$ 65</div>
+      <div class="svc-duracao">30 min</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">03</div>
+      <div class="svc-nome">Combo Navalha</div>
+      <div class="svc-desc">Corte premium + barba completa. O ritual inteiro.</div>
+      <div class="svc-preco">R$ 130</div>
+      <div class="svc-duracao">60 min</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">04</div>
+      <div class="svc-nome">Hidratação Capilar</div>
+      <div class="svc-desc">Tratamento profundo com queratina e óleos essenciais.</div>
+      <div class="svc-preco">R$ 95</div>
+      <div class="svc-duracao">40 min</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BARBEIROS ───── -->
+<section class="barbeiros" id="barbeiros">
+  <p class="section-label">Barbeiros</p>
+  <h2 class="section-title">Os <em>mestres</em> da casa</h2>
+  <div class="section-line"></div>
+  <div class="barbeiros-grid">
+    <div class="barb-card">
+      <div style="background:#1a1a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;font-family:var(--display);color:rgba(232,226,217,0.08)">R</div>
+      <div class="barb-info"><div class="barb-nome">Ricardo</div><div class="barb-tag">Especialista em Corte</div></div>
+    </div>
+    <div class="barb-card">
+      <div style="background:#1a1a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;font-family:var(--display);color:rgba(232,226,217,0.08)">F</div>
+      <div class="barb-info"><div class="barb-nome">Felipe</div><div class="barb-tag">Mestre em Barba</div></div>
+    </div>
+    <div class="barb-card">
+      <div style="background:#1a1a1a;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;font-family:var(--display);color:rgba(232,226,217,0.08)">A</div>
+      <div class="barb-info"><div class="barb-nome">André</div><div class="barb-tag">Corte & Estilo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AGENDAMENTO ───── -->
+<section class="booking" id="booking">
+  <p class="section-label">Agendamento</p>
+  <h2 class="section-title">Reserve seu <em>horário</em></h2>
+  <div class="section-line"></div>
+  <p style="font-size:0.78rem; color:var(--muted); max-width:400px; margin-bottom:8px">
+    Pagamento antecipado. Cancele até 3h antes para reembolso.
+  </p>
+
+  <!-- Step indicator -->
+  <div class="booking-steps" id="bookingSteps">
+    <div class="step-indicator">
+      <div class="step-dot active" data-step="1">1 · Serviço</div>
+      <div class="step-dot" data-step="2">2 · Barbeiro</div>
+      <div class="step-dot" data-step="3">3 · Horário</div>
+      <div class="step-dot" data-step="4">4 · Seus dados</div>
+      <div class="step-dot" data-step="5">5 · Pagamento</div>
+    </div>
+
+    <!-- STEP 1: Serviço -->
+    <div class="step-panel active" id="step1">
+      <p style="font-size:0.7rem; color:var(--muted); margin-bottom:24px; letter-spacing:0.05em">Escolha o serviço desejado</p>
+      <div class="option-grid" id="svcOptions"></div>
+      <div style="margin-top:32px; display:flex; justify-content:flex-end">
+        <button class="btn-outline" onclick="nextStep(2)" id="btnStep1" disabled>Próximo →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Barbeiro -->
+    <div class="step-panel" id="step2">
+      <p style="font-size:0.7rem; color:var(--muted); margin-bottom:24px; letter-spacing:0.05em">Escolha seu barbeiro</p>
+      <div class="option-grid" id="barbOptions"></div>
+      <div style="margin-top:32px; display:flex; justify-content:space-between">
+        <button class="btn-outline" onclick="prevStep(1)">← Voltar</button>
+        <button class="btn-outline" onclick="nextStep(3)" id="btnStep2" disabled>Próximo →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Horário -->
+    <div class="step-panel" id="step3">
+      <p style="font-size:0.7rem; color:var(--muted); margin-bottom:8px; letter-spacing:0.05em">Selecione o horário — 14 de Setembro, 2026</p>
+      <div class="slot-grid" id="slotOptions"></div>
+      <div style="margin-top:32px; display:flex; justify-content:space-between">
+        <button class="btn-outline" onclick="prevStep(2)">← Voltar</button>
+        <button class="btn-outline" onclick="nextStep(4)" id="btnStep3" disabled>Próximo →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Dados -->
+    <div class="step-panel" id="step4">
+      <p style="font-size:0.7rem; color:var(--muted); margin-bottom:24px; letter-spacing:0.05em">Seus dados para confirmação</p>
+      <div class="form-group">
+        <label class="form-label">Nome completo</label>
+        <input class="form-input" type="text" placeholder="Seu nome" id="clientName">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefone (WhatsApp)</label>
+        <input class="form-input" type="tel" placeholder="(11) 99999-9999" id="clientPhone">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="seu@email.com" id="clientEmail">
+      </div>
+      <div style="margin-top:32px; display:flex; justify-content:space-between">
+        <button class="btn-outline" onclick="prevStep(3)">← Voltar</button>
+        <button class="btn-outline" onclick="nextStep(5)" id="btnStep4">Próximo →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Resumo e Pagamento -->
+    <div class="step-panel" id="step5">
+      <div class="summary-card">
+        <p style="font-size:0.56rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(232,226,217,0.3); margin-bottom:24px">Resumo do agendamento</p>
+        <div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-val" id="sumSvc">—</span></div>
+        <div class="summary-row"><span class="summary-label">Barbeiro</span><span class="summary-val" id="sumBarb">—</span></div>
+        <div class="summary-row"><span class="summary-label">Data e hora</span><span class="summary-val" id="sumTime">—</span></div>
+        <div class="summary-row"><span class="summary-label">Duração</span><span class="summary-val" id="sumDur">—</span></div>
+        <div class="summary-row"><span class="summary-label">Cliente</span><span class="summary-val" id="sumClient">—</span></div>
+        <div class="summary-row" style="margin-top:12px; padding-top: 16px; border-top: 1px solid var(--border-light)">
+          <span class="summary-label" style="font-family:var(--display); font-size:1.1rem; color:var(--text)">Total</span>
+          <span class="summary-val" style="font-family:var(--display); font-size:1.1rem; font-weight:400" id="sumPrice">—</span>
+        </div>
+      </div>
+      <div style="margin-top:32px; display:flex; justify-content:space-between; align-items:center">
+        <button class="btn-outline" onclick="prevStep(4)">← Voltar</button>
+        <button class="btn-solid" onclick="confirmBooking()">Confirmar e pagar</button>
+      </div>
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div class="step-panel" id="confirm" style="text-align:center">
+      <div class="confirm-icon">✓</div>
+      <h3 style="font-family:var(--display); font-size:2rem; font-weight:300; margin-bottom:16px">Agendamento confirmado</h3>
+      <p style="font-size:0.78rem; color:var(--muted); line-height:1.8; max-width:400px; margin:0 auto 32px">
+        Seu horário foi reservado. Você receberá a confirmação por email e um link de WhatsApp com todos os detalhes.
+      </p>
+      <div class="summary-card" style="max-width:480px; margin:0 auto 32px; text-align:left">
+        <div class="summary-row"><span class="summary-label">Serviço</span><span class="summary-val" id="confSvc">—</span></div>
+        <div class="summary-row"><span class="summary-label">Barbeiro</span><span class="summary-val" id="confBarb">—</span></div>
+        <div class="summary-row"><span class="summary-label">Data e hora</span><span class="summary-val" id="confTime">—</span></div>
+        <div class="summary-row"><span class="summary-label">Pagamento</span><span class="summary-val">Aprovado (mock)</span></div>
+      </div>
+      <a href="#" onclick="resetAll(); return false" class="btn-outline" style="display:inline-block">Agendar novo horário</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ───── -->
+<footer>
+  <span>Navalha & Arte © 2026</span>
+  <span>Rua Oscar Freire, 842 · São Paulo · SP</span>
+  <span>Instagram · WhatsApp</span>
+</footer>
+
+<script>
+// ── State ──────────────────────────────────────
+let selected = { svc: null, barb: null, slot: null };
+
+const services = [
+  { id: 1, nome: 'Corte Premium', preco: 85, duracao: 45 },
+  { id: 2, nome: 'Barba Completa', preco: 65, duracao: 30 },
+  { id: 3, nome: 'Combo Navalha', preco: 130, duracao: 60 },
+  { id: 4, nome: 'Hidratação Capilar', preco: 95, duracao: 40 },
+];
+const barbers = [
+  { id: 1, nome: 'Ricardo', tag: 'Especialista em Corte' },
+  { id: 2, nome: 'Felipe', tag: 'Mestre em Barba' },
+  { id: 3, nome: 'André', tag: 'Corte & Estilo' },
+];
+const slots = ['09:00','09:45','10:30','11:15','13:00','13:45','14:30','15:15','16:00','16:45','17:30','18:15'];
+
+// ── Build service options ──────────────────────
+const svcDiv = document.getElementById('svcOptions');
+services.forEach(s => {
+  const btn = document.createElement('button');
+  btn.className = 'option-card';
+  btn.innerHTML = `<div class="opt-name">${s.nome}</div><div class="opt-detail">R$ ${s.preco} · ${s.duracao} min</div>`;
+  btn.onclick = () => {
+    document.querySelectorAll('#svcOptions .option-card').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected.svc = s;
+    document.getElementById('btnStep1').disabled = false;
+  };
+  svcDiv.appendChild(btn);
+});
+
+// ── Build barber options ──────────────────────
+const barbDiv = document.getElementById('barbOptions');
+barbers.forEach(b => {
+  const btn = document.createElement('button');
+  btn.className = 'option-card';
+  btn.innerHTML = `<div class="opt-name">${b.nome}</div><div class="opt-detail">${b.tag}</div>`;
+  btn.onclick = () => {
+    document.querySelectorAll('#barbOptions .option-card').forEach(x => x.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected.barb = b;
+    document.getElementById('btnStep2').disabled = false;
+  };
+  barbDiv.appendChild(btn);
+});
+
+// ── Build slots ───────────────────────────────
+const slotDiv = document.getElementById('slotOptions');
+slots.forEach(t => {
+  const btn = document.createElement('button');
+  btn.className = 'slot';
+  btn.textContent = t;
+  btn.onclick = () => {
+    document.querySelectorAll('#slotOptions .slot').forEach(x => x.classList.remove('selected'));
+    btn.classList.add('selected');
+    selected.slot = t;
+    document.getElementById('btnStep3').disabled = false;
+  };
+  slotDiv.appendChild(btn);
+});
+
+// ── Step navigation ──────────────────────────
+function showStep(n) {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+  
+  if (n === 'confirm') {
+    document.getElementById('confirm').classList.add('active');
+  } else {
+    const el = document.getElementById('step' + n);
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.step-dot').forEach(d => {
+      const ds = parseInt(d.dataset.step);
+      if (ds === n) d.classList.add('active');
+      else if (ds < n) d.classList.add('done');
+    });
+  }
+}
+
+function nextStep(n) { showStep(n); if (n === 5) fillSummary(); }
+function prevStep(n) { showStep(n); }
+
+function fillSummary() {
+  document.getElementById('sumSvc').textContent = selected.svc?.nome || '—';
+  document.getElementById('sumBarb').textContent = selected.barb?.nome || '—';
+  document.getElementById('sumTime').textContent = '14/09/2026 · ' + (selected.slot || '—');
+  document.getElementById('sumDur').textContent = selected.svc ? selected.svc.duracao + ' min' : '—';
+  document.getElementById('sumPrice').textContent = selected.svc ? 'R$ ' + selected.svc.preco : '—';
+  const name = document.getElementById('clientName').value || 'Não informado';
+  document.getElementById('sumClient').textContent = name;
+}
+
+function confirmBooking() {
+  document.getElementById('confSvc').textContent = document.getElementById('sumSvc').textContent;
+  document.getElementById('confBarb').textContent = document.getElementById('sumBarb').textContent;
+  document.getElementById('confTime').textContent = document.getElementById('sumTime').textContent;
+  showStep('confirm');
+}
+
+function resetAll() {
+  selected = { svc: null, barb: null, slot: null };
+  document.querySelectorAll('.option-card, .slot').forEach(x => x.classList.remove('selected'));
+  document.getElementById('btnStep1').disabled = true;
+  document.getElementById('btnStep2').disabled = true;
+  document.getElementById('btnStep3').disabled = true;
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientPhone').value = '';
+  document.getElementById('clientEmail').value = '';
+  showStep(1);
+}
+</script>
+
+</body>
+</html>
