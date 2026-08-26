@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Navalha & Arte — Painel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0c0c;--t:#e8e2d9;--m:rgba(232,226,217,0.42);--b:rgba(232,226,217,0.07);--bl:rgba(232,226,217,0.14);--h:rgba(232,226,217,0.04);--g:#C4A44A;--d:'Cormorant Garamond',serif;--f:'Inter',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t);font-family:var(--f);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+input,select,button{font-family:var(--f)}
+/* ── LOGIN ── */
+.login-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.login-card{border:1px solid var(--b);padding:48px;max-width:420px;width:100%}
+.login-title{font-family:var(--d);font-size:2rem;font-weight:300;margin-bottom:6px;letter-spacing:0.04em}
+.login-sub{font-size:0.65rem;color:var(--m);margin-bottom:32px;letter-spacing:0.15em;text-transform:uppercase}
+.login-field{margin-bottom:20px}
+.login-field label{display:block;font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:6px}
+.login-field input,.login-field select{width:100%;padding:12px 14px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.78rem;font-weight:300}
+.login-field input:focus,.login-field select:focus{outline:0;border-color:rgba(232,226,217,0.25)}
+.login-btn{width:100%;padding:13px;border:1px solid var(--t);background:var(--t);color:var(--bg);font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;font-weight:400;margin-top:8px;transition:all .3s}
+.login-btn:hover{opacity:0.9}
+.role-tabs{display:flex;gap:0;margin-bottom:28px;border:1px solid var(--b)}
+.role-tab{flex:1;text-align:center;padding:10px;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;color:rgba(232,226,217,0.25);transition:all .3s;background:none;border:none;border-right:1px solid var(--b)}
+.role-tab:last-child{border-right:none}.role-tab.active{color:var(--t);background:var(--h)}
+
+/* ── LAYOUT ── */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:220px;border-right:1px solid var(--b);padding:24px 20px;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:10;background:var(--bg)}
+.side-logo{font-family:var(--d);font-size:1.3rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.side-logo span{display:block;font-family:var(--f);font-size:0.48rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--m);margin-top:1px}
+.side-nav{flex:1;margin-top:36px}
+.side-link{display:block;padding:9px 12px;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--m);text-decoration:none;border-left:1px solid transparent;margin-bottom:2px;transition:all .3s}
+.side-link:hover,.side-link.active{color:var(--t);border-left-color:var(--t);background:var(--h)}
+.side-badge{float:right;font-size:0.5rem;padding:1px 6px;border:1px solid var(--b);border-radius:2px;color:var(--m)}
+.side-user{border-top:1px solid var(--b);padding-top:16px;font-size:0.58rem}
+.side-user-name{font-weight:400}.side-user-role{color:var(--m);font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase}
+.main{margin-left:220px;flex:1;padding:32px 40px;max-width:1100px}
+
+/* ── ADMIN PANELS ── */
+.page{display:none}.page.active{display:block;animation:fade .3s ease}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page-title{font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:6px}
+.page-sub{font-size:0.65rem;color:var(--m);letter-spacing:0.1em;margin-bottom:32px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:36px}
+.stat-card{border:1px solid var(--b);padding:24px 20px}
+.stat-label{font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:8px}
+.stat-value{font-family:var(--d);font-size:2rem;font-weight:300}
+.stat-delta{font-size:0.55rem;color:var(--g);margin-top:4px}
+.table-wrap{border:1px solid var(--b);overflow:hidden}
+.table-row{display:grid;padding:14px 16px;border-bottom:1px solid var(--b);font-size:0.7rem;align-items:center;transition:background .3s}
+.table-row:hover{background:var(--h)}.table-row:last-child{border-bottom:none}
+.table-hd{font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.3);background:rgba(232,226,217,0.02)}
+.status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px}
+.status-on{background:#4CAF50}.status-off{background:rgba(232,226,217,0.15)}
+.badge{display:inline-block;padding:3px 8px;border:1px solid var(--b);font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--m)}
+.badge-gold{border-color:var(--g);color:var(--g)}
+.btn-sm{padding:6px 14px;border:1px solid var(--bl);background:none;color:var(--t);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-sm:hover{background:var(--h);border-color:var(--t)}.btn-sm.danger:hover{border-color:#c0392b;color:#c0392b}
+.btn-add{padding:8px 20px;border:1px solid var(--bl);background:none;color:var(--t);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-bottom:20px}
+.btn-add:hover{background:var(--h);border-color:var(--t)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.on{display:flex}
+.modal{background:var(--bg);border:1px solid var(--b);padding:32px;max-width:460px;width:90%;max-height:85vh;overflow-y:auto}
+.modal-title{font-family:var(--d);font-size:1.4rem;font-weight:300;margin-bottom:20px}
+.modal-field{margin-bottom:16px}
+.modal-field label{display:block;font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:5px}
+.modal-field input,.modal-field select,.modal-field textarea{width:100%;padding:10px 12px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.74rem;font-weight:300}
+.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{outline:0;border-color:rgba(232,226,217,0.25)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+/* ── CLIENT AREA ── */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.plan-card{border:1px solid var(--b);padding:28px 24px;transition:all .3s}
+.plan-card:hover{border-color:var(--bl);background:var(--h)}
+.plan-card.active-plan{border-color:var(--g)}
+.plan-nome{font-family:var(--d);font-size:1.25rem;font-weight:400;margin-bottom:4px}
+.plan-agendamentos{font-size:0.6rem;color:var(--m);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.plan-preco{font-family:var(--d);font-size:1.6rem;font-weight:300;color:var(--g)}
+.plan-periodo{font-size:0.55rem;color:var(--m)}
+.plan-btn{margin-top:16px;display:block;text-align:center;padding:10px;border:1px solid var(--bl);color:var(--t);text-decoration:none;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;transition:all .3s}
+.plan-btn:hover{background:var(--t);color:var(--bg);border-color:var(--t)}
+.plan-btn.active-plan-btn{background:var(--g);border-color:var(--g);color:#fff;cursor:default}
+
+/* ── BOOKING with COMBO ── */
+.booking-steps{margin-top:24px}
+.step-indicator{display:flex;gap:0;margin-bottom:36px;border:1px solid var(--b)}
+.step-dot{flex:1;text-align:center;padding:10px 4px;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.2);border-right:1px solid var(--b);cursor:pointer;transition:all .3s}
+.step-dot:last-child{border-right:none}.step-dot.active{color:var(--t);background:var(--h)}
+.step-panel{display:none}.step-panel.active{display:block;animation:fade .3s ease}
+.opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.opt-card{border:1px solid var(--b);padding:24px 20px;cursor:pointer;transition:all .3s;text-align:left;background:none;color:var(--t);font-family:var(--f)}
+.opt-card:hover{background:var(--h);border-color:var(--bl)}
+.opt-card.sel{border-color:var(--t)}
+.opt-name{font-family:var(--d);font-size:1.05rem;font-weight:400;margin-bottom:3px}
+.opt-detail{font-size:0.63rem;color:var(--m)}
+.slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slot{border:1px solid var(--b);padding:10px;text-align:center;font-size:0.65rem;cursor:pointer;transition:all .3s;background:none;color:var(--t);font-family:var(--f)}
+.slot:hover{background:var(--h)}.slot.sel{background:var(--t);color:var(--bg);border-color:var(--t)}
+.summary-card{border:1px solid var(--b);padding:28px}
+
+@media(max-width:768px){
+  .shell{flex-direction:column}.sidebar{position:relative;width:100%;flex-direction:row;flex-wrap:wrap;padding:12px 16px}.side-nav{display:none}.main{margin-left:0;padding:20px 16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}.plan-grid{grid-template-columns:1fr}.opt-grid{grid-template-columns:1fr}.slot-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ LOGIN ════════════════ -->
+<div class="login-overlay" id="loginScreen">
+  <div class="login-card">
+    <div class="login-title">Navalha & Arte</div>
+    <div class="login-sub">Painel administrativo</div>
+    <div class="role-tabs" id="roleTabs">
+      <button class="role-tab active" data-role="OWNER">Dono</button>
+      <button class="role-tab" data-role="BARBER">Barbeiro</button>
+      <button class="role-tab" data-role="CLIENT">Cliente</button>
+    </div>
+    <div class="login-field"><label>Email</label><input type="email" id="loginEmail" placeholder="seu@email.com" value="dono@navalha.com"></div>
+    <div class="login-field"><label>Senha</label><input type="password" id="loginPass" placeholder="Sua senha" value="••••••"></div>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <p style="font-size:0.55rem;text-align:center;margin-top:16px;color:var(--m)">Protótipo — clique para entrar</p>
+  </div>
+</div>
+
+<!-- ════════════════ SHELL ════════════════ -->
+<div class="shell" id="appShell" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-logo">Navalha <span>painel</span></div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-user">
+      <div class="side-user-name" id="sideUserName">—</div>
+      <div class="side-user-role" id="sideUserRole">—</div>
+      <a href="#" onclick="logout()" style="font-size:0.48rem;color:var(--m);text-decoration:none;margin-top:8px;display:inline-block">Sair</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent"></main>
+
+</div>
+
+<!-- ════════════════ MODAL ════════════════ -->
+<div class="modal-overlay" id="modal"><div class="modal" id="modalBody"></div></div>
+
+<script>
+// ════════════════ STATE ════════════════
+let role = 'OWNER';
+let actPage = 'dashboard';
+
+const combos = [
+  {id:1, nome:'Essencial', agendamentos:1, periodo:'mês', preco:79, desc:'1 corte por mês'},
+  {id:2, nome:'Premium', agendamentos:2, periodo:'mês', preco:139, desc:'2 cortes por mês'},
+  {id:3, nome:'Elite', agendamentos:4, periodo:'mês', preco:249, desc:'Corte + barba toda semana'},
+  {id:4, nome:'Ilimitado', agendamentos:-1, periodo:'mês', preco:399, desc:'Quantos quiser, quando quiser'},
+];
+const services = [
+  {id:1,nome:'Corte Premium',preco:85,duracao:45},
+  {id:2,nome:'Barba Completa',preco:65,duracao:30},
+  {id:3,nome:'Combo Navalha',preco:130,duracao:60},
+  {id:4,nome:'Hidratação',preco:95,duracao:40},
+];
+const barbers = [
+  {id:1,nome:'Ricardo',tag:'Corte',ativo:true},
+  {id:2,nome:'Felipe',tag:'Barba',ativo:true},
+  {id:3,nome:'André',tag:'Estilo',ativo:true},
+];
+const slots = ['09:00','09:45','10:30','11:15','13:00','13:45','14:30','15:15','16:00','16:45','17:30','18:15'];
+
+let selected = {svc:null,barb:null,slot:null};
+
+// ════════════════ ROLES ════════════════
+document.querySelectorAll('.role-tab').forEach(b=>b.onclick=function(){
+  document.querySelectorAll('.role-tab').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');role=this.dataset.role;
+  ['OWNER','BARBER'].includes(role)?document.getElementById('loginEmail').value='dono@navalha.com':document.getElementById('loginEmail').value='cliente@email.com';
+});
+
+// ════════════════ LOGIN ════════════════
+function doLogin(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appShell').style.display='flex';
+  buildSidebar();
+  navigate('dashboard');
+}
+
+function logout(){
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('appShell').style.display='none';
+  actPage='dashboard';
+}
+
+function buildSidebar(){
+  const u = document.getElementById('sideUserName');
+  const r = document.getElementById('sideUserRole');
+  const nav = document.getElementById('sideNav');
+  if(role==='OWNER'){u.textContent='Carlos Silva';r.textContent='Dono';nav.innerHTML=SIDENAV_OWNER;}
+  else if(role==='BARBER'){u.textContent='Ricardo';r.textContent='Barbeiro';nav.innerHTML=SIDENAV_BARBER;}
+  else{u.textContent='João Cliente';r.textContent='Cliente';nav.innerHTML=SIDENAV_CLIENT;}
+}
+
+const SIDENAV_OWNER=`<a href="#" class="side-link active" data-page="dashboard" onclick="navigate('dashboard');return false">Dashboard</a>
+<a href="#" class="side-link" data-page="agenda" onclick="navigate('agenda');return false">Agenda</a>
+<a href="#" class="side-link" data-page="barbeiros" onclick="navigate('barbeiros');return false">Barbeiros</a>
+<a href="#" class="side-link" data-page="servicos" onclick="navigate('servicos');return false">Serviços</a>
+<a href="#" class="side-link" data-page="combos-admin" onclick="navigate('combos-admin');return false">Combos <span class="side-badge">4</span></a>
+<a href="#" class="side-link" data-page="config" onclick="navigate('config');return false">Configurações</a>`;
+
+const SIDENAV_BARBER=`<a href="#" class="side-link active" data-page="agenda" onclick="navigate('agenda');return false">Minha Agenda</a>
+<a href="#" class="side-link" data-page="meus-horarios" onclick="navigate('meus-horarios');return false">Meus Horários</a>`;
+
+const SIDENAV_CLIENT=`<a href="#" class="side-link active" data-page="meus-planos" onclick="navigate('meus-planos');return false">Meu Plano</a>
+<a href="#" class="side-link" data-page="agendar" onclick="navigate('agendar');return false">Agendar</a>
+<a href="#" class="side-link" data-page="meus-agendamentos" onclick="navigate('meus-agendamentos');return false">Agendamentos</a>
+<a href="#" class="side-link" data-page="pagamentos" onclick="navigate('pagamentos');return false">Pagamentos</a>`;
+
+// ════════════════ NAVIGATION ════════════════
+function navigate(page){
+  actPage=page;
+  document.querySelectorAll('.side-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
+  const mc=document.getElementById('mainContent');
+  const fn = RENDER[page]; if(fn) mc.innerHTML = fn();
+}
+
+// ════════════════ RENDER FUNCTIONS ════════════════
+const RENDER = {
+  // ─── DASHBOARD ───
+  dashboard:()=>`<div class="page active">
+    <div class="page-title">Dashboard</div><div class="page-sub">Visão geral — Agosto 2026</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Faturamento</div><div class="stat-value">R$ 12.480</div><div class="stat-delta">↑ 18% vs julho</div></div>
+      <div class="stat-card"><div class="stat-label">Agendamentos</div><div class="stat-value">347</div><div class="stat-delta">↑ 12% vs julho</div></div>
+      <div class="stat-card"><div class="stat-label">Ticket médio</div><div class="stat-value">R$ 93</div><div class="stat-delta">↑ 5% vs julho</div></div>
+      <div class="stat-card"><div class="stat-label">Ocupação</div><div class="stat-value">78%</div><div class="stat-delta">↑ 3% vs julho</div></div>
+    </div>
+    <p style="font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:12px">Agendamentos por barbeiro</p>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 120px 120px 100px"><span>Barbeiro</span><span>Agendamentos</span><span>Faturamento</span><span>Ocupação</span></div>
+      ${[{n:'Ricardo',a:142,f:'R\$ 4.830',o:'82%'},{n:'Felipe',a:118,f:'R\$ 3.950',o:'76%'},{n:'André',a:87,f:'R\$ 3.700',o:'72%'}].map(r=>`<div class="table-row" style="grid-template-columns:1fr 120px 120px 100px"><span>${r.n}</span><span>${r.a}</span><span>${r.f}</span><span>${r.o}</span></div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── AGENDA (admin/barber) ───
+  agenda:()=>`<div class="page active">
+    <div class="page-title">Agenda</div><div class="page-sub">14 de Setembro, 2026</div>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 1fr 1fr 100px 100px"><span>Horário</span><span>Cliente</span><span>Serviço</span><span>Barbeiro</span><span>Ações</span></div>
+      ${[{h:'09:00',c:'Lucas M.',s:'Corte Premium',b:'Ricardo'},{h:'10:00',c:'Pedro A.',s:'Barba Completa',b:'Felipe'},{h:'11:00',c:'—',s:'Livre',b:'—'},{h:'13:00',c:'Gabriel S.',s:'Combo Navalha',b:'André'},{h:'14:30',c:'Rafael C.',s:'Corte Premium',b:'Ricardo'},{h:'16:00',c:'—',s:'Livre',b:'—'}].map(r=>`<div class="table-row" style="grid-template-columns:100px 1fr 1fr 100px 100px"><span>${r.h}</span><span style="color:${r.c==='—'?'var(--m)':'var(--t)'}">${r.c}</span><span style="color:${r.c==='—'?'var(--m)':'var(--t)'}">${r.s}</span><span>${r.b}</span><span>${r.c==='—'?'<button class="btn-sm">Agendar</button>':'<button class="btn-sm danger">Cancelar</button>'}</span></div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── BARBEIROS ADMIN ───
+  barbeiros:()=>`<div class="page active">
+    <div class="page-title">Barbeiros</div><div class="page-sub">Gerencie os profissionais</div>
+    <button class="btn-add" onclick="showModal('barber')">+ Novo barbeiro</button>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 120px 100px 100px"><span>Nome</span><span>Especialidade</span><span>Ativo</span><span>Ações</span></div>
+      ${barbers.map(b=>`<div class="table-row" style="grid-template-columns:1fr 120px 100px 100px"><span>${b.nome}</span><span>${b.tag}</span><span><span class="status-dot ${b.ativo?'status-on':'status-off'}"></span>${b.ativo?'Sim':'Não'}</span><span><button class="btn-sm">Editar</button><button class="btn-sm danger">Excluir</button></span></div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── SERVIÇOS ───
+  servicos:()=>`<div class="page active">
+    <div class="page-title">Serviços</div><div class="page-sub">Catálogo de serviços</div>
+    <button class="btn-add" onclick="showModal('svc')">+ Novo serviço</button>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 80px 80px 100px"><span>Nome</span><span>Preço</span><span>Duração</span><span>Ativo</span><span>Ações</span></div>
+      ${services.map(s=>`<div class="table-row" style="grid-template-columns:1fr 100px 80px 80px 100px"><span>${s.nome}</span><span>R\$ ${s.preco}</span><span>${s.duracao} min</span><span><span class="status-dot status-on"></span>Sim</span><span><button class="btn-sm">Editar</button></span></div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── COMBOS ADMIN ───
+  'combos-admin':()=>`<div class="page active">
+    <div class="page-title">Combos & Assinaturas</div><div class="page-sub">Planos que os clientes podem assinar</div>
+    <button class="btn-add" onclick="showModal('combo')">+ Novo combo</button>
+    <div class="plan-grid">
+      ${combos.map(c=>`<div class="plan-card ${c.id===2?'active-plan':''}">
+        <div class="plan-nome">${c.nome}</div>
+        <div class="plan-agendamentos">${c.agendamentos===-1?'Ilimitado':c.agendamentos+' agendamento'+(c.agendamentos>1?'s':'') + '/' + c.periodo}</div>
+        <div class="plan-desc" style="font-size:0.65rem;color:var(--m);margin-bottom:10px">${c.desc}</div>
+        <div class="plan-preco">R$ ${c.preco}<span class="plan-periodo">/${c.periodo}</span></div>
+        <div style="margin-top:12px;display:flex;gap:8px"><button class="btn-sm">Editar</button><button class="btn-sm danger">Excluir</button></div>
+      </div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── CONFIG ───
+  config:()=>`<div class="page active">
+    <div class="page-title">Configurações</div><div class="page-sub">Identidade visual & pagamentos</div>
+    <div style="border:1px solid var(--b);padding:32px;margin-bottom:24px">
+      <p style="font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:16px">Identidade visual</p>
+      <div class="modal-field"><label>Nome da barbearia</label><input value="Navalha & Arte"></div>
+      <div class="modal-field"><label>Cor principal</label><input type="color" value="#0c0c0c" style="width:48px;height:32px;padding:2px;border:1px solid var(--b);background:var(--bg)"></div>
+      <div class="modal-field"><label>Telefone</label><input value="(11) 3095-7100"></div>
+      <div class="modal-field"><label>Endereço</label><input value="Rua Oscar Freire, 842 — SP"></div>
+      <div class="modal-field"><label>Instagram</label><input value="@navalhaearte"></div>
+      <div class="modal-field"><label>Descrição</label><textarea rows="3">Barbearia premium em São Paulo. Cortes, barba e cuidados masculinos com hora marcada.</textarea></div>
+      <button class="btn-sm" style="margin-top:8px">Salvar alterações</button>
+    </div>
+    <div style="border:1px solid var(--b);padding:32px">
+      <p style="font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:16px">Pagamentos — Gates2B</p>
+      <div class="modal-field"><label>API Key Gates2B</label><input type="password" value="g2b_sk_live_••••••••••••••" style="width:100%"></div>
+      <div class="modal-field"><label>Webhook Secret</label><input type="password" value="whsec_••••••••••••" style="width:100%"></div>
+      <p style="font-size:0.55rem;color:var(--m);margin:8px 0 16px">Métodos habilitados: PIX · Cartão de Crédito · Google Pay · Apple Pay</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge badge-gold">PIX</span><span class="badge badge-gold">Cartão</span><span class="badge badge-gold">Google Pay</span><span class="badge badge-gold">Apple Pay</span>
+      </div>
+      <button class="btn-sm" style="margin-top:16px">Salvar chave</button>
+    </div>
+  </div>`,
+
+  // ─── BARBER: MEUS HORARIOS ───
+  'meus-horarios':()=>`<div class="page active">
+    <div class="page-title">Meus Horários</div><div class="page-sub">Dias e horários de atendimento</div>
+    ${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'].map((d,i)=>
+      `<div class="table-row" style="grid-template-columns:120px 1fr 100px;display:grid;border-bottom:1px solid var(--b);padding:14px 16px">
+        <span style="font-weight:400">${d}</span>
+        <span>${i===0?'Fechado':'09:00 — 19:00'}</span>
+        <button class="btn-sm">Editar</button>
+      </div>`
+    ).join('')}
+    <p style="font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin:28px 0 12px">Bloqueios (folgas)</p>
+    <div style="font-size:0.65rem;color:var(--m)">Nenhum bloqueio cadastrado. <button class="btn-sm" style="margin-left:8px">+ Novo</button></div>
+  </div>`,
+
+  // ─── CLIENT: MEUS PLANOS ───
+  'meus-planos':()=>`<div class="page active">
+    <div class="page-title">Meu Plano</div><div class="page-sub">Assinatura ativa: <b style="color:var(--g)">Premium</b> — 1 de 2 agendamentos usados este mês</div>
+    <div class="plan-grid">
+      ${combos.map(c=>`<div class="plan-card ${c.id===2?'active-plan':''}">
+        <div class="plan-nome">${c.nome}</div>
+        <div class="plan-agendamentos">${c.agendamentos===-1?'Ilimitado':c.agendamentos+' agendamento'+(c.agendamentos>1?'s':'')+'/'+c.periodo}</div>
+        <div class="plan-preco">R$ ${c.preco}<span class="plan-periodo">/${c.periodo}</span></div>
+        <a href="#" class="plan-btn ${c.id===2?'active-plan-btn':''}" onclick="return false">${c.id===2?'Plano atual':'Assinar'}</a>
+        ${c.id===2?'<p style="font-size:0.52rem;color:var(--m);margin-top:8px;text-align:center">Renova em 15/09</p>':''}
+      </div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── CLIENT: AGENDAR (com combo) ───
+  agendar:()=>`<div class="page active">
+    <div class="page-title">Agendar</div><div class="page-sub">Você tem <b style="color:var(--g)">1 agendamento</b> disponível no plano Premium</div>
+    <div class="booking-steps">
+      <div class="step-indicator">
+        <div class="step-dot active">1 · Serviço</div><div class="step-dot">2 · Barbeiro</div><div class="step-dot">3 · Horário</div><div class="step-dot">4 · Confirmar</div>
+      </div>
+      <div class="step-panel active" id="bk1">
+        <p style="font-size:0.6rem;color:var(--m);margin-bottom:16px;letter-spacing:0.05em">Usando seu plano Premium — sem custo adicional</p>
+        <div class="opt-grid" id="bkSvc"></div>
+        <div style="margin-top:20px;display:flex;justify-content:flex-end"><button class="btn-sm" onclick="bkNext(2)" id="bkBtn1" disabled>Próximo →</button></div>
+      </div>
+      <div class="step-panel" id="bk2">
+        <div class="opt-grid" id="bkBarb"></div>
+        <div style="margin-top:20px;display:flex;justify-content:space-between"><button class="btn-sm" onclick="bkPrev(1)">← Voltar</button><button class="btn-sm" onclick="bkNext(3)" id="bkBtn2" disabled>Próximo →</button></div>
+      </div>
+      <div class="step-panel" id="bk3">
+        <p style="font-size:0.6rem;color:var(--m);margin-bottom:12px">14/09/2026</p>
+        <div class="slot-grid" id="bkSlot"></div>
+        <div style="margin-top:20px;display:flex;justify-content:space-between"><button class="btn-sm" onclick="bkPrev(2)">← Voltar</button><button class="btn-sm" onclick="bkNext(4)" id="bkBtn3" disabled>Próximo →</button></div>
+      </div>
+      <div class="step-panel" id="bk4">
+        <div class="summary-card">
+          <p style="font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:16px">Resumo</p>
+          <div class="table-row" style="grid-template-columns:120px 1fr;display:grid;border-bottom:1px solid var(--b);padding:10px 0"><span style="color:var(--m)">Serviço</span><span id="bSumSvc">—</span></div>
+          <div class="table-row" style="grid-template-columns:120px 1fr;display:grid;border-bottom:1px solid var(--b);padding:10px 0"><span style="color:var(--m)">Barbeiro</span><span id="bSumBarb">—</span></div>
+          <div class="table-row" style="grid-template-columns:120px 1fr;display:grid;border-bottom:1px solid var(--b);padding:10px 0"><span style="color:var(--m)">Horário</span><span id="bSumTime">—</span></div>
+          <div class="table-row" style="grid-template-columns:120px 1fr;display:grid;padding:10px 0"><span style="color:var(--g);font-weight:400">Custo</span><span style="color:var(--g);font-family:var(--d);font-size:1.1rem" id="bSumPrice">Incluso no plano</span></div>
+        </div>
+        <div style="margin-top:20px;display:flex;justify-content:space-between"><button class="btn-sm" onclick="bkPrev(3)">← Voltar</button><button class="btn-sm" onclick="bkConfirm()" style="background:var(--t);color:var(--bg);border-color:var(--t)">Confirmar agendamento</button></div>
+        <div id="bkDone" style="display:none;text-align:center;margin-top:32px;border:1px solid var(--b);padding:36px">
+          <div style="width:48px;height:48px;border:1px solid var(--t);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:var(--d);font-size:1.4rem">✓</div>
+          <p style="font-family:var(--d);font-size:1.4rem;font-weight:300;margin-bottom:8px">Confirmado!</p>
+          <p style="font-size:0.65rem;color:var(--m)">Você receberá email e link WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </div>`,
+
+  // ─── CLIENT: AGENDAMENTOS ───
+  'meus-agendamentos':()=>`<div class="page active">
+    <div class="page-title">Meus Agendamentos</div><div class="page-sub">Histórico completo</div>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 1fr 1fr 100px 100px"><span>Data</span><span>Serviço</span><span>Barbeiro</span><span>Status</span><span>Ações</span></div>
+      ${[{d:'14/09 10:00',s:'Corte Premium',b:'Ricardo',st:'Confirmado'},{d:'01/09 14:30',s:'Barba Completa',b:'Felipe',st:'Concluído'},{d:'18/08 09:00',s:'Combo Navalha',b:'André',st:'Concluído'}].map(a=>`<div class="table-row" style="grid-template-columns:100px 1fr 1fr 100px 100px"><span>${a.d}</span><span>${a.s}</span><span>${a.b}</span><span><span class="badge">${a.st}</span></span><span>${a.st==='Confirmado'?'<button class="btn-sm danger">Cancelar</button>':'—'}</span></div>`).join('')}
+    </div>
+  </div>`,
+
+  // ─── CLIENT: PAGAMENTOS ───
+  pagamentos:()=>`<div class="page active">
+    <div class="page-title">Pagamentos</div><div class="page-sub">Método atual: <b style="color:var(--g)">Cartão de Crédito (•••• 4242)</b></div>
+    <div style="border:1px solid var(--b);padding:28px;margin-bottom:24px">
+      <p style="font-size:0.52rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(232,226,217,0.3);margin-bottom:16px">Métodos de pagamento</p>
+      <div class="table-row" style="grid-template-columns:1fr 1fr 100px;display:grid;border-bottom:1px solid var(--b);padding:12px 0"><span>💳 Cartão de Crédito •••• 4242</span><span><span class="badge badge-gold">Padrão</span></span><span><button class="btn-sm">Editar</button></span></div>
+      <div class="table-row" style="grid-template-columns:1fr 1fr 100px;display:grid;padding:12px 0"><span>🔑 PIX (chave: joao@email.com)</span><span></span><span><button class="btn-sm">Editar</button></span></div>
+      <button class="btn-add" style="margin-top:16px">+ Novo método</button>
+    </div>
+    <p style="font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:12px">Histórico de cobranças</p>
+    <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 120px 1fr 80px"><span>Data</span><span>Valor</span><span>Descrição</span><span>Status</span></div>
+      ${[{d:'01/09',v:'R\$ 139',s:'Plano Premium — Setembro',st:'Pago'},{d:'01/08',v:'R\$ 139',s:'Plano Premium — Agosto',st:'Pago'},{d:'01/07',v:'R\$ 139',s:'Plano Premium — Julho',st:'Pago'}].map(p=>`<div class="table-row" style="grid-template-columns:100px 120px 1fr 80px"><span>${p.d}</span><span style="font-family:var(--d);font-size:1rem">${p.v}</span><span>${p.s}</span><span><span class="badge badge-gold">${p.st}</span></span></div>`).join('')}
+    </div>
+  </div>`
+};
+
+// ════════════════ MODAL ════════════════
+function showModal(type){
+  document.getElementById('modal').classList.add('on');
+  if(type==='barber') document.getElementById('modalBody').innerHTML=`<div class="modal-title">Novo Barbeiro</div><div class="modal-field"><label>Nome</label><input placeholder="Nome completo"></div><div class="modal-field"><label>Especialidade</label><input placeholder="ex: Corte & Estilo"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='svc') document.getElementById('modalBody').innerHTML=`<div class="modal-title">Novo Serviço</div><div class="modal-field"><label>Nome</label><input placeholder="Nome do serviço"></div><div class="modal-field"><label>Preço (R\$)</label><input type="number" placeholder="85"></div><div class="modal-field"><label>Duração (minutos)</label><input type="number" placeholder="45"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='combo') document.getElementById('modalBody').innerHTML=`<div class="modal-title">Novo Combo</div><div class="modal-field"><label>Nome</label><input placeholder="Nome do combo"></div><div class="modal-field"><label>Agendamentos / período</label><input type="number" placeholder="2"></div><div class="modal-field"><label>Período</label><select><option>mês</option><option>semana</option></select></div><div class="modal-field"><label>Preço (R\$)</label><input type="number" placeholder="139"></div><div class="modal-field"><label>Descrição</label><textarea rows="2" placeholder="Descrição curta"></textarea></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()};
+
+// ════════════════ BOOKING FLOW ════════════════
+function initBooking(){
+  if(!document.getElementById('bkSvc')) return;
+  document.getElementById('bkSvc').innerHTML = services.map(s=>`<button class="opt-card" onclick="bkPickSvc(${s.id},this)"><div class="opt-name">${s.nome}</div><div class="opt-detail">${s.duracao} min — Incluso no plano</div></button>`).join('');
+  document.getElementById('bkBarb').innerHTML = barbers.filter(b=>b.ativo).map(b=>`<button class="opt-card" onclick="bkPickBarb(${b.id},this)"><div class="opt-name">${b.nome}</div><div class="opt-detail">${b.tag}</div></button>`).join('');
+  document.getElementById('bkSlot').innerHTML = slots.map(t=>`<button class="slot" onclick="bkPickSlot('${t}',this)">${t}</button>`).join('');
+}
+
+function bkPickSvc(id,el){
+  document.querySelectorAll('#bkSvc .opt-card').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');
+  selected.svc=services.find(s=>s.id===id);document.getElementById('bkBtn1').disabled=false;
+}
+function bkPickBarb(id,el){
+  document.querySelectorAll('#bkBarb .opt-card').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');
+  selected.barb=barbers.find(b=>b.id===id);document.getElementById('bkBtn2').disabled=false;
+}
+function bkPickSlot(t,el){
+  document.querySelectorAll('#bkSlot .slot').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');
+  selected.slot=t;document.getElementById('bkBtn3').disabled=false;
+}
+function bkNext(n){
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.step-dot').forEach((d,i)=>{d.classList.toggle('active',i+1===n);d.classList.toggle('done',i+1<n)});
+  document.getElementById('bk'+n).classList.add('active');
+  if(n===4){document.getElementById('bSumSvc').textContent=selected.svc?.nome||'—';document.getElementById('bSumBarb').textContent=selected.barb?.nome||'—';document.getElementById('bSumTime').textContent='14/09/2026 · '+(selected.slot||'—');}
+}
+function bkPrev(n){bkNext(n)}
+function bkConfirm(){document.getElementById('bkDone').style.display='block'}
+
+// ════════════════ INIT ════════════════
+document.addEventListener('DOMContentLoaded',function(){
+  // Pre-fill navigation on demand
+  const origNavigate = navigate;
+  navigate = function(page){
+    origNavigate(page);
+    if(page==='agendar') setTimeout(initBooking,100);
+  };
+});
+</script>
+</body>
+</html>
