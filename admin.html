@@ -2,35 +2,26 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Navalha & Arte — Painel v4</title>
+<title>Navalha & Arte — Painel v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c0c0c;--t:#e8e2d9;--m:rgba(232,226,217,0.45);--mm:rgba(232,226,217,0.28);--b:rgba(232,226,217,0.08);--bl:rgba(232,226,217,0.16);--h:rgba(232,226,217,0.05);--g:#C4A44A;--gg:#4CAF50;--d:'Cormorant Garamond',serif;--f:'Inter',sans-serif}
+:root{--bg:#0c0c0c;--t:#e8e2d9;--m:rgba(232,226,217,0.45);--mm:rgba(232,226,217,0.28);--b:rgba(232,226,217,0.08);--bl:rgba(232,226,217,0.16);--h:rgba(232,226,217,0.05);--g:#C4A44A;--gg:#4CAF50;--rr:#c0392b;--d:'Cormorant Garamond',serif;--f:'Inter',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--t);font-family:var(--f);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased}
 input,select,button,textarea{font-family:var(--f)}
-/* ── TYPOGRAPHY SCALE UP ── */
+/* TYPOGRAPHY (escalada) */
 .page-title{font-family:var(--d);font-size:2.2rem;font-weight:300;margin-bottom:4px}
 .page-sub{font-size:0.75rem;color:var(--m);letter-spacing:0.06em;margin-bottom:32px}
 .stat-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.28);margin-bottom:8px}
 .stat-value{font-family:var(--d);font-size:2.2rem;font-weight:300}
 .stat-delta{font-size:0.62rem;color:var(--g);margin-top:3px}.stat-sub{font-size:0.6rem;color:var(--m);margin-top:2px}
 .table-row{font-size:0.78rem}.table-hd{font-size:0.58rem;letter-spacing:0.15em}
-.badge{font-size:0.56rem;padding:4px 10px}
-.btn-sm{font-size:0.62rem;padding:8px 18px}.btn-add{font-size:0.65rem;padding:10px 24px}
+.badge{font-size:0.56rem;padding:4px 10px}.btn-sm{font-size:0.62rem;padding:8px 18px}.btn-add{font-size:0.65rem;padding:10px 24px}
 .side-link{font-size:0.68rem;padding:10px 14px}
-.login-field label{font-size:0.6rem}.login-field input{font-size:0.85rem;padding:13px 16px}
-.login-btn{font-size:0.7rem;padding:14px}
-.role-tab{font-size:0.6rem;padding:12px 4px}
 .modal-field label{font-size:0.58rem}.modal-field input,.modal-field select,.modal-field textarea{font-size:0.82rem;padding:12px 14px}
 .chart-title{font-size:0.58rem}.bar-label{font-size:0.56rem}.bar-value{font-size:0.6rem}
 .plan-nome{font-size:1.3rem}.plan-svcs{font-size:0.6rem}.plan-preco{font-size:1.6rem}
-.landing-title{font-family:var(--d);font-size:clamp(2.8rem,5vw,4.5rem);font-weight:300;line-height:1.06}
-.landing-hero-p{font-size:0.95rem;line-height:1.85;color:var(--m);max-width:520px;margin:0 auto 48px}
-.landing-section-label{font-size:0.62rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(232,226,217,0.35);margin-bottom:16px}
-.landing-section-title{font-family:var(--d);font-size:clamp(2rem,3vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:12px}
-
-/* ── LAYOUT ── */
+/* LAYOUT */
 .shell{display:flex;min-height:100vh}
 .sidebar{width:230px;border-right:1px solid var(--b);padding:28px 22px;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:10;background:var(--bg)}
 .side-logo{font-family:var(--d);font-size:1.5rem;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
@@ -42,12 +33,9 @@ input,select,button,textarea{font-family:var(--f)}
 .side-user{border-top:1px solid var(--b);padding-top:16px;font-size:0.64rem}
 .side-user-name{font-weight:400}.side-user-role{color:var(--m);font-size:0.54rem;letter-spacing:0.1em;text-transform:uppercase}
 .main{margin-left:230px;flex:1;padding:36px 48px;max-width:1150px}
-
-/* ── PAGES ── */
 .page{display:none}.page.active{display:block;animation:fade .3s ease}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.stat-card{border:1px solid var(--b);padding:24px 20px}
-.stat-card:hover{background:var(--h)}
+.stat-card{border:1px solid var(--b);padding:24px 20px;transition:background .2s}.stat-card:hover{background:var(--h)}
 .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
 .chart-box{border:1px solid var(--b);padding:24px}
 .bar-group{display:flex;align-items:flex-end;gap:16px;height:120px;padding-top:8px}
@@ -59,67 +47,89 @@ input,select,button,textarea{font-family:var(--f)}
 .table-hd{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.28);background:rgba(232,226,217,0.02)}
 .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px}.s-on{background:#4CAF50}.s-off{background:rgba(232,226,217,0.15)}
 .badge{display:inline-block;padding:4px 10px;border:1px solid var(--b);font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--m)}
-.badge-g{border-color:var(--g);color:var(--g)}.badge-r{border-color:#c0392b;color:#c0392b}.badge-gr{border-color:var(--gg);color:var(--gg)}
+.badge-g{border-color:var(--g);color:var(--g)}.badge-r{border-color:var(--rr);color:var(--rr)}.badge-gr{border-color:var(--gg);color:var(--gg)}
 .btn-sm{padding:8px 18px;border:1px solid var(--bl);background:none;color:var(--t);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:var(--f)}
-.btn-sm:hover{background:var(--h);border-color:var(--t)}.btn-sm.danger:hover{border-color:#c0392b;color:#c0392b}
+.btn-sm:hover{background:var(--h);border-color:var(--t)}.btn-sm.danger:hover{border-color:var(--rr);color:var(--rr)}
 .btn-add{padding:10px 24px;border:1px solid var(--bl);background:none;color:var(--t);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-bottom:20px}
 .btn-add:hover{background:var(--h);border-color:var(--t)}
-/* ── CALENDAR ── */
+.kpi-highlight{border-color:var(--gg)}
+/* CALENDAR */
 .calendar{border:1px solid var(--b)}
-.cal-header{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--b)}
-.cal-header-day{padding:14px 8px;text-align:center;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.3)}
 .cal-month-header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--b)}
 .cal-month-title{font-family:var(--d);font-size:1.3rem;font-weight:300}
 .cal-nav{display:flex;gap:8px}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--b)}
+.cal-header-day{padding:14px 8px;text-align:center;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.3)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
 .cal-day{min-height:90px;padding:8px;border-right:1px solid var(--b);border-bottom:1px solid var(--b);font-size:0.6rem;color:rgba(232,226,217,0.3);cursor:pointer;transition:background .2s}
 .cal-day:nth-child(7n){border-right:none}
 .cal-day:hover{background:var(--h)}
 .cal-day.other-month{opacity:0.25}
 .cal-day.today{border:1px solid var(--g)}
+.cal-day.selected{background:rgba(196,164,74,0.12);border:1px solid var(--g)}
 .cal-day .cal-num{font-size:0.7rem;font-weight:400;margin-bottom:4px}
 .cal-day.today .cal-num{color:var(--g)}
-.cal-day .cal-event{font-size:0.5rem;padding:3px 6px;margin-top:2px;border-radius:1px;overflow:hidden;white-space:nopwrap;text-overflow:ellipsis}
+.cal-day .cal-event{font-size:0.5rem;padding:3px 6px;margin-top:2px;border-radius:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .cal-event.avulso{background:rgba(232,226,217,0.1);color:var(--t)}
 .cal-event.combo{background:rgba(196,164,74,0.15);color:var(--g)}
-/* ── LANDING PAGE ── */
-.landing{opacity:0;transition:opacity .4s}
-.landing.show{opacity:1}
+/* IMAGE UPLOAD */
+.img-upload{border:1px dashed var(--bl);padding:20px;text-align:center;cursor:pointer;transition:all .3s;border-radius:2px}
+.img-upload:hover{border-color:var(--t);background:var(--h)}
+.img-upload .upload-icon{font-size:1.6rem;margin-bottom:8px}
+.img-upload .upload-text{font-size:0.6rem;color:var(--m)}
+.img-preview{width:100%;height:120px;object-fit:cover;border-radius:2px;display:none;margin-top:10px}
+/* BARBER AVATAR */
+.avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--d);font-size:1.2rem;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);border:1px solid var(--bl)}
+.avatar.gold{border-color:var(--g);color:var(--g)}
+/* LANDING */
+.landing{opacity:1}
 .landing-header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 48px;background:rgba(12,12,12,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--b)}
 .landing-logo{font-family:var(--d);font-size:1.6rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase}
 .landing-logo span{display:block;font-family:var(--f);font-size:0.52rem;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--m);margin-top:2px}
+.landing-nav-links{display:flex;align-items:center;gap:28px}
+.landing-nav-links a{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--m);text-decoration:none;transition:color .3s;cursor:pointer}
+.landing-nav-links a:hover{color:var(--t)}
 .landing-hero{min-height:90vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:120px 32px 80px}
 .landing-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(232,226,217,0.03) 0%,transparent 70%)}
 .landing-hero-content{position:relative;z-index:2;max-width:720px}
+.landing-title{font-family:var(--d);font-size:clamp(2.8rem,5vw,4.5rem);font-weight:300;line-height:1.06}
+.landing-hero-p{font-size:0.95rem;line-height:1.85;color:var(--m);max-width:520px;margin:0 auto 48px}
+.landing-section-label{font-size:0.62rem;letter-spacing:0.4em;text-transform:uppercase;color:rgba(232,226,217,0.35);margin-bottom:16px}
+.landing-section-title{font-family:var(--d);font-size:clamp(2rem,3vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:12px}
 .landing-section{padding:100px 48px;border-top:1px solid var(--b);max-width:1200px;margin:0 auto}
 .landing-plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
-.landing-plan-card{border:1px solid var(--b);padding:36px 28px;transition:all .3s;text-align:center}
-.landing-plan-card:hover{border-color:var(--bl);background:var(--h)}
-.landing-plan-card.featured{border-color:var(--g)}
-.landing-plan-name{font-family:var(--d);font-size:1.4rem;font-weight:400;margin-bottom:6px}
-.landing-plan-svcs{font-size:0.65rem;color:var(--m);margin-bottom:16px;line-height:1.7}
-.landing-plan-price{font-family:var(--d);font-size:2rem;font-weight:300;color:var(--g);margin-bottom:4px}
-.landing-plan-period{font-size:0.55rem;color:var(--m)}
-.landing-plan-btn{margin-top:20px;display:inline-block;padding:12px 32px;border:1px solid var(--bl);color:var(--t);text-decoration:none;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:var(--f);background:none}
-.landing-plan-btn:hover{background:var(--t);color:var(--bg)}
-.landing-plan-btn.featured-btn{background:var(--g);border-color:var(--g);color:#fff}
-.landing-plan-btn.featured-btn:hover{background:#b8933f}
+.landing-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+.landing-card{border:1px solid var(--b);padding:32px 24px;transition:all .3s;text-align:center}
+.landing-card:hover{border-color:var(--bl);background:var(--h)}
+.landing-card.featured{border-color:var(--g)}
+.landing-card-name{font-family:var(--d);font-size:1.4rem;font-weight:400;margin-bottom:6px}
+.landing-card-sub{font-size:0.65rem;color:var(--m);margin-bottom:16px;line-height:1.7}
+.landing-card-price{font-family:var(--d);font-size:2rem;font-weight:300;color:var(--g);margin-bottom:4px}
+.landing-card-period{font-size:0.55rem;color:var(--m)}
+.landing-card-img{width:100%;height:160px;background:linear-gradient(135deg,#1a1a1a,#2a2a2a);display:flex;align-items:center;justify-content:center;margin-bottom:16px;border-radius:2px;overflow:hidden}
+.landing-card-img img{width:100%;height:100%;object-fit:cover}
+.landing-card-img .ph{font-family:var(--d);font-size:3rem;color:rgba(232,226,217,0.06)}
+.landing-btn{margin-top:20px;display:inline-block;padding:12px 32px;border:1px solid var(--bl);color:var(--t);text-decoration:none;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:var(--f);background:none}
+.landing-btn:hover{background:var(--t);color:var(--bg)}
+.landing-btn.featured{background:var(--g);border-color:var(--g);color:#fff}
+.landing-btn.featured:hover{background:#b8933f}
 .landing-footer{border-top:1px solid var(--b);padding:32px 48px;text-align:center;font-size:0.6rem;color:rgba(232,226,217,0.18)}
-/* ── CHECKOUT MODAL ── */
-.checkout-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:250;align-items:center;justify-content:center}
-.checkout-modal-overlay.on{display:flex}
-.checkout-modal{background:var(--bg);border:1px solid var(--b);padding:40px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto}
-.checkout-title{font-family:var(--d);font-size:1.6rem;font-weight:300;margin-bottom:24px}
-.checkout-field{margin-bottom:18px}
-.checkout-field label{display:block;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.28);margin-bottom:5px}
-.checkout-field input,.checkout-field select{width:100%;padding:12px 14px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.82rem;font-weight:300}
-.checkout-summary{border:1px solid var(--b);padding:20px;margin:20px 0}
-.checkout-row{display:flex;justify-content:space-between;padding:10px 0;font-size:0.72rem}
-.checkout-row.total{border-top:1px solid var(--bl);padding-top:14px;margin-top:4px;font-family:var(--d);font-size:1.1rem}
-/* ── LOGIN ── */
+.section-line{width:32px;height:1px;background:rgba(232,226,217,0.25);margin-bottom:36px}
+/* CHECKOUT MODAL */
+.cmodal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:250;align-items:center;justify-content:center}
+.cmodal-overlay.on{display:flex}
+.cmodal{background:var(--bg);border:1px solid var(--b);padding:40px;max-width:520px;width:90%;max-height:90vh;overflow-y:auto}
+.cmodal-title{font-family:var(--d);font-size:1.6rem;font-weight:300;margin-bottom:24px}
+.cmodal-field{margin-bottom:18px}.cmodal-field label{display:block;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.28);margin-bottom:5px}
+.cmodal-field input,.cmodal-field select{width:100%;padding:12px 14px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.82rem;font-weight:300}
+.cmodal-summary{border:1px solid var(--b);padding:20px;margin:20px 0}
+.cmodal-row{display:flex;justify-content:space-between;padding:10px 0;font-size:0.72rem}
+.cmodal-row.total{border-top:1px solid var(--bl);padding-top:14px;margin-top:4px;font-family:var(--d);font-size:1.1rem}
+.success-icon{width:56px;height:56px;border:1px solid var(--gg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:var(--d);font-size:1.6rem;color:var(--gg)}
+/* LOGIN */
 .login-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
 .login-card{border:1px solid var(--b);padding:52px;max-width:460px;width:100%}
-.login-title{font-family:var(--d);font-size:2.2rem;font-weight:300;margin-bottom:4px;letter-spacing:0.04em}
+.login-title{font-family:var(--d);font-size:2.2rem;font-weight:300;margin-bottom:4px}
 .login-sub{font-size:0.68rem;color:var(--m);margin-bottom:32px;letter-spacing:0.1em;text-transform:uppercase}
 .role-tabs{display:flex;gap:0;margin-bottom:28px;border:1px solid var(--b)}
 .role-tab{flex:1;text-align:center;padding:12px 4px;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;color:var(--mm);transition:all .3s;background:none;border:none;border-right:1px solid var(--b);font-family:var(--f)}
@@ -130,10 +140,10 @@ input,select,button,textarea{font-family:var(--f)}
 .login-btn{width:100%;padding:14px;border:1px solid var(--t);background:var(--t);color:var(--bg);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-weight:400;margin-top:4px;transition:all .3s}.login-btn:hover{opacity:0.88}
 .social-login{display:flex;gap:10px;margin-top:18px}
 .social-btn{flex:1;padding:12px;border:1px solid var(--bl);background:none;color:var(--t);font-size:0.62rem;letter-spacing:0.08em;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px}.social-btn:hover{background:var(--h);border-color:var(--t)}
-/* ── MODAL ── */
+/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center}
 .modal-overlay.on{display:flex}
-.modal{background:var(--bg);border:1px solid var(--b);padding:36px;max-width:540px;width:90%;max-height:85vh;overflow-y:auto}
+.modal{background:var(--bg);border:1px solid var(--b);padding:36px;max-width:560px;width:90%;max-height:88vh;overflow-y:auto}
 .modal-title{font-family:var(--d);font-size:1.5rem;font-weight:300;margin-bottom:24px}
 .modal-field{margin-bottom:16px}.modal-field label{display:block;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.28);margin-bottom:5px}
 .modal-field input,.modal-field select,.modal-field textarea{width:100%;padding:12px 14px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.82rem;font-weight:300}
@@ -150,30 +160,29 @@ input,select,button,textarea{font-family:var(--f)}
 .plan-preco{font-family:var(--d);font-size:1.6rem;font-weight:300;color:var(--g)}.plan-periodo{font-size:0.55rem;color:var(--m)}
 .plan-btn{margin-top:14px;display:block;text-align:center;padding:10px;border:1px solid var(--bl);color:var(--t);text-decoration:none;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;transition:all .3s;cursor:pointer;font-family:var(--f);background:none;width:100%}
 .plan-btn:hover{background:var(--t);color:var(--bg);border-color:var(--t)}.plan-btn.active-plan-btn{background:var(--g);border-color:var(--g);color:#fff}
-.kpi-highlight{border-color:var(--gg)}
-.landing-nav-links{display:flex;align-items:center;gap:32px}
-.landing-nav-links a{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--m);text-decoration:none;transition:color .3s}
-.landing-nav-links a:hover{color:var(--t)}
-.success-icon{width:56px;height:56px;border:1px solid var(--gg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:var(--d);font-size:1.6rem;color:var(--gg)}
+/* SLOT GRID */
+.slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.slot{border:1px solid var(--b);padding:12px;text-align:center;font-size:0.72rem;cursor:pointer;transition:all .3s;background:none;color:var(--t);font-family:var(--f)}
+.slot:hover{background:var(--h);border-color:var(--bl)}
+.slot.sel{background:var(--t);color:var(--bg);border-color:var(--t)}
 @media(max-width:768px){
   .shell{flex-direction:column}.sidebar{position:relative;width:100%;flex-direction:row;flex-wrap:wrap;padding:12px 16px}.side-nav{display:none}.main{margin-left:0;padding:20px 16px}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}.plan-grid,.landing-plans-grid{grid-template-columns:1fr}.charts-row{grid-template-columns:1fr}
-  .landing-header{padding:14px 20px}.landing-nav-links{display:none}.landing-section{padding:60px 20px}
-  .cal-day{min-height:60px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}.plan-grid,.landing-plans-grid,.landing-grid-4{grid-template-columns:1fr}.charts-row{grid-template-columns:1fr}
+  .landing-header{padding:14px 20px}.landing-nav-links{display:none}.landing-section{padding:60px 20px}.cal-day{min-height:60px}
 }
 </style>
 </head>
 <body>
 
 <!-- ═══════════ LANDING PAGE ═══════════ -->
-<div class="landing show" id="landingPage">
+<div class="landing" id="landingPage">
   <header class="landing-header">
     <div class="landing-logo">Navalha <span>barbearia</span></div>
     <nav class="landing-nav-links">
-      <a href="#" onclick="scrollToSection('landing-servicos')">Serviços</a>
-      <a href="#" onclick="scrollToSection('landing-planos')">Planos</a>
-      <a href="#" onclick="scrollToSection('landing-barbeiros')">Barbeiros</a>
-      <button class="btn-sm" style="display:inline-block" onclick="showLoginFromLanding()">Entrar</button>
+      <a onclick="scrollToSection('landing-servicos')">Serviços</a>
+      <a onclick="scrollToSection('landing-planos')">Planos</a>
+      <a onclick="scrollToSection('landing-barbeiros')">Profissionais</a>
+      <button class="btn-sm" onclick="showLoginFromLanding()">Entrar</button>
     </nav>
   </header>
 
@@ -183,40 +192,29 @@ input,select,button,textarea{font-family:var(--f)}
       <p class="landing-section-label">Barbearia Premium · São Paulo</p>
       <h1 class="landing-title">O ritual <em style="font-style:italic;color:var(--g)">masculino</em> reinventado</h1>
       <p class="landing-hero-p">Cada corte é uma experiência. Escolha seu plano, agende online e viva o que há de melhor em cuidados masculinos.</p>
-      <button class="btn-sm" style="padding:16px 40px;font-size:0.7rem;background:var(--t);color:var(--bg);border-color:var(--t)" onclick="scrollToSection('landing-planos')">Ver planos</button>
+      <button class="landing-btn featured" onclick="scrollToSection('landing-planos')">Ver planos</button>
     </div>
   </section>
 
   <section class="landing-section" id="landing-servicos">
     <p class="landing-section-label">Serviços</p>
     <h2 class="landing-section-title">O que <em style="font-style:italic;color:var(--g)">oferecemos</em></h2>
-    <div class="section-line" style="width:32px;height:1px;background:rgba(232,226,217,0.25);margin-bottom:36px"></div>
-    <div class="landing-plans-grid">
-      ${services.map(s=>`<div class="landing-plan-card"><div class="landing-plan-name">${s.n}</div><div style="font-size:0.65rem;color:var(--m);margin-bottom:14px">${s.d} min</div><div class="landing-plan-price">R$ ${s.p}</div></div>`).join('')}
-    </div>
+    <div class="section-line"></div>
+    <div class="landing-grid-4" id="lpServicos"></div>
   </section>
 
   <section class="landing-section" id="landing-planos">
     <p class="landing-section-label">Planos</p>
     <h2 class="landing-section-title">Escolha seu <em style="font-style:italic;color:var(--g)">plano</em></h2>
-    <div class="section-line" style="width:32px;height:1px;background:rgba(232,226,217,0.25);margin-bottom:36px"></div>
-    <div class="landing-plans-grid">
-      ${combos.map((c,i)=><div class="landing-plan-card ${i===1?'featured':''}">
-        <div class="landing-plan-name">${c.nome}</div>
-        <div class="landing-plan-svcs">${c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(' · ')}</div>
-        <div style="font-size:0.6rem;color:var(--m);margin-bottom:12px">${c.qtd===-1?'Ilimitado':c.qtd+' agendamento(s)/'+c.per}</div>
-        <div class="landing-plan-price">R$ ${c.preco}<span class="landing-plan-period">/${c.per}</span></div>
-        <button class="landing-plan-btn ${i===1?'featured-btn':''}" onclick="openCheckout(${c.id})">${i===1?'Começar agora':'Assinar'}</button>
-      </div>`).join('')}
-    </div>
+    <div class="section-line"></div>
+    <div class="landing-plans-grid" id="lpPlanos"></div>
   </section>
 
   <section class="landing-section" id="landing-barbeiros">
-    <p class="landing-section-label">Barbeiros</p>
+    <p class="landing-section-label">Profissionais</p>
     <h2 class="landing-section-title">Os <em style="font-style:italic;color:var(--g)">mestres</em> da casa</h2>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px">
-      ${barbers.filter(b=>b.a).map(b=>`<div class="landing-plan-card"><div style="background:#1a1aa;width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem;font-family:var(--d);color:rgba(232,226,217,0.06);margin-bottom:16px">${b.n[0]}</div><div class="landing-plan-name">${b.n}</div><div style="font-size:0.6rem;color:var(--m)">${b.t}</div></div>`).join('')}
-    </div>
+    <div class="section-line"></div>
+    <div class="landing-plans-grid" id="lpBarbeiros"></div>
   </section>
 
   <footer class="landing-footer">
@@ -225,27 +223,40 @@ input,select,button,textarea{font-family:var(--f)}
 </div>
 
 <!-- ═══════════ CHECKOUT MODAL ═══════════ -->
-<div class="checkout-modal-overlay" id="checkoutModal">
-  <div class="checkout-modal">
-    <div class="checkout-title" id="checkoutTitle">Assinar Premium</div>
-    <div class="checkout-field"><label>Nome completo</label><input id="chkNome" placeholder="Seu nome"></div>
-    <div class="checkout-field"><label>WhatsApp *</label><input id="chkWhats" placeholder="(11) 99999-9999"><p style="font-size:0.48rem;color:var(--g);margin-top:2px">* Obrigatório para confirmação</p></div>
-    <div class="checkout-field"><label>Email</label><input id="chkEmail" placeholder="seu@email.com"></div>
-    <div class="checkout-field"><label>Cupom (opcional)</label><input id="chkCupom" placeholder="Código do cupom"></div>
-    <div class="checkout-summary">
-      <div class="checkout-row"><span>Plano</span><span id="chkPlanName">—</span></div>
-      <div class="checkout-row"><span>Valor</span><span id="chkPlanPrice">—</span></div>
-      <div class="checkout-row" id="chkDiscountRow" style="display:none;color:var(--gg)"><span>Desconto</span><span id="chkDiscount">—</span></div>
-      <div class="checkout-row total"><span>Total</span><span id="chkTotal">—</span></div>
+<div class="cmodal-overlay" id="checkoutModal">
+  <div class="cmodal">
+    <div class="cmodal-title" id="checkoutTitle">Assinar plano</div>
+    <div class="cmodal-field"><label>Nome completo</label><input id="chkNome" placeholder="Seu nome"></div>
+    <div class="cmodal-field"><label>WhatsApp *</label><input id="chkWhats" placeholder="(11) 99999-9999"><p style="font-size:0.48rem;color:var(--g);margin-top:2px">* Obrigatório para confirmação</p></div>
+    <div class="cmodal-field"><label>Email</label><input id="chkEmail" placeholder="seu@email.com"></div>
+    <div class="cmodal-field"><label>Cupom (opcional)</label><input id="chkCupom" placeholder="Código do cupom"></div>
+    <div class="cmodal-summary">
+      <div class="cmodal-row"><span>Plano</span><span id="chkPlanName">—</span></div>
+      <div class="cmodal-row"><span>Valor</span><span id="chkPlanPrice">—</span></div>
+      <div class="cmodal-row" id="chkDiscountRow" style="display:none;color:var(--gg)"><span>Desconto</span><span id="chkDiscount">—</span></div>
+      <div class="cmodal-row total"><span>Total</span><span id="chkTotal">—</span></div>
     </div>
-    <div class="checkout-field"><label>Método de pagamento</label>
+    <div class="cmodal-field"><label>Método de pagamento</label>
       <div class="check-group">
-        <label class="check-item checked" onclick="this.parentElement.querySelectorAll('.check-item').forEach(c=>c.classList.remove('checked'));this.classList.add('checked')"><input type="radio" name="chkPayment" checked>💳 Cartão</label>
-        <label class="check-item" onclick="this.parentElement.querySelectorAll('.check-item').forEach(c=>c.classList.remove('checked'));this.classList.add('checked')"><input type="radio" name="chkPayment">🔑 PIX</label>
+        <label class="check-item checked" onclick="pickPayment(this)"><input type="radio" name="chkPayment" checked>💳 Cartão</label>
+        <label class="check-item" onclick="pickPayment(this)"><input type="radio" name="chkPayment">🔑 PIX</label>
       </div>
     </div>
     <button class="login-btn" onclick="processCheckout()">Confirmar e pagar</button>
-    <p style="font-size:0.55rem;color:var(--m);text-align:center;margin-top:12px">Pagamento processado via Gates2B · 🔒 Seguro</p>
+    <p style="font-size:0.55rem;color:var(--m);text-align:center;margin-top:12px">Pagamento via Gates2B · 🔒 Seguro</p>
+  </div>
+</div>
+
+<!-- ═══════════ BOOKING MODAL (calendário) ═══════════ -->
+<div class="cmodal-overlay" id="bookingModal">
+  <div class="cmodal">
+    <div class="cmodal-title" id="bookingTitle">Escolha data e hora</div>
+    <div class="calendar" id="bookingCalendar"></div>
+    <div class="slot-grid" id="bookingSlots"></div>
+    <div class="modal-actions" style="margin-top:24px">
+      <button class="btn-sm" onclick="closeBooking()">Cancelar</button>
+      <button class="btn-sm" id="bookingConfirmBtn" style="background:var(--t);color:var(--bg);border-color:var(--t)" onclick="confirmBooking()" disabled>Confirmar agendamento</button>
+    </div>
   </div>
 </div>
 
@@ -282,15 +293,58 @@ input,select,button,textarea{font-family:var(--f)}
 <script>
 // ════════════ DATA ════════════
 let role='OWNER',actPage='dashboard';
-const services=[{id:1,n:'Corte Premium',p:85,d:45},{id:2,n:'Barba Completa',p:65,d:30},{id:3,n:'Combo Navalha',p:130,d:60},{id:4,n:'Hidratação',p:95,d:40}];
-const barbers=[{id:1,n:'Ricardo',t:'Corte',a:true},{id:2,n:'Felipe',t:'Barba',a:true},{id:3,n:'André',t:'Estilo',a:true}];
-const combos=[{id:1,nome:'Essencial',svcs:[1],preco:79,qtd:1,per:'mês'},{id:2,nome:'Premium',svcs:[1,2,4],preco:139,qtd:2,per:'mês'},{id:3,nome:'Elite',svcs:[1,2,3,4],preco:249,qtd:4,per:'mês'},{id:4,nome:'Ilimitado',svcs:[1,2,3,4],preco:399,qtd:-1,per:'mês'}];
-const coupons=[{id:1,cod:'NAVALHA20',tipo:'percentual',valor:20,validade:'2026-12-31',maxUsos:100,usado:34,ativo:true},{id:2,cod:'BOASVINDAS',tipo:'fixo',valor:30,validade:'2026-09-30',maxUsos:50,usado:12,ativo:true}];
-let barberComissao=112; let barberReceita='R$ 6.830'; let barberTicket='R$ 87'; let barberProxRepasse='15/09';
+const services=[
+  {id:1,n:'Corte Premium',p:85,d:45,img:null},
+  {id:2,n:'Barba Completa',p:65,d:30,img:null},
+  {id:3,n:'Combo Navalha',p:130,d:60,img:null},
+  {id:4,n:'Hidratação',p:95,d:40,img:null},
+];
+const barbers=[
+  {id:1,n:'Ricardo Moura',t:'Especialista em Corte',a:true,comissao:70,banco:'Nubank',agencia:'0001',conta:'123456-7',pix:'ricardo@pix.com',whats:'(11) 98888-1111',email:'ricardo@navalha.com'},
+  {id:2,n:'Felipe Santos',t:'Mestre em Barba',a:true,comissao:70,banco:'Itaú',agencia:'0451',conta:'78901-2',pix:'felipe@pix.com',whats:'(11) 97777-2222',email:'felipe@navalha.com'},
+  {id:3,n:'André Lima',t:'Corte & Estilo',a:true,comissao:70,banco:'Bradesco',agencia:'0237',conta:'34567-8',pix:'andre@pix.com',whats:'(11) 96666-3333',email:'andre@navalha.com'},
+];
+const combos=[
+  {id:1,nome:'Essencial',svcs:[1],preco:79,qtd:1,per:'mês'},
+  {id:2,nome:'Premium',svcs:[1,2,4],preco:139,qtd:2,per:'mês'},
+  {id:3,nome:'Elite',svcs:[1,2,3,4],preco:249,qtd:4,per:'mês'},
+  {id:4,nome:'Ilimitado',svcs:[1,2,3,4],preco:399,qtd:-1,per:'mês'},
+];
+const coupons=[
+  {id:1,cod:'NAVALHA20',tipo:'percentual',valor:20,validade:'2026-12-31',maxUsos:100,usado:34,ativo:true},
+  {id:2,cod:'BOASVINDAS',tipo:'fixo',valor:30,validade:'2026-09-30',maxUsos:50,usado:12,ativo:1},
+];
+// Repasse mensal por profissional (valor da comissão)
+const repasse={1:6830,2:5943,3:5460};
+const FAT_BRUTO=18240;
 
-// ════════════ LANDING FUNCTIONS ════════════
+// ════════════ LANDING RENDER ════════════
+function renderLanding(){
+  document.getElementById('lpServicos').innerHTML = services.map(s=>`
+    <div class="landing-card">
+      <div class="landing-card-img">${s.img?`<img src="${s.img}">`:`<div class="ph">${s.n[0]}</div>`}</div>
+      <div class="landing-card-name">${s.n}</div>
+      <div class="landing-card-sub">${s.d} min</div>
+      <div class="landing-card-price">R$ ${s.p}</div>
+    </div>`).join('');
+  document.getElementById('lpPlanos').innerHTML = combos.map((c,i)=>`
+    <div class="landing-card ${i===1?'featured':''}">
+      <div class="landing-card-name">${c.nome}</div>
+      <div class="landing-card-sub">${c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(' · ')}</div>
+      <div style="font-size:0.6rem;color:var(--m);margin-bottom:12px">${c.qtd===-1?'Ilimitado':c.qtd+' agendamento(s)/'+c.per}</div>
+      <div class="landing-card-price">R$ ${c.preco}<span class="landing-card-period">/${c.per}</span></div>
+      <button class="landing-btn ${i===1?'featured':''}" onclick="openCheckout(${c.id})">${i===1?'Começar agora':'Assinar'}</button>
+    </div>`).join('');
+  document.getElementById('lpBarbeiros').innerHTML = barbers.filter(b=>b.a).map(b=>`
+    <div class="landing-card">
+      <div class="landing-card-img">${b.img?`<img src="${b.img}">`:`<div class="ph">${b.n[0]}</div>`}</div>
+      <div class="landing-card-name">${b.n.split(' ')[0]}</div>
+      <div class="landing-card-sub">${b.t}</div>
+    </div>`).join('');
+}
 function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 function showLoginFromLanding(){document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='flex'}
+function pickPayment(el){el.parentElement.querySelectorAll('.check-item').forEach(c=>c.classList.remove('checked'));el.classList.add('checked')}
 function openCheckout(comboId){
   const c=combos.find(x=>x.id===comboId);
   document.getElementById('checkoutTitle').textContent='Assinar '+c.nome;
@@ -303,9 +357,14 @@ function openCheckout(comboId){
 }
 function processCheckout(){
   document.getElementById('checkoutModal').classList.remove('on');
-  document.getElementById('landingPage').innerHTML+=`<div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;background:rgba(0,0,0,0.85)" id="successToast" onclick="this.remove()"><div style="background:var(--bg);border:1px solid var(--b);padding:48px;text-align:center;max-width:420px"><div class="success-icon">✓</div><h3 style="font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:12px">Assinatura confirmada!</h3><p style="font-size:0.75rem;color:var(--m);line-height:1.7">Você receberá a confirmação por email e WhatsApp. Acesse o painel para agendar seu primeiro horário.</p><button class="btn-sm" style="margin-top:24px" onclick="document.getElementById('successToast').remove();showLoginFromLanding()">Acessar painel</button></div></div>`;
+  const toast=document.createElement('div');
+  toast.id='successToast';
+  toast.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;background:rgba(0,0,0,0.85)';
+  toast.innerHTML=`<div style="background:var(--bg);border:1px solid var(--b);padding:48px;text-align:center;max-width:420px"><div class="success-icon">✓</div><h3 style="font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:12px">Assinatura confirmada!</h3><p style="font-size:0.75rem;color:var(--m);line-height:1.7">Você receberá a confirmação por email e WhatsApp. Acesse o painel para agendar seu primeiro horário.</p><button class="btn-sm" style="margin-top:24px" onclick="document.getElementById('successToast').remove();showLoginFromLanding()">Acessar painel</button></div>`;
+  document.body.appendChild(toast);
+  toast.onclick=function(e){if(e.target===toast)toast.remove()};
 }
-document.getElementById('checkoutModal').onclick=function(e){if(e.target===this)this.classList.remove('on')}
+document.getElementById('checkoutModal').onclick=function(e){if(e.target===this)this.classList.remove('on')};
 
 // ════════════ AUTH ════════════
 document.querySelectorAll('.role-tab').forEach(b=>b.onclick=function(){
@@ -313,16 +372,17 @@ document.querySelectorAll('.role-tab').forEach(b=>b.onclick=function(){
   document.getElementById('loginEmail').value=['OWNER','BARBER'].includes(role)?'dono@navalha.com':'cliente@email.com';
 });
 function doLogin(){document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate(role==='BARBER'?'meu-dash':(role==='CLIENT'?'cliente-inicio':'dashboard'));}
-function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('appShell').style.display='none';}
+function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('appShell').style.display='none';document.getElementById('landingPage').style.display='none';}
 function buildSidebar(){
   const u=document.getElementById('sideUserName'),r=document.getElementById('sideUserRole'),nav=document.getElementById('sideNav');
   if(role==='OWNER'){u.textContent='Carlos Silva';r.textContent='Dono';nav.innerHTML=`
 <a href="#" class="side-link active" data-page="dashboard" onclick="navigate('dashboard');return false">Dashboard</a>
 <a href="#" class="side-link" data-page="agenda" onclick="navigate('agenda');return false">Agenda</a>
-<a href="#" class="side-link" data-page="barbeiros" onclick="navigate('barbeiros');return false">Barbeiros</a>
+<a href="#" class="side-link" data-page="barbeiros" onclick="navigate('barbeiros');return false">Profissionais</a>
 <a href="#" class="side-link" data-page="servicos" onclick="navigate('servicos');return false">Serviços</a>
 <a href="#" class="side-link" data-page="combos-admin" onclick="navigate('combos-admin');return false">Combos</a>
 <a href="#" class="side-link" data-page="cupons" onclick="navigate('cupons');return false">Cupons</a>
+<a href="#" class="side-link" data-page="financeiro" onclick="navigate('financeiro');return false">Financeiro</a>
 <a href="#" class="side-link" data-page="config" onclick="navigate('config');return false">Config</a>`;}
   else if(role==='BARBER'){u.textContent='Ricardo Moura';r.textContent='Barbeiro';nav.innerHTML=`
 <a href="#" class="side-link active" data-page="meu-dash" onclick="navigate('meu-dash');return false">Meu Painel</a>
@@ -332,7 +392,7 @@ function buildSidebar(){
 <a href="#" class="side-link" data-page="meus-dados-bancarios" onclick="navigate('meus-dados-bancarios');return false">Dados Bancários</a>`;}
   else{u.textContent='João Cliente';r.textContent='Cliente';nav.innerHTML=`
 <a href="#" class="side-link active" data-page="cliente-inicio" onclick="navigate('cliente-inicio');return false">Início</a>
-<a href="#" class="side-link" data-page="agendar-rapido" onclick="navigate('agendar-rapido');return false">Agendar</a>
+<a href="#" class="side-link" data-page="agendar" onclick="navigate('agendar');return false">Agendar</a>
 <a href="#" class="side-link" data-page="meus-agendamentos" onclick="navigate('meus-agendamentos');return false">Histórico</a>
 <a href="#" class="side-link" data-page="cliente-pagamentos" onclick="navigate('cliente-pagamentos');return false">Pagamentos</a>
 <a href="#" class="side-link" data-page="meu-perfil" onclick="navigate('meu-perfil');return false">Perfil</a>`;}
@@ -342,93 +402,97 @@ function navigate(page){
   document.getElementById('mainContent').innerHTML=(RENDER[page]||RENDER.default)();
 }
 
-// ════════════ CALENDAR BUILDER ════════════
-function buildCalendar(appointments,highlightDate){
-  const today=14; const month='Setembro 2026'; const daysInMonth=30; const startDow=1;
-  let html=`<div class="calendar">
-    <div class="cal-month-header"><div class="cal-month-title">${month}</div><div class="cal-nav"><button class="btn-sm">←</button><button class="btn-sm">Hoje</button><button class="btn-sm">→</button></div></div>
-    <div class="cal-header">${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d=>`<div class="cal-header-day">${d}</div>`).join('')}</div>
-    <div class="cal-grid">`;
+// ════════════ CALENDAR ════════════
+function buildCalendar(appts,onDaySelect,selDay){
+  const month='Setembro 2026', daysInMonth=30, startDow=1, today=14;
+  let html=`<div class="cal-month-header"><div class="cal-month-title">${month}</div><div class="cal-nav"><button class="btn-sm" type="button">←</button><button class="btn-sm" type="button">Hoje</button><button class="btn-sm" type="button">→</button></div></div>
+  <div class="cal-header">${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d=>`<div class="cal-header-day">${d}</div>`).join('')}</div>
+  <div class="cal-grid">`;
   for(let i=0;i<startDow;i++) html+=`<div class="cal-day other-month"><div class="cal-num"></div></div>`;
   for(let d=1;d<=daysInMonth;d++){
-    let cls='cal-day'; if(d===today) cls+=' today';
-    let events='';
-    appointments.filter(a=>a.day===d).forEach(a=>{events+=`<div class="cal-event ${a.type||'avulso'}">${a.label}</div>`});
-    html+=`<div class="${cls}"><div class="cal-num">${d}</div>${events}</div>`;
+    let cls='cal-day'; if(d===today) cls+=' today'; if(selDay===d) cls+=' selected';
+    let ev='';
+    (appts||[]).filter(a=>a.day===d).forEach(a=>{ev+=`<div class="cal-event ${a.type||'avulso'}">${a.label}</div>`});
+    html+=`<div class="${cls}" data-day="${d}" ${onDaySelect?`onclick="selectDay(${d})"`:''}><div class="cal-num">${d}</div>${ev}</div>`;
   }
-  html+=`</div></div>`;
+  html+=`</div>`;
   return html;
 }
+
+// ════════════ BOOKING FLOW (barbeiro primeiro) ════════════
+let bk={barber:1,day:null,slot:null};
+const barberAppts=[{day:14,label:'Lucas M. · Corte',type:'avulso'},{day:14,label:'Rafael C. · Corte',type:'combo'},{day:15,label:'Gabriel S. · Combo',type:'avulso'},{day:18,label:'André L. · Hidrat.',type:'combo'}];
+const FREE_SLOTS=['09:00','09:45','10:30','11:15','13:00','13:45','14:30','15:15','16:00','16:45','17:30'];
+
+function selectDay(d){
+  bk.day=d;
+  document.getElementById('bookingCalendar').innerHTML=buildCalendar(barberAppts,null,d);
+  document.getElementById('bookingSlots').innerHTML=`<p style="font-size:0.62rem;color:var(--m);margin-top:16px">Horários disponíveis em ${d} de Setembro</p>`+
+    FREE_SLOTS.map(t=>`<button class="slot" onclick="selectSlot('${t}',this)">${t}</button>`).join('');
+  document.getElementById('bookingConfirmBtn').disabled=true;
+  bk.slot=null;
+}
+function selectSlot(t,el){
+  document.querySelectorAll('#bookingSlots .slot').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');
+  bk.slot=t;document.getElementById('bookingConfirmBtn').disabled=false;
+}
+function openBooking(barberId){
+  bk={barber:barberId,day:null,slot:null};
+  const b=barbers.find(x=>x.id===barberId);
+  document.getElementById('bookingTitle').textContent='Agendar com '+b.n.split(' ')[0];
+  document.getElementById('bookingCalendar').innerHTML=buildCalendar(barberAppts,null,null);
+  document.getElementById('bookingSlots').innerHTML='<p style="font-size:0.62rem;color:var(--m);margin-top:16px">Selecione um dia para ver os horários</p>';
+  document.getElementById('bookingConfirmBtn').disabled=true;
+  document.getElementById('bookingModal').classList.add('on');
+}
+function closeBooking(){document.getElementById('bookingModal').classList.remove('on')}
+function confirmBooking(){
+  closeBooking();
+  const b=barbers.find(x=>x.id===bk.barber);
+  const toast=document.createElement('div');
+  toast.id='bkToast';toast.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;background:rgba(0,0,0,0.85)';
+  toast.innerHTML=`<div style="background:var(--bg);border:1px solid var(--b);padding:48px;text-align:center;max-width:420px"><div class="success-icon">✓</div><h3 style="font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:12px">Agendamento confirmado!</h3><p style="font-size:0.75rem;color:var(--m);line-height:1.7">${bk.day} de Setembro às ${bk.slot} com ${b.n.split(' ')[0]}. Você receberá confirmação por WhatsApp e email.</p><button class="btn-sm" style="margin-top:24px" onclick="document.getElementById('bkToast').remove()">Fechar</button></div>`;
+  document.body.appendChild(toast);
+  toast.onclick=function(e){if(e.target===toast)toast.remove()};
+}
+document.getElementById('bookingModal').onclick=function(e){if(e.target===this)closeBooking()};
 
 // ════════════ RENDER ════════════
 const RENDER={};
 
-// ── CALENDAR DEMOS ──
-const ownerAppts=[{day:14,label:'Lucas M. · Corte · Ricardo',type:'avulso'},{day:14,label:'Pedro A. · Barba · Felipe',type:'combo'},{day:14,label:'Gabriel S. · Combo · André',type:'avulso'},{day:15,label:'Rafael C. · Corte · Ricardo',type:'combo'},{day:16,label:'Marcos T. · Barba · Felipe',type:'avulso'},{day:18,label:'André L. · Hidrat. · Ricardo',type:'combo'},{day:20,label:'Paulo R. · Combo · André',type:'avulso'}];
-const barberAppts=[{day:14,label:'Lucas M. · Corte',type:'avulso'},{day:14,label:'Rafael C. · Corte',type:'combo'},{day:15,label:'Gabriel S. · Combo',type:'avulso'},{day:18,label:'André L. · Hidratação',type:'combo'}];
-
-RENDER.agenda=()=>`<div class="page active"><div class="page-title">Agenda</div><div class="page-sub">Setembro 2026</div>${buildCalendar(ownerAppts,14)}</div>`;
-RENDER['minha-agenda']=()=>`<div class="page active"><div class="page-title">Minha Agenda</div><div class="page-sub">Setembro 2026 · Ricardo</div>${buildCalendar(barberAppts,14)}</div>`;
-
-// ── BARBER: MEU PAINEL (SÓ comissão) ──
-RENDER['meu-dash']=()=>`<div class="page active"><div class="page-title">Meu Painel</div><div class="page-sub">Bem-vindo, Ricardo · Comissão: <b style="color:var(--gg)">70%</b> · Próx. repasse: ${barberProxRepasse}</div>
-<div class="stats-grid">
-  <div class="stat-card kpi-highlight"><div class="stat-label">Minha Comissão (Agosto)</div><div class="stat-value">${barberReceita}</div><div class="stat-delta">↑ 11% vs julho</div></div>
-  <div class="stat-card"><div class="stat-label">Atendimentos</div><div class="stat-value">${barberComissao}</div><div class="stat-sub">este mês</div></div>
-  <div class="stat-card"><div class="stat-label">Ticket Médio (comissão)</div><div class="stat-value">${barberTicket}</div><div class="stat-sub">por atendimento</div></div>
-  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">${barberProxRepasse}</div><div class="stat-sub">Estimado: R$ 7.100</div></div>
+// ── CLIENTE: AGENDAR (barbeiro primeiro, preferido pré-selecionado) ──
+RENDER.agendar=()=>`<div class="page active"><div class="page-title">Agendar</div><div class="page-sub">Seu barbeiro preferido já está selecionado. Toque em outro para trocar.</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px" id="barberChooser">
+${barbers.filter(b=>b.a).map(b=>`<div class="landing-card ${b.id===1?'featured':''}" style="cursor:pointer;padding:24px" onclick="selectPreferredBarber(${b.id},this)">
+  <div class="landing-card-img">${b.img?`<img src="${b.img}">`:`<div class="ph">${b.n[0]}</div>`}</div>
+  <div class="landing-card-name">${b.n.split(' ')[0]}</div>
+  <div class="landing-card-sub">${b.t}</div>
+  ${b.id===1?'<div style="margin-top:8px"><span class="badge badge-g">Seu preferido</span></div>':''}
+</div>`).join('')}
 </div>
-<div class="chart-box" style="margin-bottom:24px"><div class="chart-title">Evolução da comissão</div>
-  <div class="bar-group" style="justify-content:space-between">
-    ${[{m:'Mai',v:'5.2'},{m:'Jun',v:'5.8'},{m:'Jul',v:'6.1'},{m:'Ago',v:'6.8'}].map(d=>`<div class="bar-col"><div class="bar-value">R$ ${d.v}k</div><div class="bar" style="height:${parseFloat(d.v)*12}px;background:var(--gg)"></div><div class="bar-label">${d.m}</div></div>`).join('')}
-  </div></div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Últimos atendimentos</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:110px 1fr 100px"><span>Data</span><span>Serviço</span><span>Comissão</span></div>
-${[{d:'14/09 10:00',s:'Corte Premium',c:'R$ 59,50'},{d:'14/09 13:00',s:'Hidratação',c:'R$ 66,50'},{d:'13/09 09:00',s:'Combo Navalha',c:'R$ 91,00'},{d:'13/09 14:30',s:'Barba Completa',c:'R$ 45,50'},{d:'12/09 11:00',s:'Corte Premium',c:'R$ 59,50'}].map(r=>`<div class="table-row" style="grid-template-columns:110px 1fr 100px"><span>${r.d}</span><span>${r.s}</span><span style="color:var(--gg);font-weight:400">${r.c}</span></div>`).join('')}
+<div style="border:1px solid var(--b);padding:20px;text-align:center">
+  <p style="font-size:0.7rem;color:var(--m);margin-bottom:16px">Barbeiro selecionado: <b style="color:var(--t)" id="bkBarberName">Ricardo</b></p>
+  <button class="btn-sm" style="padding:12px 32px;font-size:0.7rem;background:var(--t);color:var(--bg);border-color:var(--t)" onclick="openBooking(${bk.barber})">Escolher data e hora</button>
 </div></div>`;
 
-// ── BARBER: COMISSÃO ──
-RENDER['meu-split']=()=>`<div class="page active"><div class="page-title">Minha Comissão</div><div class="page-sub">Split de 70% via Gates2B · Repasse automático todo dia 15</div>
-<div class="stats-grid">
-  <div class="stat-card kpi-highlight"><div class="stat-label">Comissão (Agosto)</div><div class="stat-value">${barberReceita}</div><div class="stat-delta">↑ 11% vs julho</div></div>
-  <div class="stat-card"><div class="stat-label">Total Recebido (2026)</div><div class="stat-value">R$ 48.450</div><div class="stat-sub">Janeiro — Agosto</div></div>
-  <div class="stat-card"><div class="stat-label">Média Mensal</div><div class="stat-value">R$ 6.056</div><div class="stat-sub">últimos 8 meses</div></div>
-  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">15/09</div><div class="stat-sub">Estimado: R$ 7.100</div></div>
-</div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Histórico de repasses</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 100px 80px"><span>Período</span><span>Comissão (70%)</span><span></span></div>
-${[{p:'Ago/26',s:'R$ 6.830'},{p:'Jul/26',s:'R$ 6.104'},{p:'Jun/26',s:'R$ 5.803'},{p:'Mai/26',s:'R$ 5.222'}].map(r=>`<div class="table-row" style="grid-template-columns:100px 100px 80px"><span>${r.p}</span><span style="color:var(--gg);font-weight:400">${r.s}</span><span><span class="badge badge-gr">Repassado</span></span></div>`).join('')}
-</div>
-<p style="font-size:0.55rem;color:var(--m);margin-top:8px">A comissão é calculada automaticamente sobre cada atendimento. O valor da barbearia não aparece aqui — apenas o que é seu.</p></div>`;
-
-// ── BARBER: DADOS BANCÁRIOS ──
-RENDER['meus-dados-bancarios']=()=>`<div class="page active"><div class="page-title">Dados Bancários</div><div class="page-sub">Chave Gates2B para receber sua comissão</div>
-<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px">
-  <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Chave API Gates2B</p>
-  <div class="modal-field"><label>API Key (produção)</label><input type="password" value="g2b_sk_barber_ricardo_••••"></div>
-  <div class="modal-field"><label>API Key (sandbox)</label><input type="password" value="g2b_sk_test_ricardo_••••"></div>
-  <div class="modal-field"><label>Comissão negociada</label><div style="display:flex;align-items:center;gap:10px"><input type="range" min="0" max="100" value="70" style="flex:1" oninput="this.nextElementSibling.textContent=this.value+'%'"><span style="font-size:0.9rem;font-weight:400">70%</span></div></div>
-  <p style="font-size:0.6rem;color:var(--gg);margin:8px 0">✅ Ativo — recebendo comissão normalmente</p>
-  <p style="font-size:0.55rem;color:var(--m);margin-bottom:16px">O percentual é acordado com a barbearia. O split é automático via Gates2B.</p>
-  <div style="display:flex;gap:10px"><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Testar conexão</button><button class="btn-sm">Salvar</button></div>
-</div></div>`;
-
-// ── BARBER: MEUS HORÁRIOS ──
-RENDER['meus-horarios']=()=>`<div class="page active"><div class="page-title">Meus Horários</div><div class="page-sub">Dias e horários de atendimento</div>
-${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'].map((d,i)=>`<div class="table-row" style="grid-template-columns:110px 1fr 90px;display:grid;padding:14px 18px;border-bottom:1px solid var(--b)"><span style="font-weight:400;font-size:0.78rem">${d}</span><span style="font-size:0.78rem">${i===0?'Fechado':'09:00 — 19:00'}</span><button class="btn-sm">Editar</button></div>`).join('')}
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin:28px 0 12px">Bloqueios / Folgas</p>
-<div style="font-size:0.7rem;color:var(--m)">Nenhum bloqueio. <button class="btn-sm" style="margin-left:8px">+ Novo</button></div></div>`;
+function selectPreferredBarber(id,el){
+  bk.barber=id;
+  document.querySelectorAll('#barberChooser .landing-card').forEach(c=>c.classList.remove('featured'));
+  el.classList.add('featured');
+  const b=barbers.find(x=>x.id===id);
+  document.getElementById('bkBarberName').textContent=b.n.split(' ')[0];
+}
 
 // ── CLIENTE: INÍCIO ──
 RENDER['cliente-inicio']=()=>`<div class="page active"><div class="page-title">Olá, João</div><div class="page-sub">Plano <b style="color:var(--g)">Premium</b> · 1 de 2 agendamentos usados</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
-  <div class="stat-card kpi-highlight" style="cursor:pointer" onclick="navigate('agendar-rapido')">
+  <div class="stat-card kpi-highlight" style="cursor:pointer" onclick="navigate('agendar')">
     <div class="stat-label" style="color:var(--gg)">Próximo Agendamento</div>
     <div style="font-family:var(--d);font-size:1.5rem;font-weight:300;margin:10px 0">14 Set · 10:00</div>
     <div style="font-size:0.65rem;color:var(--m)">Corte Premium · Ricardo</div>
     <div style="font-size:0.58rem;color:var(--g);margin-top:6px">Incluso no plano</div>
   </div>
-  <div class="stat-card" style="cursor:pointer" onclick="navigate('agendar-rapido')">
+  <div class="stat-card" style="cursor:pointer" onclick="navigate('agendar')">
     <div class="stat-label" style="color:var(--g)">Créditos disponíveis</div>
     <div style="font-family:var(--d);font-size:3rem;font-weight:300;margin:16px 0;color:var(--g)">1</div>
     <div style="font-size:0.65rem;color:var(--m)">de 2 este mês · Renova 15/09</div>
@@ -439,81 +503,140 @@ RENDER['cliente-inicio']=()=>`<div class="page active"><div class="page-title">O
 <div style="font-size:0.7rem;color:var(--m);line-height:1.9">Inclui: <b style="color:var(--t)">Corte Premium, Barba Completa, Hidratação</b></div>
 <div style="display:flex;gap:12px;margin-top:14px;font-size:0.65rem"><span class="badge badge-g">R$ 139/mês</span><span class="badge badge-gr">💳 •••• 4242</span></div></div></div>`;
 
-RENDER['agendar-rapido']=()=>`<div class="page active"><div class="page-title">Agendar</div><div class="page-sub">1 crédito disponível · Plano Premium</div>
-<div style="border:1px solid var(--b);padding:18px;margin-bottom:18px;font-size:0.62rem;color:var(--m)">
-  Serviços do seu plano: <b style="color:var(--t)">Corte Premium, Barba Completa, Hidratação</b>
-</div>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:90px 1fr 100px 100px 110px"><span></span><span>Serviço</span><span>Duração</span><span>Barbeiro</span><span></span></div>
-${[{h:'09:00',s:'Corte Premium',d:'45 min',b:'Ricardo'},{h:'10:00',s:'Barba Completa',d:'30 min',b:'Felipe'},{h:'14:30',s:'Hidratação',d:'40 min',b:'Ricardo'}].map(r=>`<div class="table-row" style="grid-template-columns:90px 1fr 100px 100px 110px"><span style="font-weight:500">${r.h}</span><span>${r.s}</span><span>${r.d}</span><span>${r.b}</span><span><button class="btn-sm">Agendar</button></span></div>`).join('')}
-</div></div>`;
-
+// ── CLIENTE: HISTÓRICO ──
 RENDER['meus-agendamentos']=()=>`<div class="page active"><div class="page-title">Histórico</div><div class="page-sub">Todos os seus agendamentos</div>
 <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:120px 1fr 1fr 90px 90px"><span>Data</span><span>Serviço</span><span>Barbeiro</span><span>Status</span><span></span></div>
 ${[{d:'14/09 10:00',s:'Corte Premium',b:'Ricardo',st:'Confirmado'},{d:'01/09 14:30',s:'Barba Completa',b:'Felipe',st:'Concluído'},{d:'18/08 09:00',s:'Combo Navalha',b:'André',st:'Concluído'},{d:'01/08 11:00',s:'Hidratação',b:'Ricardo',st:'Concluído'}].map(a=>`<div class="table-row" style="grid-template-columns:120px 1fr 1fr 90px 90px"><span>${a.d}</span><span>${a.s}</span><span>${a.b}</span><span><span class="badge">${a.st}</span></span><span>${a.st==='Confirmado'?'<button class="btn-sm danger">Cancelar</button>':'—'}</span></div>`).join('')}
 </div></div>`;
 
+// ── CLIENTE: PAGAMENTOS ──
 RENDER['cliente-pagamentos']=()=>`<div class="page active"><div class="page-title">Pagamentos</div><div class="page-sub">Método: <b style="color:var(--g)">💳 •••• 4242</b> · Próx. cobrança: R$ 139 em 15/09</div>
-<div style="border:1px solid var(--b);padding:28px;margin-bottom:24px">
-  <p style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:14px">Métodos salvos</p>
-  <div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>💳 Cartão •••• 4242</span><span><span class="badge badge-g">Padrão</span></span><span><button class="btn-sm">Editar</button></span></div>
-  <div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0"><span>🔑 PIX — joao@email.com</span><span></span><span><button class="btn-sm">Editar</button></span></div>
-  <button class="btn-add" style="margin-top:14px">+ Adicionar método</button>
-</div>
+<div style="border:1px solid var(--b);padding:28px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:14px">Métodos salvos</p>
+<div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>💳 Cartão •••• 4242</span><span><span class="badge badge-g">Padrão</span></span><span><button class="btn-sm">Editar</button></span></div>
+<div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0"><span>🔑 PIX — joao@email.com</span><span></span><span><button class="btn-sm">Editar</button></span></div>
+<button class="btn-add" style="margin-top:14px">+ Adicionar método</button></div>
 <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 100px 1fr 80px"><span>Data</span><span>Valor</span><span>Descrição</span><span></span></div>
 ${[{d:'01/09',v:'R$ 139',s:'Plano Premium'},{d:'01/08',v:'R$ 139',s:'Plano Premium'},{d:'01/07',v:'R$ 139',s:'Plano Premium'}].map(p=>`<div class="table-row" style="grid-template-columns:100px 100px 1fr 80px"><span>${p.d}</span><span style="font-family:var(--d);font-size:1.1rem">${p.v}</span><span>${p.s}</span><span><span class="badge badge-gr">Pago</span></span></div>`).join('')}
 </div></div>`;
 
+// ── CLIENTE: PERFIL ──
 RENDER['meu-perfil']=()=>`<div class="page active"><div class="page-title">Meu Perfil</div><div class="page-sub">Seus dados e contas vinculadas</div>
 <div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Dados pessoais</p>
 <div class="modal-field"><label>Nome</label><input value="João Silva"></div>
 <div class="modal-field"><label>Email</label><input value="cliente@email.com"></div>
-<div class="modal-field"><label>WhatsApp *</label><input value="(11) 99999-9999"><p style="font-size:0.52rem;color:var(--g);margin-top:3px">* Obrigatório para confirmação</p></div>
+<div class="modal-field"><label>WhatsApp *</label><input value="(11) 99999-9999"><p style="font-size:0.52rem;color:var(--g);margin-top:3px">* Obrigatório</p></div>
 <button class="btn-sm" style="margin-top:10px">Salvar</button></div>
 <div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Contas vinculadas</p>
 <div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>🔵 Google</span><span><span class="badge badge-g">Vinculado</span></span></div>
 <div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>🍎 Apple</span><span><span class="badge badge-g">Vinculado</span></span></div>
 <div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0"><span>📧 Email/Senha</span><span><span class="badge badge-g">Ativo</span></span></div></div></div>`;
 
+// ── BARBER: MEU PAINEL (só comissão) ──
+RENDER['meu-dash']=()=>`<div class="page active"><div class="page-title">Meu Painel</div><div class="page-sub">Bem-vindo, Ricardo · Comissão: <b style="color:var(--gg)">70%</b> · Próx. repasse: 15/09</div>
+<div class="stats-grid">
+  <div class="stat-card kpi-highlight"><div class="stat-label">Minha Comissão (Agosto)</div><div class="stat-value">R$ 6.830</div><div class="stat-delta">↑ 11% vs julho</div></div>
+  <div class="stat-card"><div class="stat-label">Atendimentos</div><div class="stat-value">112</div><div class="stat-sub">este mês</div></div>
+  <div class="stat-card"><div class="stat-label">Ticket Médio (comissão)</div><div class="stat-value">R$ 87</div><div class="stat-sub">por atendimento</div></div>
+  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">15/09</div><div class="stat-sub">Estimado: R$ 7.100</div></div>
+</div>
+<div class="chart-box" style="margin-bottom:24px"><div class="chart-title">Evolução da comissão</div>
+<div class="bar-group" style="justify-content:space-between">
+${[{m:'Mai',v:'5.2'},{m:'Jun',v:'5.8'},{m:'Jul',v:'6.1'},{m:'Ago',v:'6.8'}].map(d=>`<div class="bar-col"><div class="bar-value">R$ ${d.v}k</div><div class="bar" style="height:${parseFloat(d.v)*12}px;background:var(--gg)"></div><div class="bar-label">${d.m}</div></div>`).join('')}
+</div></div>
+<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Últimos atendimentos</p>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:110px 1fr 100px"><span>Data</span><span>Serviço</span><span>Comissão</span></div>
+${[{d:'14/09 10:00',s:'Corte Premium',c:'R$ 59,50'},{d:'14/09 13:00',s:'Hidratação',c:'R$ 66,50'},{d:'13/09 09:00',s:'Combo Navalha',c:'R$ 91,00'},{d:'13/09 14:30',s:'Barba Completa',c:'R$ 45,50'},{d:'12/09 11:00',s:'Corte Premium',c:'R$ 59,50'}].map(r=>`<div class="table-row" style="grid-template-columns:110px 1fr 100px"><span>${r.d}</span><span>${r.s}</span><span style="color:var(--gg);font-weight:400">${r.c}</span></div>`).join('')}
+</div></div>`;
+
+// ── BARBER: AGENDA ──
+RENDER['minha-agenda']=()=>`<div class="page active"><div class="page-title">Minha Agenda</div><div class="page-sub">Setembro 2026 · Ricardo</div><div class="calendar">${buildCalendar(barberAppts,null,null)}</div></div>`;
+
+// ── BARBER: COMISSÃO ──
+RENDER['meu-split']=()=>`<div class="page active"><div class="page-title">Minha Comissão</div><div class="page-sub">Split de 70% via Gates2B · Repasse automático todo dia 15</div>
+<div class="stats-grid">
+  <div class="stat-card kpi-highlight"><div class="stat-label">Comissão (Agosto)</div><div class="stat-value">R$ 6.830</div><div class="stat-delta">↑ 11%</div></div>
+  <div class="stat-card"><div class="stat-label">Total Recebido (2026)</div><div class="stat-value">R$ 48.450</div><div class="stat-sub">Jan — Ago</div></div>
+  <div class="stat-card"><div class="stat-label">Média Mensal</div><div class="stat-value">R$ 6.056</div><div class="stat-sub">8 meses</div></div>
+  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">15/09</div><div class="stat-sub">R$ 7.100</div></div>
+</div>
+<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Histórico de repasses</p>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 100px 80px"><span>Período</span><span>Comissão</span><span></span></div>
+${[{p:'Ago/26',s:'R$ 6.830'},{p:'Jul/26',s:'R$ 6.104'},{p:'Jun/26',s:'R$ 5.803'},{p:'Mai/26',s:'R$ 5.222'}].map(r=>`<div class="table-row" style="grid-template-columns:100px 100px 80px"><span>${r.p}</span><span style="color:var(--gg);font-weight:400">${r.s}</span><span><span class="badge badge-gr">Repassado</span></span></div>`).join('')}
+</div></div>`;
+
+// ── BARBER: DADOS BANCÁRIOS ──
+RENDER['meus-dados-bancarios']=()=>`<div class="page active"><div class="page-title">Dados Bancários</div><div class="page-sub">Chave Gates2B para receber sua comissão</div>
+<div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Chave API Gates2B</p>
+<div class="modal-field"><label>API Key (produção)</label><input type="password" value="g2b_sk_barber_ricardo_••••"></div>
+<div class="modal-field"><label>API Key (sandbox)</label><input type="password" value="g2b_sk_test_ricardo_••••"></div>
+<div class="modal-field"><label>Comissão negociada</label><div style="display:flex;align-items:center;gap:10px"><input type="range" min="0" max="100" value="70" style="flex:1" oninput="this.nextElementSibling.textContent=this.value+'%'"><span style="font-size:0.9rem;font-weight:400">70%</span></div></div>
+<p style="font-size:0.6rem;color:var(--gg);margin:8px 0">✅ Ativo — recebendo comissão normalmente</p>
+<div style="display:flex;gap:10px"><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Testar conexão</button><button class="btn-sm">Salvar</button></div></div></div>`;
+
+// ── BARBER: HORÁRIOS ──
+RENDER['meus-horarios']=()=>`<div class="page active"><div class="page-title">Meus Horários</div><div class="page-sub">Dias e horários de atendimento</div>
+${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'].map((d,i)=>`<div class="table-row" style="grid-template-columns:110px 1fr 90px;display:grid;padding:14px 18px;border-bottom:1px solid var(--b)"><span style="font-weight:400;font-size:0.78rem">${d}</span><span style="font-size:0.78rem">${i===0?'Fechado':'09:00 — 19:00'}</span><button class="btn-sm">Editar</button></div>`).join('')}
+<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin:28px 0 12px">Bloqueios / Folgas</p>
+<div style="font-size:0.7rem;color:var(--m)">Nenhum bloqueio. <button class="btn-sm" style="margin-left:8px">+ Novo</button></div></div>`;
+
 // ── OWNER: DASHBOARD ──
 RENDER.dashboard=()=>`<div class="page active"><div class="page-title">Dashboard</div><div class="page-sub">Agosto 2026</div>
 <div class="stats-grid">
-  <div class="stat-card"><div class="stat-label">Faturamento Total</div><div class="stat-value">R$ 18.240</div><div class="stat-delta">↑ 18%</div></div>
-  <div class="stat-card"><div class="stat-label">Assinaturas</div><div class="stat-value">47</div><div class="stat-sub">MRR: R$ 8.930</div></div>
-  <div class="stat-card"><div class="stat-label">Agendamentos</div><div class="stat-value">284</div><div class="stat-sub">Ticket: R$ 93</div></div>
+  <div class="stat-card"><div class="stat-label">Faturamento Bruto</div><div class="stat-value">R$ 18.240</div><div class="stat-delta">↑ 18%</div></div>
+  <div class="stat-card"><div class="stat-label">Repasses (comissões)</div><div class="stat-value">R$ 18.233</div><div class="stat-sub">${barbers.length} profissionais</div></div>
+  <div class="stat-card kpi-highlight"><div class="stat-label">Faturamento Líquido</div><div class="stat-value">R$ 9.307</div><div class="stat-delta">↑ 12%</div></div>
   <div class="stat-card"><div class="stat-label">Ocupação</div><div class="stat-value">78%</div><div class="stat-delta">↑ 3%</div></div>
 </div>
-<div class="charts-row">
-  <div class="chart-box"><div class="chart-title">Por método de pagamento</div>
-    <div class="bar-group"><div class="bar-col"><div class="bar-value">R$ 8.2k</div><div class="bar" style="height:82px;background:var(--t)"></div><div class="bar-label">PIX</div></div><div class="bar-col"><div class="bar-value">R$ 5.8k</div><div class="bar" style="height:58px;background:var(--bl)"></div><div class="bar-label">Cartão</div></div><div class="bar-col"><div class="bar-value">R$ 2.4k</div><div class="bar" style="height:24px;background:var(--g)"></div><div class="bar-label">Apple</div></div><div class="bar-col"><div class="bar-value">R$ 1.8k</div><div class="bar" style="height:18px;background:var(--mm)"></div><div class="bar-label">Google</div></div></div></div>
-  <div class="chart-box"><div class="chart-title">Assinatura vs Avulso</div>
-    <div class="bar-group"><div class="bar-col"><div class="bar-value">R$ 8.9k</div><div class="bar" style="height:72px;background:var(--g)"></div><div class="bar-label">Assinaturas</div></div><div class="bar-col"><div class="bar-value">R$ 9.3k</div><div class="bar" style="height:76px;background:var(--bl)"></div><div class="bar-label">Avulsos</div></div></div><div style="margin-top:14px;font-size:0.58rem;color:var(--m)">Churn: 4.2%</div></div>
-</div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Por barbeiro</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 90px 90px 90px 80px"><span>Barbeiro</span><span>Atend.</span><span>Comissão</span><span>Shop</span><span>Ocup.</span></div>
-${[{n:'Ricardo',a:112,sp:'R$ 6.830',sh:'R$ 2.930',o:'82%'},{n:'Felipe',a:98,sp:'R$ 5.943',sh:'R$ 2.547',o:'76%'},{n:'André',a:74,sp:'R$ 5.460',sh:'R$ 2.340',o:'72%'}].map(r=>`<div class="table-row" style="grid-template-columns:1fr 90px 90px 90px 80px"><span>${r.n}</span><span>${r.a}</span><span style="color:var(--gg)">${r.sp}</span><span>${r.sh}</span><span>${r.o}</span></div>`).join('')}
+<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Faturamento líquido por profissional</p>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 110px 110px 90px"><span>Profissional</span><span>Comissão%</span><span>Repasse</span><span>Líquido p/ shop</span><span>Ocup.</span></div>
+${barbers.map(b=>{const rep=repasse[b.id]||0;const liq=Math.round(rep/(b.comissao/100)*(1-b.comissao/100));return `<div class="table-row" style="grid-template-columns:1fr 100px 110px 110px 90px"><span>${b.n.split(' ')[0]}</span><span style="color:var(--gg)">${b.comissao}%</span><span style="color:var(--gg)">R$ ${rep.toLocaleString('pt-BR')}</span><span>R$ ${liq.toLocaleString('pt-BR')}</span><span>82%</span></div>`}).join('')}
 </div></div>`;
 
-// ── OWNER: RESTANTE ──
-RENDER.barbeiros=()=>`<div class="page active"><div class="page-title">Barbeiros</div><div class="page-sub">Profissionais e comissão</div><button class="btn-add" onclick="showModal('barber')">+ Novo</button>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 110px 80px 90px 110px"><span>Nome</span><span>Especialidade</span><span>Comissão</span><span>Ativo</span><span></span></div>
-${[{n:'Ricardo',t:'Corte',sp:'70%',a:true},{n:'Felipe',t:'Barba',sp:'70%',a:true},{n:'André',t:'Estilo',sp:'70%',a:true}].map(b=>`<div class="table-row" style="grid-template-columns:1fr 110px 80px 90px 110px"><span>${b.n}</span><span>${b.t}</span><span style="color:var(--gg)">${b.sp}</span><span><span class="status-dot ${b.a?'s-on':'s-off'}"></span>${b.a?'Sim':'Não'}</span><span><button class="btn-sm">Editar</button> <button class="btn-sm danger">Excluir</button></span></div>`).join('')}
+// ── OWNER: AGENDA ──
+const ownerAppts=[{day:14,label:'Lucas M. · Corte · Ricardo',type:'avulso'},{day:14,label:'Pedro A. · Barba · Felipe',type:'combo'},{day:14,label:'Gabriel S. · Combo · André',type:'avulso'},{day:15,label:'Rafael C. · Corte · Ricardo',type:'combo'},{day:16,label:'Marcos T. · Barba · Felipe',type:'avulso'},{day:18,label:'André L. · Hidrat. · Ricardo',type:'combo'},{day:20,label:'Paulo R. · Combo · André',type:'avulso'}];
+RENDER.agenda=()=>`<div class="page active"><div class="page-title">Agenda</div><div class="page-sub">Setembro 2026</div><div class="calendar">${buildCalendar(ownerAppts,null,null)}</div></div>`;
+
+// ── OWNER: PROFISSIONAIS (CRUD completo) ──
+RENDER.barbeiros=()=>`<div class="page active"><div class="page-title">Profissionais</div><div class="page-sub">Cadastro completo com dados bancários e repasse</div>
+<button class="btn-add" onclick="showModal('barber')">+ Novo profissional</button>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:60px 1fr 130px 90px 110px 90px 90px"><span></span><span>Nome</span><span>Especialidade</span><span>Comissão</span><span>Repasse (mês)</span><span>Ativo</span><span></span></div>
+${barbers.map(b=>`<div class="table-row" style="grid-template-columns:60px 1fr 130px 90px 110px 90px 90px"><span><div class="avatar gold">${b.n[0]}</div></span><span>${b.n}<div style="font-size:0.55rem;color:var(--m)">${b.whats} · ${b.email}</div></span><span>${b.t}</span><span style="color:var(--gg)">${b.comissao}%</span><span style="color:var(--gg)">R$ ${(repasse[b.id]||0).toLocaleString('pt-BR')}</span><span><span class="status-dot ${b.a?'s-on':'s-off'}"></span>${b.a?'Sim':'Não'}</span><span><button class="btn-sm">Editar</button> <button class="btn-sm danger">Excluir</button></span></div>`).join('')}
 </div></div>`;
 
-RENDER.servicos=()=>`<div class="page active"><div class="page-title">Serviços</div><div class="page-sub">Catálogo</div><button class="btn-add" onclick="showModal('svc')">+ Novo</button>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 90px 80px 90px"><span>Nome</span><span>Preço</span><span>Duração</span><span>Ativo</span><span></span></div>
-${services.map(s=>`<div class="table-row" style="grid-template-columns:1fr 100px 90px 80px 90px"><span>${s.n}</span><span>R$ ${s.p}</span><span>${s.d}min</span><span><span class="status-dot s-on"></span>Sim</span><span><button class="btn-sm">Editar</button></span></div>`).join('')}
+// ── OWNER: SERVIÇOS (com upload imagem) ──
+RENDER.servicos=()=>`<div class="page active"><div class="page-title">Serviços</div><div class="page-sub">Catálogo com imagens</div>
+<button class="btn-add" onclick="showModal('svc')">+ Novo serviço</button>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:60px 1fr 100px 90px 80px 90px"><span></span><span>Nome</span><span>Preço</span><span>Duração</span><span>Ativo</span><span></span></div>
+${services.map(s=>`<div class="table-row" style="grid-template-columns:60px 1fr 100px 90px 80px 90px"><span><div class="avatar">${s.n[0]}</div></span><span>${s.n}</span><span>R$ ${s.p}</span><span>${s.d}min</span><span><span class="status-dot s-on"></span>Sim</span><span><button class="btn-sm">Editar</button></span></div>`).join('')}
 </div></div>`;
 
+// ── OWNER: COMBOS ──
 RENDER['combos-admin']=()=>`<div class="page active"><div class="page-title">Combos & Assinaturas</div><div class="page-sub">Planos com serviços incluídos</div><button class="btn-add" onclick="showModal('combo')">+ Novo combo</button>
 <div class="plan-grid">
 ${combos.map(c=>`<div class="plan-card ${c.id===2?'active-plan':''}"><div class="plan-nome">${c.nome}</div><div class="plan-svcs">Inclui: ${c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(', ')}</div><div style="font-size:0.62rem;color:var(--m);margin-bottom:8px">${c.qtd===-1?'Ilimitado':c.qtd+' agendamento(s)/'+c.per}</div><div class="plan-preco">R$ ${c.preco}<span class="plan-periodo">/${c.per}</span></div><div style="margin-top:12px;display:flex;gap:6px"><button class="btn-sm">Editar</button><button class="btn-sm danger">Excluir</button></div></div>`).join('')}
 </div></div>`;
 
+// ── OWNER: CUPONS ──
 RENDER.cupons=()=>`<div class="page active"><div class="page-title">Cupons</div><div class="page-sub">Códigos promocionais</div><button class="btn-add" onclick="showModal('coupon')">+ Novo</button>
 <div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:130px 80px 90px 100px 90px 80px 80px"><span>Código</span><span>Tipo</span><span>Valor</span><span>Validade</span><span>Usos</span><span>Ativo</span><span></span></div>
 ${coupons.map(c=>`<div class="table-row" style="grid-template-columns:130px 80px 90px 100px 90px 80px 80px"><span style="font-weight:400;letter-spacing:0.05em">${c.cod}</span><span>${c.tipo==='percentual'?'%':'R$'}</span><span>${c.tipo==='percentual'?c.valor+'%':'R$ '+c.valor}</span><span>${c.validade}</span><span>${c.usado}/${c.maxUsos}</span><span><span class="badge ${c.ativo?'badge-g':''}">${c.ativo?'Sim':'Não'}</span></span><span><button class="btn-sm">Editar</button> <button class="btn-sm danger">Excluir</button></span></div>`).join('')}
 </div></div>`;
 
+// ── OWNER: FINANCEIRO (repasse CRUD) ──
+RENDER.financeiro=()=>{const totalRep=Object.values(repasse).reduce((a,b)=>a+b,0);const liquido=FAT_BRUTO-totalRep;
+return `<div class="page active"><div class="page-title">Financeiro</div><div class="page-sub">Faturamento líquido e repasses dos profissionais</div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-label">Faturamento Bruto</div><div class="stat-value">R$ ${FAT_BRUTO.toLocaleString('pt-BR')}</div></div>
+  <div class="stat-card"><div class="stat-label">Total Repasses</div><div class="stat-value">R$ ${totalRep.toLocaleString('pt-BR')}</div><div class="stat-sub">comissões dos profissionais</div></div>
+  <div class="stat-card kpi-highlight"><div class="stat-label">Líquido da Barbearia</div><div class="stat-value">R$ ${liquido.toLocaleString('pt-BR')}</div><div class="stat-delta">↑ 12%</div></div>
+  <div class="stat-card"><div class="stat-label">Margem Líquida</div><div class="stat-value">${Math.round(liquido/FAT_BRUTO*100)}%</div></div>
+</div>
+<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Repasses por profissional (Setembro)</p>
+<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 110px 110px 100px"><span>Profissional</span><span>Comissão%</span><span>Atend. Bruto</span><span>Repasse</span><span></span></div>
+${barbers.map(b=>{const rep=repasse[b.id]||0;return `<div class="table-row" style="grid-template-columns:1fr 100px 110px 110px 100px"><span>${b.n}</span><span style="color:var(--gg)">${b.comissao}%</span><span>R$ ${Math.round(rep/(b.comissao/100)).toLocaleString('pt-BR')}</span><span style="color:var(--gg);font-weight:400">R$ ${rep.toLocaleString('pt-BR')}</span><span><button class="btn-sm" onclick="showModal('repasse',${b.id})">Editar repasse</button></span></div>`}).join('')}
+</div></div>`};
+
+// ── OWNER: CONFIG ──
 RENDER.config=()=>`<div class="page active"><div class="page-title">Configurações</div><div class="page-sub">Identidade, pagamentos & notificações</div>
 <div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Identidade visual</p>
 <div class="modal-field"><label>Nome</label><input value="Navalha & Arte"></div>
@@ -522,32 +645,71 @@ RENDER.config=()=>`<div class="page active"><div class="page-title">Configuraç�
 <div class="modal-field"><label>Endereço</label><input value="Rua Oscar Freire, 842 — SP"></div>
 <div class="modal-field"><label>Instagram</label><input value="@navalhaearte"></div>
 <button class="btn-sm" style="margin-top:10px">Salvar</button></div>
-<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Pagamentos — Gates2B + Split</p>
+<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Pagamentos — Gates2B</p>
 <div class="modal-field"><label>API Key (produção)</label><input type="password" value="g2b_sk_live_••••••••••••"></div>
 <div class="modal-field"><label>API Key (sandbox)</label><input type="password" value="g2b_sk_test_••••••••••••"></div>
 <div class="modal-field"><label>Webhook Secret</label><input type="password" value="whsec_••••••••••••"></div>
-<div class="modal-field"><label>Comissão padrão (barbeiro)</label><div style="display:flex;align-items:center;gap:10px"><input type="range" min="0" max="100" value="70" style="flex:1"><span>70%</span></div></div>
-<p style="font-size:0.55rem;color:var(--m);margin:6px 0 16px">Split automático: 70% barbeiro, 30% barbearia.</p>
 <div class="check-group" style="margin-bottom:14px"><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>PIX</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Cartão</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Google Pay</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Apple Pay</label></div>
 <button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Testar conexão</button> <button class="btn-sm">Salvar</button></div>
 <div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Notificações</p>
-<div class="check-group" style="margin-bottom:14px"><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Email</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>WhatsApp (wa.me)</label><label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">SMS (V2)</label></div>
+<div class="check-group" style="margin-bottom:14px"><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Email</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>WhatsApp</label><label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">SMS (V2)</label></div>
 <textarea rows="3" style="width:100%;padding:12px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.72rem">Olá {cliente}! Seu horário na Navalha & Arte está confirmado: 📅 {data} às {hora} 💈 {servico} com {barbeiro}.</textarea>
 <button class="btn-sm" style="margin-top:14px">Salvar</button></div></div>`;
 
 RENDER.default=()=>`<div class="page active"><div class="page-title">${actPage}</div><div class="page-sub">Em desenvolvimento</div></div>`;
 
-// �═══════════ MODAL �═══════════
-function showModal(type){
+// ════════════ MODAL ════════════
+function showModal(type,id){
   document.getElementById('modal').classList.add('on');
   const b=document.getElementById('modalBody');
-  if(type==='barber') b.innerHTML=`<div class="modal-title">Novo Barbeiro</div><div class="modal-field"><label>Nome</label><input></div><div class="modal-field"><label>Especialidade</label><input></div><div class="modal-field"><label>Comissão (%)</label><input type="number" value="70"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='svc') b.innerHTML=`<div class="modal-title">Novo Serviço</div><div class="modal-field"><label>Nome</label><input></div><div class="modal-field"><label>Preço (R$)</label><input type="number"></div><div class="modal-field"><label>Duração (min)</label><input type="number"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='combo') b.innerHTML=`<div class="modal-title">Novo Combo</div><div class="modal-field"><label>Nome</label><input></div><div class="modal-field"><label>Serviços incluídos</label><div class="check-group">${services.map(s=>`<label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">${s.n}</label>`).join('')}</div></div><div class="modal-field"><label>Agendamentos / período</label><input type="number" placeholder="2"></div><div class="modal-field"><label>Período</label><select><option>mês</option><option>semana</option></select></div><div class="modal-field"><label>Preço (R$)</label><input type="number" placeholder="139"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='coupon') b.innerHTML=`<div class="modal-title">Novo Cupom</div><div class="modal-field"><label>Código</label><input placeholder="PROMO20"></div><div class="modal-field"><label>Tipo</label><select><option>percentual</option><option>fixo</option></select></div><div class="modal-field"><label>Valor</label><input type="number" placeholder="20"></div><div class="modal-field"><label>Validade</label><input type="date" value="2026-12-31"></div><div class="modal-field"><label>Máximo de usos</label><input type="number" placeholder="100"></div><div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  if(type==='barber') b.innerHTML=`<div class="modal-title">${id?'Editar':'Novo'} Profissional</div>
+    <div class="modal-field"><label>Nome completo</label><input value="${id?barbers.find(x=>x.id===id).n:''}" placeholder="Nome completo"></div>
+    <div class="modal-field"><label>Especialidade</label><input value="${id?barbers.find(x=>x.id===id).t:''}" placeholder="ex: Especialista em Corte"></div>
+    <div class="modal-field"><label>Foto</label><div class="img-upload" onclick="document.getElementById('fBarberImg').click()"><div class="upload-icon">📷</div><div class="upload-text">Clique para importar imagem</div><img class="img-preview" id="barberImgPrev"></div><input type="file" id="fBarberImg" accept="image/*" style="display:none" onchange="previewImg(this,'barberImgPrev')"></div>
+    <div class="modal-field"><label>WhatsApp</label><input value="${id?barbers.find(x=>x.id===id).whats:''}" placeholder="(11) 99999-9999"></div>
+    <div class="modal-field"><label>Email</label><input value="${id?barbers.find(x=>x.id===id).email:''}" placeholder="email@navalha.com"></div>
+    <div class="modal-field"><label>Comissão (%)</label><input type="number" value="${id?barbers.find(x=>x.id===id).comissao:70}"></div>
+    <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin:20px 0 14px">Dados bancários (repasse)</p>
+    <div class="modal-field"><label>Banco</label><input value="${id?barbers.find(x=>x.id===id).banco:''}" placeholder="Nubank"></div>
+    <div class="modal-field"><label>Agência</label><input value="${id?barbers.find(x=>x.id===id).agencia:''}" placeholder="0001"></div>
+    <div class="modal-field"><label>Conta</label><input value="${id?barbers.find(x=>x.id===id).conta:''}" placeholder="123456-7"></div>
+    <div class="modal-field"><label>Chave PIX</label><input value="${id?barbers.find(x=>x.id===id).pix:''}" placeholder="pix@email.com"></div>
+    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='svc') b.innerHTML=`<div class="modal-title">Novo Serviço</div>
+    <div class="modal-field"><label>Nome</label><input placeholder="Nome do serviço"></div>
+    <div class="modal-field"><label>Imagem</label><div class="img-upload" onclick="document.getElementById('fSvcImg').click()"><div class="upload-icon">📷</div><div class="upload-text">Clique para importar imagem</div><img class="img-preview" id="svcImgPrev"></div><input type="file" id="fSvcImg" accept="image/*" style="display:none" onchange="previewImg(this,'svcImgPrev')"></div>
+    <div class="modal-field"><label>Preço (R$)</label><input type="number" placeholder="85"></div>
+    <div class="modal-field"><label>Duração (min)</label><input type="number" placeholder="45"></div>
+    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='combo') b.innerHTML=`<div class="modal-title">Novo Combo</div>
+    <div class="modal-field"><label>Nome</label><input></div>
+    <div class="modal-field"><label>Serviços incluídos</label><div class="check-group">${services.map(s=>`<label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">${s.n}</label>`).join('')}</div></div>
+    <div class="modal-field"><label>Agendamentos / período</label><input type="number" placeholder="2"></div>
+    <div class="modal-field"><label>Período</label><select><option>mês</option><option>semana</option></select></div>
+    <div class="modal-field"><label>Preço (R$)</label><input type="number" placeholder="139"></div>
+    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='coupon') b.innerHTML=`<div class="modal-title">Novo Cupom</div>
+    <div class="modal-field"><label>Código</label><input placeholder="PROMO20"></div>
+    <div class="modal-field"><label>Tipo</label><select><option>percentual</option><option>fixo</option></select></div>
+    <div class="modal-field"><label>Valor</label><input type="number" placeholder="20"></div>
+    <div class="modal-field"><label>Validade</label><input type="date" value="2026-12-31"></div>
+    <div class="modal-field"><label>Máximo de usos</label><input type="number" placeholder="100"></div>
+    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
+  else if(type==='repasse'){const bb=barbers.find(x=>x.id===id);b.innerHTML=`<div class="modal-title">Repasse — ${bb.n}</div>
+    <div class="modal-field"><label>Comissão (%)</label><input type="number" value="${bb.comissao}" id="repPct"></div>
+    <div class="modal-field"><label>Valor do repasse (Setembro, R$)</label><input type="number" value="${repasse[id]||0}" id="repVal"></div>
+    <p style="font-size:0.55rem;color:var(--m);margin:8px 0">Com ${bb.comissao}% de comissão, o repasse de R$ ${(repasse[id]||0).toLocaleString('pt-BR')} corresponde a R$ ${Math.round((repasse[id]||0)/(bb.comissao/100)).toLocaleString('pt-BR')} em atendimentos.</p>
+    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar repasse</button></div>`;}
+}
+function previewImg(input,prevId){
+  const f=input.files[0]; if(!f) return;
+  const r=new FileReader(); r.onload=e=>{const p=document.getElementById(prevId);p.src=e.target.result;p.style.display='block';}; r.readAsDataURL(f);
 }
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()};
+
+// ════════════ INIT ════════════
+renderLanding();
 </script>
 </body>
 </html>
