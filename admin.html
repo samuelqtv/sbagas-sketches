@@ -270,11 +270,15 @@ input,select,button,textarea{font-family:var(--f)}
       <button class="role-tab" data-role="CLIENT">Cliente</button>
     </div>
     <div class="login-field"><label>Email</label><input type="email" id="loginEmail" value="dono@navalha.com"></div>
-    <div class="login-field"><label>Senha</label><input type="password" id="loginPass" value="••••••"></div>
-    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-field"><label>Senha</label><input type="password" id="loginPass"
+    <p id="loginError" style="display:none;color:#f44;font-size:0.75rem;margin-top:0.5rem">Email ou senha inválidos</p> value="••••••"></div>
+    <button class="login-btn" onclick="doLogin()
+    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">Entrar</button>
     <div style="margin-top:20px;border-top:1px solid var(--b);padding-top:18px">
       <p style="font-size:0.54rem;color:var(--mm);letter-spacing:0.1em;text-align:center;margin-bottom:10px;text-transform:uppercase">Ou entre com</p>
-      <div class="social-login"><button class="social-btn" onclick="doLogin()">🍎 Apple</button><button class="social-btn" onclick="doLogin()">🔵 Google</button></div>
+      <div class="social-login"><button class="social-btn" onclick="doLogin()
+    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">🍎 Apple</button><button class="social-btn" onclick="doLogin()
+    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">🔵 Google</button></div>
     </div>
   </div>
 </div>
@@ -290,426 +294,273 @@ input,select,button,textarea{font-family:var(--f)}
 </div>
 <div class="modal-overlay" id="modal"><div class="modal" id="modalBody"></div></div>
 
-<script>
-// ════════════ DATA ════════════
-let role='OWNER',actPage='dashboard';
-const services=[
-  {id:1,n:'Corte Premium',p:85,d:45,img:null},
-  {id:2,n:'Barba Completa',p:65,d:30,img:null},
-  {id:3,n:'Combo Navalha',p:130,d:60,img:null},
-  {id:4,n:'Hidratação',p:95,d:40,img:null},
-];
-const barbers=[
-  {id:1,n:'Ricardo Moura',t:'Especialista em Corte',a:true,comissao:70,banco:'Nubank',agencia:'0001',conta:'123456-7',pix:'ricardo@pix.com',whats:'(11) 98888-1111',email:'ricardo@navalha.com'},
-  {id:2,n:'Felipe Santos',t:'Mestre em Barba',a:true,comissao:70,banco:'Itaú',agencia:'0451',conta:'78901-2',pix:'felipe@pix.com',whats:'(11) 97777-2222',email:'felipe@navalha.com'},
-  {id:3,n:'André Lima',t:'Corte & Estilo',a:true,comissao:70,banco:'Bradesco',agencia:'0237',conta:'34567-8',pix:'andre@pix.com',whats:'(11) 96666-3333',email:'andre@navalha.com'},
-];
-const combos=[
-  {id:1,nome:'Essencial',svcs:[1],preco:79,qtd:1,per:'mês'},
-  {id:2,nome:'Premium',svcs:[1,2,4],preco:139,qtd:2,per:'mês'},
-  {id:3,nome:'Elite',svcs:[1,2,3,4],preco:249,qtd:4,per:'mês'},
-  {id:4,nome:'Ilimitado',svcs:[1,2,3,4],preco:399,qtd:-1,per:'mês'},
-];
-const coupons=[
-  {id:1,cod:'NAVALHA20',tipo:'percentual',valor:20,validade:'2026-12-31',maxUsos:100,usado:34,ativo:true},
-  {id:2,cod:'BOASVINDAS',tipo:'fixo',valor:30,validade:'2026-09-30',maxUsos:50,usado:12,ativo:1},
-];
-// Repasse mensal por profissional (valor da comissão)
-const repasse={1:6830,2:5943,3:5460};
-const FAT_BRUTO=18240;
 
-// ════════════ LANDING RENDER ════════════
-function renderLanding(){
-  document.getElementById('lpServicos').innerHTML = services.map(s=>`
-    <div class="landing-card">
-      <div class="landing-card-img">${s.img?`<img src="${s.img}">`:`<div class="ph">${s.n[0]}</div>`}</div>
-      <div class="landing-card-name">${s.n}</div>
-      <div class="landing-card-sub">${s.d} min</div>
-      <div class="landing-card-price">R$ ${s.p}</div>
-    </div>`).join('');
-  document.getElementById('lpPlanos').innerHTML = combos.map((c,i)=>`
-    <div class="landing-card ${i===1?'featured':''}">
-      <div class="landing-card-name">${c.nome}</div>
-      <div class="landing-card-sub">${c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(' · ')}</div>
-      <div style="font-size:0.6rem;color:var(--m);margin-bottom:12px">${c.qtd===-1?'Ilimitado':c.qtd+' agendamento(s)/'+c.per}</div>
-      <div class="landing-card-price">R$ ${c.preco}<span class="landing-card-period">/${c.per}</span></div>
-      <button class="landing-btn ${i===1?'featured':''}" onclick="openCheckout(${c.id})">${i===1?'Começar agora':'Assinar'}</button>
-    </div>`).join('');
-  document.getElementById('lpBarbeiros').innerHTML = barbers.filter(b=>b.a).map(b=>`
-    <div class="landing-card">
-      <div class="landing-card-img">${b.img?`<img src="${b.img}">`:`<div class="ph">${b.n[0]}</div>`}</div>
-      <div class="landing-card-name">${b.n.split(' ')[0]}</div>
-      <div class="landing-card-sub">${b.t}</div>
-    </div>`).join('');
+<!-- ═══════════ CADASTRO SCREEN ═══════════ -->
+<div id="cadastroScreen" style="display:none;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--b)">
+  <div style="background:var(--s);padding:2rem;border-radius:1rem;width:100%;max-width:400px;box-shadow:0 0 20px rgba(0,0,0,0.3)">
+    <h2 style="margin-bottom:1.5rem;text-align:center">Criar conta</h2>
+    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Nome</label><input id="cadNome" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="Seu nome"></div>
+    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Email</label><input id="cadEmail" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="email@exemplo.com"></div>
+    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Senha</label><input id="cadPass" type="password" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="Mínimo 4 caracteres"></div>
+    <div style="margin-bottom:1.5rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Tipo de conta</label>
+      <select id="cadRole" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)">
+        <option value="cliente">Cliente</option><option value="barbeiro">Barbeiro</option><option value="dono">Dono</option>
+      </select>
+    </div>
+    <button onclick="doCadastro()" style="width:100%;padding:0.7rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;font-weight:600;cursor:pointer;font-size:0.9rem">Criar conta</button>
+    <p style="text-align:center;margin-top:1rem;font-size:0.75rem;color:var(--m)">Já tem conta? <a href="#" onclick="hideCadastro()" style="color:var(--a)">Entrar</a></p>
+  </div>
+</div>
+<script>
+// ═══════════════ LOCALSTORAGE PERSISTENCE LAYER ═══════════════
+const DB = {
+  _key: 'sbagas_db_v2',
+  _init() {
+    if (!localStorage.getItem(this._key)) {
+      localStorage.setItem(this._key, JSON.stringify({
+        users: [],
+        sessions: {},
+        bookings: [],
+        barbers: [
+          {id:'b1',nome:'Ricardo', esp:'Barbearia Clássica', comissao:50, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
+          {id:'b2',nome:'Marcos',   esp:'Cortes Modernos',      comissao:45, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
+          {id:'b3',nome:'Thiago',   esp:'Barba & Navalha',      comissao:40, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
+        ],
+        servicos: [
+          {id:'s1',nome:'Corte Clássico',      preco:45, img:''},
+          {id:'s2',nome:'Barba Completa',      preco:35, img:''},
+          {id:'s3',nome:'Combo Corte + Barba', preco:65, img:''},
+        ],
+        combos: [
+          {id:'c1',nome:'Mensal Bronze', preco:79,  svcs:[0,1,2], desc:'4 cortes/mês'},
+          {id:'c2',nome:'Mensal Prata',  preco:129, svcs:[0,1,2], desc:'8 cortes/mês + 1 barba'},
+        ],
+        cupons: [],
+      }));
+    }
+    return JSON.parse(localStorage.getItem(this._key));
+  },
+  _save(data) { localStorage.setItem(this._key, JSON.stringify(data)); },
+  // User ops
+  createUser(name, email, pass, role) {
+    const db = this._init();
+    if (db.users.find(u => u.email === email)) return null;
+    const user = {id:'u'+Date.now(), name, email, pass, role, createdAt: new Date().toISOString()};
+    db.users.push(user); this._save(db); return user;
+  },
+  loginUser(email, pass) {
+    const db = this._init();
+    return db.users.find(u => u.email === email && u.pass === pass) || null;
+  },
+  getUser(id) { return this._init().users.find(u => u.id === id) || null; },
+  // Session
+  setSession(userId) { const db=this._init(); db.sessions.current=userId; this._save(db); },
+  getSession() { return this._init().sessions.current || null; },
+  clearSession() { const db=this._init(); delete db.sessions.current; this._save(db); },
+  // Bookings
+  createBooking(barberId, userId, day, slot) { const db=this._init(); const b={id:'bk'+Date.now(),barberId,userId,day,slot,status:'confirmed',createdAt:new Date().toISOString()}; db.bookings.push(b); this._save(db); return b; },
+  getBookings(filter={}) { const db=this._init(); return db.bookings.filter(b=>{for(let k in filter){if(b[k]!==filter[k]) return false;}return true;}); },
+  // Data
+  getBarbers() { return this._init().barbers; },
+  getServicos() { return this._init().servicos; },
+  getCombos() { return this._init().combos; },
+}; DB._init();
+
+// ═══════════════ GLOBALS ═══════════════
+let barbers = DB.getBarbers(), servicos = DB.getServicos(), combos = DB.getCombos();
+let actRole='', actPage='dashboard', actUser=null;
+let bk={barber:null,day:null,slot:null};
+let currentMonth=new Date().getMonth(), currentYear=new Date().getFullYear();
+
+// ═══════════════ CADASTRO ═══════════════
+function showCadastro(){ document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('cadastroScreen').style.display='flex'; }
+function hideCadastro(){ document.getElementById('cadastroScreen').style.display='none';document.getElementById('loginScreen').style.display='flex'; }
+function doCadastro(){
+  const name=document.getElementById('cadNome').value.trim();
+  const email=document.getElementById('cadEmail').value.trim();
+  const pass=document.getElementById('cadPass').value;
+  const role=document.getElementById('cadRole').value;
+  if(!name||!email||!pass){alert('Preencha todos os campos');return;}
+  if(pass.length<4){alert('Senha mínima 4 caracteres');return;}
+  const user=DB.createUser(name,email,pass,role);
+  if(!user){alert('Email já cadastrado');return;}
+  actUser=user;actRole=role;
+  DB.setSession(user.id);
+  document.getElementById('cadastroScreen').style.display='none';
+  document.getElementById('landingPage').style.display='none';
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appShell').style.display='flex';
+  buildSidebar();navigate(role==='dono'?'dashboard':role==='barbeiro'?'meu-dash':'cliente-inicio');
 }
-function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
-function showLoginFromLanding(){document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='flex'}
-function pickPayment(el){el.parentElement.querySelectorAll('.check-item').forEach(c=>c.classList.remove('checked'));el.classList.add('checked')}
+
+// ═══════════════ LOGIN ═══════════════
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const user=DB.loginUser(email,pass);
+  if(!user){document.getElementById('loginError').style.display='block';return;}
+  document.getElementById('loginError').style.display='none';
+  actUser=user;actRole=user.role;
+  DB.setSession(user.id);
+  document.getElementById('landingPage').style.display='none';
+  document.getElementById('loginScreen').style.display='none';
+  if(document.getElementById('cadastroScreen')) document.getElementById('cadastroScreen').style.display='none';
+  document.getElementById('appShell').style.display='flex';
+  buildSidebar();navigate(user.role==='dono'?'dashboard':user.role==='barbeiro'?'meu-dash':'cliente-inicio');
+}
+
+// ═══════════════ LOGOUT ═══════════════
+function logout(){
+  actUser=null;actRole='';DB.clearSession();
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('landingPage').style.display='flex';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginError').style.display='none';
+}
+
+// ═══════════════ CHECKOUT ═══════════════
 function openCheckout(comboId){
   const c=combos.find(x=>x.id===comboId);
   document.getElementById('checkoutTitle').textContent='Assinar '+c.nome;
-  document.getElementById('chkPlanName').textContent=c.nome+' — '+c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(', ');
-  document.getElementById('chkPlanPrice').textContent='R$ '+c.preco+'/'+c.per;
-  document.getElementById('chkTotal').textContent='R$ '+c.preco+'/'+c.per;
-  document.getElementById('chkDiscountRow').style.display='none';
+  document.getElementById('chkPlanName').textContent=c.nome;
+  document.getElementById('chkPlanPrice').textContent='R$'+c.preco+'/mês';
+  document.getElementById('chkTotal').textContent='R$'+c.preco;
   document.getElementById('checkoutModal').classList.add('on');
-  document.getElementById('checkoutModal')._comboId=comboId;
+  window._chkCombo=c;
 }
 function processCheckout(){
+  const name=document.getElementById('chkNome').value.trim();
+  const email=document.getElementById('chkEmail').value.trim();
+  const whats=document.getElementById('chkWhats').value.trim();
+  if(!name||!email){alert('Preencha nome e email');return;}
+  const c=window._chkCombo;
   document.getElementById('checkoutModal').classList.remove('on');
-  const toast=document.createElement('div');
-  toast.id='successToast';
-  toast.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;background:rgba(0,0,0,0.85)';
-  toast.innerHTML=`<div style="background:var(--bg);border:1px solid var(--b);padding:48px;text-align:center;max-width:420px"><div class="success-icon">✓</div><h3 style="font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:12px">Assinatura confirmada!</h3><p style="font-size:0.75rem;color:var(--m);line-height:1.7">Você receberá a confirmação por email e WhatsApp. Acesse o painel para agendar seu primeiro horário.</p><button class="btn-sm" style="margin-top:24px" onclick="document.getElementById('successToast').remove();showLoginFromLanding()">Acessar painel</button></div>`;
-  document.body.appendChild(toast);
-  toast.onclick=function(e){if(e.target===toast)toast.remove()};
-}
-document.getElementById('checkoutModal').onclick=function(e){if(e.target===this)this.classList.remove('on')};
-
-// ════════════ AUTH ════════════
-document.querySelectorAll('.role-tab').forEach(b=>b.onclick=function(){
-  document.querySelectorAll('.role-tab').forEach(x=>x.classList.remove('active'));this.classList.add('active');role=this.dataset.role;
-  document.getElementById('loginEmail').value=['OWNER','BARBER'].includes(role)?'dono@navalha.com':'cliente@email.com';
-});
-function doLogin(){document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate(role==='BARBER'?'meu-dash':(role==='CLIENT'?'cliente-inicio':'dashboard'));}
-function logout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('appShell').style.display='none';document.getElementById('landingPage').style.display='none';}
-function buildSidebar(){
-  const u=document.getElementById('sideUserName'),r=document.getElementById('sideUserRole'),nav=document.getElementById('sideNav');
-  if(role==='OWNER'){u.textContent='Carlos Silva';r.textContent='Dono';nav.innerHTML=`
-<a href="#" class="side-link active" data-page="dashboard" onclick="navigate('dashboard');return false">Dashboard</a>
-<a href="#" class="side-link" data-page="agenda" onclick="navigate('agenda');return false">Agenda</a>
-<a href="#" class="side-link" data-page="barbeiros" onclick="navigate('barbeiros');return false">Profissionais</a>
-<a href="#" class="side-link" data-page="servicos" onclick="navigate('servicos');return false">Serviços</a>
-<a href="#" class="side-link" data-page="combos-admin" onclick="navigate('combos-admin');return false">Combos</a>
-<a href="#" class="side-link" data-page="cupons" onclick="navigate('cupons');return false">Cupons</a>
-<a href="#" class="side-link" data-page="financeiro" onclick="navigate('financeiro');return false">Financeiro</a>
-<a href="#" class="side-link" data-page="config" onclick="navigate('config');return false">Config</a>`;}
-  else if(role==='BARBER'){u.textContent='Ricardo Moura';r.textContent='Barbeiro';nav.innerHTML=`
-<a href="#" class="side-link active" data-page="meu-dash" onclick="navigate('meu-dash');return false">Meu Painel</a>
-<a href="#" class="side-link" data-page="minha-agenda" onclick="navigate('minha-agenda');return false">Agenda</a>
-<a href="#" class="side-link" data-page="meus-horarios" onclick="navigate('meus-horarios');return false">Horários</a>
-<a href="#" class="side-link" data-page="meu-split" onclick="navigate('meu-split');return false">Comissão</a>
-<a href="#" class="side-link" data-page="meus-dados-bancarios" onclick="navigate('meus-dados-bancarios');return false">Dados Bancários</a>`;}
-  else{u.textContent='João Cliente';r.textContent='Cliente';nav.innerHTML=`
-<a href="#" class="side-link active" data-page="cliente-inicio" onclick="navigate('cliente-inicio');return false">Início</a>
-<a href="#" class="side-link" data-page="agendar" onclick="navigate('agendar');return false">Agendar</a>
-<a href="#" class="side-link" data-page="meus-agendamentos" onclick="navigate('meus-agendamentos');return false">Histórico</a>
-<a href="#" class="side-link" data-page="cliente-pagamentos" onclick="navigate('cliente-pagamentos');return false">Pagamentos</a>
-<a href="#" class="side-link" data-page="meu-perfil" onclick="navigate('meu-perfil');return false">Perfil</a>`;}
-}
-function navigate(page){
-  actPage=page;document.querySelectorAll('.side-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
-  document.getElementById('mainContent').innerHTML=(RENDER[page]||RENDER.default)();
+  // AUTO-CADASTRO: cria conta com senha padrão e redireciona
+  const pass='cliente123';
+  let user=DB.createUser(name,email,pass,'cliente');
+  if(!user){user=DB.loginUser(email,pass);}
+  actUser=user;actRole='cliente';DB.setSession(user.id);
+  const t=document.createElement('div');t.id='successToast';t.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,0.7)';
+  t.innerHTML=`<div style=\"background:var(--s);padding:2rem;border-radius:1rem;text-align:center;max-width:400px;color:var(--f)\"><h3>✅ ${c.nome} ativado!</h3><p>Conta criada: ${email}<br>Senha: cliente123</p><p style=\"color:var(--m);font-size:0.75rem\">Você já pode agendar!</p><button onclick=\"this.parentElement.parentElement.remove();document.getElementById('landingPage').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate('cliente-inicio');\" style=\"margin-top:1rem;padding:0.5rem 1.5rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;cursor:pointer\">Começar</button></div>`;
+  document.body.appendChild(t);
 }
 
-// ════════════ CALENDAR ════════════
-function buildCalendar(appts,onDaySelect,selDay){
-  const month='Setembro 2026', daysInMonth=30, startDow=1, today=14;
-  let html=`<div class="cal-month-header"><div class="cal-month-title">${month}</div><div class="cal-nav"><button class="btn-sm" type="button">←</button><button class="btn-sm" type="button">Hoje</button><button class="btn-sm" type="button">→</button></div></div>
-  <div class="cal-header">${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].map(d=>`<div class="cal-header-day">${d}</div>`).join('')}</div>
-  <div class="cal-grid">`;
-  for(let i=0;i<startDow;i++) html+=`<div class="cal-day other-month"><div class="cal-num"></div></div>`;
+// ═══════════════ CALENDÁRIO FUNCIONAL ═══════════════
+function buildCalendar(barberAppts,highlight,selected){
+  let cal='<div style=\"display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;text-align:center\">';
+  cal+='<div style=\"grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem\"><button onclick=\"changeMonth(-1)\">&larr;</button><span style=\"font-weight:600\">'+['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][currentMonth]+' '+currentYear+'</span><button onclick=\"changeMonth(1)\">&rarr;</button></div>';
+  ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].forEach(d=>cal+=`<div style=\"font-size:0.6rem;color:var(--m)\">${d}</div>`);
+  const firstDay=new Date(currentYear,currentMonth,1).getDay();
+  const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
+  for(let i=0;i<firstDay;i++) cal+='<div></div>';
+  const today = new Date(); today.setHours(0,0,0,0);
   for(let d=1;d<=daysInMonth;d++){
-    let cls='cal-day'; if(d===today) cls+=' today'; if(selDay===d) cls+=' selected';
-    let ev='';
-    (appts||[]).filter(a=>a.day===d).forEach(a=>{ev+=`<div class="cal-event ${a.type||'avulso'}">${a.label}</div>`});
-    html+=`<div class="${cls}" data-day="${d}" ${onDaySelect?`onclick="selectDay(${d})"`:''}><div class="cal-num">${d}</div>${ev}</div>`;
+    const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayDate=new Date(currentYear,currentMonth,d);
+    const isPast=dayDate<today;
+    const isToday=dayDate.getTime()===today.getTime();
+    const isSel=selected===dateStr;
+    const cls=isPast?'past':isToday?'today':isSel?'sel':'';
+    const style=`padding:0.4rem;border-radius:0.25rem;cursor:${isPast?'default':'pointer'};background:${isSel?'var(--a)':isToday?'var(--s2)':''};color:${isPast?'var(--m)':isSel||isToday?'#fff':''}`;
+    cal+=`<div class=\"${cls}\" style=\"${style}\" onclick=\"${isPast?'':'selectDay(\x27'+dateStr+'\x27)'}\">${d}</div>`;
   }
-  html+=`</div>`;
-  return html;
+  cal+='</div>';
+  return cal;
 }
-
-// ════════════ BOOKING FLOW (barbeiro primeiro) ════════════
-let bk={barber:1,day:null,slot:null};
-const barberAppts=[{day:14,label:'Lucas M. · Corte',type:'avulso'},{day:14,label:'Rafael C. · Corte',type:'combo'},{day:15,label:'Gabriel S. · Combo',type:'avulso'},{day:18,label:'André L. · Hidrat.',type:'combo'}];
-const FREE_SLOTS=['09:00','09:45','10:30','11:15','13:00','13:45','14:30','15:15','16:00','16:45','17:30'];
-
+function changeMonth(delta){
+  currentMonth+=delta;
+  if(currentMonth<0){currentMonth=11;currentYear--;}
+  if(currentMonth>11){currentMonth=0;currentYear++;}
+  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,bk.day);
+  document.getElementById('bookingSlots').innerHTML=generateSlots();
+}
 function selectDay(d){
   bk.day=d;
-  document.getElementById('bookingCalendar').innerHTML=buildCalendar(barberAppts,null,d);
-  document.getElementById('bookingSlots').innerHTML=`<p style="font-size:0.62rem;color:var(--m);margin-top:16px">Horários disponíveis em ${d} de Setembro</p>`+
-    FREE_SLOTS.map(t=>`<button class="slot" onclick="selectSlot('${t}',this)">${t}</button>`).join('');
-  document.getElementById('bookingConfirmBtn').disabled=true;
-  bk.slot=null;
+  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,d);
+  document.getElementById('bookingSlots').innerHTML=generateSlots();
+}
+function generateSlots(){
+  const slots=['09:00','09:45','10:30','11:15','12:00','13:00','13:45','14:30','15:15','16:00','16:45'];
+  const dayBookings=DB.getBookings({barberId:bk.barber,day:bk.day});
+  let html='<p style=\"font-size:0.62rem;color:var(--m);margin-bottom:0.5rem\">'+bk.day+'</p>';
+  slots.forEach(t=>{
+    const taken=dayBookings.some(b=>b.slot===t);
+    if(taken){
+      html+=`<div class=\"slot\" style=\"padding:0.5rem;background:var(--s2);border-radius:0.25rem;margin-bottom:0.25rem;color:var(--m);font-size:0.8rem;text-decoration:line-through\">${t} — ocupado</div>`;
+    }else{
+      html+=`<div class=\"slot\" style=\"padding:0.5rem;background:var(--s);border-radius:0.25rem;margin-bottom:0.25rem;cursor:pointer;font-size:0.8rem\" onclick=\"selectSlot('\''${t}'\'',this)\">${t}</div>`;
+    }
+  });
+  if(dayBookings.length===slots.length) html+='<p style=\"color:var(--m);font-size:0.7rem;margin-top:0.5rem\">Sem horários disponíveis neste dia</p>';
+  return html;
 }
 function selectSlot(t,el){
-  document.querySelectorAll('#bookingSlots .slot').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');
+  document.querySelectorAll('#bookingSlots .slot').forEach(s=>s.classList.remove('sel'));
+  el.classList.add('sel');
   bk.slot=t;document.getElementById('bookingConfirmBtn').disabled=false;
 }
+
+// ═══════════════ AGENDAMENTO ═══════════════
 function openBooking(barberId){
-  bk={barber:barberId,day:null,slot:null};
-  const b=barbers.find(x=>x.id===barberId);
-  document.getElementById('bookingTitle').textContent='Agendar com '+b.n.split(' ')[0];
-  document.getElementById('bookingCalendar').innerHTML=buildCalendar(barberAppts,null,null);
-  document.getElementById('bookingSlots').innerHTML='<p style="font-size:0.62rem;color:var(--m);margin-top:16px">Selecione um dia para ver os horários</p>';
-  document.getElementById('bookingConfirmBtn').disabled=true;
+  bk.barber=barberId;
   document.getElementById('bookingModal').classList.add('on');
+  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,null);
+  document.getElementById('bookingSlots').innerHTML='<p style=\"color:var(--m);font-size:0.7rem\">Selecione um dia</p>';
+  document.getElementById('bookingConfirmBtn').disabled=true;
 }
-function closeBooking(){document.getElementById('bookingModal').classList.remove('on')}
+function closeBooking(){ document.getElementById('bookingModal').classList.remove('on');bk={barber:null,day:null,slot:null}; }
 function confirmBooking(){
+  if(!bk.barber||!bk.day||!bk.slot||!actUser) return;
+  const booking=DB.createBooking(bk.barber,actUser.id,bk.day,bk.slot);
+  const barb=barbers.find(b=>b.id===bk.barber);
   closeBooking();
-  const b=barbers.find(x=>x.id===bk.barber);
-  const toast=document.createElement('div');
-  toast.id='bkToast';toast.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:300;background:rgba(0,0,0,0.85)';
-  toast.innerHTML=`<div style="background:var(--bg);border:1px solid var(--b);padding:48px;text-align:center;max-width:420px"><div class="success-icon">✓</div><h3 style="font-family:var(--d);font-size:1.8rem;font-weight:300;margin-bottom:12px">Agendamento confirmado!</h3><p style="font-size:0.75rem;color:var(--m);line-height:1.7">${bk.day} de Setembro às ${bk.slot} com ${b.n.split(' ')[0]}. Você receberá confirmação por WhatsApp e email.</p><button class="btn-sm" style="margin-top:24px" onclick="document.getElementById('bkToast').remove()">Fechar</button></div>`;
-  document.body.appendChild(toast);
-  toast.onclick=function(e){if(e.target===toast)toast.remove()};
-}
-document.getElementById('bookingModal').onclick=function(e){if(e.target===this)closeBooking()};
-
-// ════════════ RENDER ════════════
-const RENDER={};
-
-// ── CLIENTE: AGENDAR (barbeiro primeiro, preferido pré-selecionado) ──
-RENDER.agendar=()=>`<div class="page active"><div class="page-title">Agendar</div><div class="page-sub">Seu barbeiro preferido já está selecionado. Toque em outro para trocar.</div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px" id="barberChooser">
-${barbers.filter(b=>b.a).map(b=>`<div class="landing-card ${b.id===1?'featured':''}" style="cursor:pointer;padding:24px" onclick="selectPreferredBarber(${b.id},this)">
-  <div class="landing-card-img">${b.img?`<img src="${b.img}">`:`<div class="ph">${b.n[0]}</div>`}</div>
-  <div class="landing-card-name">${b.n.split(' ')[0]}</div>
-  <div class="landing-card-sub">${b.t}</div>
-  ${b.id===1?'<div style="margin-top:8px"><span class="badge badge-g">Seu preferido</span></div>':''}
-</div>`).join('')}
-</div>
-<div style="border:1px solid var(--b);padding:20px;text-align:center">
-  <p style="font-size:0.7rem;color:var(--m);margin-bottom:16px">Barbeiro selecionado: <b style="color:var(--t)" id="bkBarberName">Ricardo</b></p>
-  <button class="btn-sm" style="padding:12px 32px;font-size:0.7rem;background:var(--t);color:var(--bg);border-color:var(--t)" onclick="openBooking(${bk.barber})">Escolher data e hora</button>
-</div></div>`;
-
-function selectPreferredBarber(id,el){
-  bk.barber=id;
-  document.querySelectorAll('#barberChooser .landing-card').forEach(c=>c.classList.remove('featured'));
-  el.classList.add('featured');
-  const b=barbers.find(x=>x.id===id);
-  document.getElementById('bkBarberName').textContent=b.n.split(' ')[0];
+  const t=document.createElement('div');t.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,0.7)';
+  t.innerHTML=`<div style=\"background:var(--s);padding:2rem;border-radius:1rem;text-align:center;max-width:400px;color:var(--f)\"><h3>✅ Agendado!</h3><p>${barb?barb.nome:'Profissional'} — ${bk.day} às ${bk.slot}</p><p style=\"color:var(--m);font-size:0.75rem\">Você receberá confirmação</p><button onclick=\"this.parentElement.parentElement.remove();navigate('meus-agendamentos')\" style=\"margin-top:1rem;padding:0.5rem 1.5rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;cursor:pointer\">Ver agendamentos</button></div>`;
+  document.body.appendChild(t);
 }
 
-// ── CLIENTE: INÍCIO ──
-RENDER['cliente-inicio']=()=>`<div class="page active"><div class="page-title">Olá, João</div><div class="page-sub">Plano <b style="color:var(--g)">Premium</b> · 1 de 2 agendamentos usados</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
-  <div class="stat-card kpi-highlight" style="cursor:pointer" onclick="navigate('agendar')">
-    <div class="stat-label" style="color:var(--gg)">Próximo Agendamento</div>
-    <div style="font-family:var(--d);font-size:1.5rem;font-weight:300;margin:10px 0">14 Set · 10:00</div>
-    <div style="font-size:0.65rem;color:var(--m)">Corte Premium · Ricardo</div>
-    <div style="font-size:0.58rem;color:var(--g);margin-top:6px">Incluso no plano</div>
-  </div>
-  <div class="stat-card" style="cursor:pointer" onclick="navigate('agendar')">
-    <div class="stat-label" style="color:var(--g)">Créditos disponíveis</div>
-    <div style="font-family:var(--d);font-size:3rem;font-weight:300;margin:16px 0;color:var(--g)">1</div>
-    <div style="font-size:0.65rem;color:var(--m)">de 2 este mês · Renova 15/09</div>
-    <button class="btn-sm" style="margin-top:14px;width:100%">Agendar agora →</button>
-  </div>
-</div>
-<div style="border:1px solid var(--b);padding:28px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:14px">Seu plano — Premium</p>
-<div style="font-size:0.7rem;color:var(--m);line-height:1.9">Inclui: <b style="color:var(--t)">Corte Premium, Barba Completa, Hidratação</b></div>
-<div style="display:flex;gap:12px;margin-top:14px;font-size:0.65rem"><span class="badge badge-g">R$ 139/mês</span><span class="badge badge-gr">💳 •••• 4242</span></div></div></div>`;
-
-// ── CLIENTE: HISTÓRICO ──
-RENDER['meus-agendamentos']=()=>`<div class="page active"><div class="page-title">Histórico</div><div class="page-sub">Todos os seus agendamentos</div>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:120px 1fr 1fr 90px 90px"><span>Data</span><span>Serviço</span><span>Barbeiro</span><span>Status</span><span></span></div>
-${[{d:'14/09 10:00',s:'Corte Premium',b:'Ricardo',st:'Confirmado'},{d:'01/09 14:30',s:'Barba Completa',b:'Felipe',st:'Concluído'},{d:'18/08 09:00',s:'Combo Navalha',b:'André',st:'Concluído'},{d:'01/08 11:00',s:'Hidratação',b:'Ricardo',st:'Concluído'}].map(a=>`<div class="table-row" style="grid-template-columns:120px 1fr 1fr 90px 90px"><span>${a.d}</span><span>${a.s}</span><span>${a.b}</span><span><span class="badge">${a.st}</span></span><span>${a.st==='Confirmado'?'<button class="btn-sm danger">Cancelar</button>':'—'}</span></div>`).join('')}
-</div></div>`;
-
-// ── CLIENTE: PAGAMENTOS ──
-RENDER['cliente-pagamentos']=()=>`<div class="page active"><div class="page-title">Pagamentos</div><div class="page-sub">Método: <b style="color:var(--g)">💳 •••• 4242</b> · Próx. cobrança: R$ 139 em 15/09</div>
-<div style="border:1px solid var(--b);padding:28px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:14px">Métodos salvos</p>
-<div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>💳 Cartão •••• 4242</span><span><span class="badge badge-g">Padrão</span></span><span><button class="btn-sm">Editar</button></span></div>
-<div class="table-row" style="grid-template-columns:1fr 1fr 90px;display:grid;padding:12px 0"><span>🔑 PIX — joao@email.com</span><span></span><span><button class="btn-sm">Editar</button></span></div>
-<button class="btn-add" style="margin-top:14px">+ Adicionar método</button></div>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 100px 1fr 80px"><span>Data</span><span>Valor</span><span>Descrição</span><span></span></div>
-${[{d:'01/09',v:'R$ 139',s:'Plano Premium'},{d:'01/08',v:'R$ 139',s:'Plano Premium'},{d:'01/07',v:'R$ 139',s:'Plano Premium'}].map(p=>`<div class="table-row" style="grid-template-columns:100px 100px 1fr 80px"><span>${p.d}</span><span style="font-family:var(--d);font-size:1.1rem">${p.v}</span><span>${p.s}</span><span><span class="badge badge-gr">Pago</span></span></div>`).join('')}
-</div></div>`;
-
-// ── CLIENTE: PERFIL ──
-RENDER['meu-perfil']=()=>`<div class="page active"><div class="page-title">Meu Perfil</div><div class="page-sub">Seus dados e contas vinculadas</div>
-<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Dados pessoais</p>
-<div class="modal-field"><label>Nome</label><input value="João Silva"></div>
-<div class="modal-field"><label>Email</label><input value="cliente@email.com"></div>
-<div class="modal-field"><label>WhatsApp *</label><input value="(11) 99999-9999"><p style="font-size:0.52rem;color:var(--g);margin-top:3px">* Obrigatório</p></div>
-<button class="btn-sm" style="margin-top:10px">Salvar</button></div>
-<div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Contas vinculadas</p>
-<div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>🔵 Google</span><span><span class="badge badge-g">Vinculado</span></span></div>
-<div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0;border-bottom:1px solid var(--b)"><span>🍎 Apple</span><span><span class="badge badge-g">Vinculado</span></span></div>
-<div class="table-row" style="grid-template-columns:1fr 100px;display:grid;padding:12px 0"><span>📧 Email/Senha</span><span><span class="badge badge-g">Ativo</span></span></div></div></div>`;
-
-// ── BARBER: MEU PAINEL (só comissão) ──
-RENDER['meu-dash']=()=>`<div class="page active"><div class="page-title">Meu Painel</div><div class="page-sub">Bem-vindo, Ricardo · Comissão: <b style="color:var(--gg)">70%</b> · Próx. repasse: 15/09</div>
-<div class="stats-grid">
-  <div class="stat-card kpi-highlight"><div class="stat-label">Minha Comissão (Agosto)</div><div class="stat-value">R$ 6.830</div><div class="stat-delta">↑ 11% vs julho</div></div>
-  <div class="stat-card"><div class="stat-label">Atendimentos</div><div class="stat-value">112</div><div class="stat-sub">este mês</div></div>
-  <div class="stat-card"><div class="stat-label">Ticket Médio (comissão)</div><div class="stat-value">R$ 87</div><div class="stat-sub">por atendimento</div></div>
-  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">15/09</div><div class="stat-sub">Estimado: R$ 7.100</div></div>
-</div>
-<div class="chart-box" style="margin-bottom:24px"><div class="chart-title">Evolução da comissão</div>
-<div class="bar-group" style="justify-content:space-between">
-${[{m:'Mai',v:'5.2'},{m:'Jun',v:'5.8'},{m:'Jul',v:'6.1'},{m:'Ago',v:'6.8'}].map(d=>`<div class="bar-col"><div class="bar-value">R$ ${d.v}k</div><div class="bar" style="height:${parseFloat(d.v)*12}px;background:var(--gg)"></div><div class="bar-label">${d.m}</div></div>`).join('')}
-</div></div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Últimos atendimentos</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:110px 1fr 100px"><span>Data</span><span>Serviço</span><span>Comissão</span></div>
-${[{d:'14/09 10:00',s:'Corte Premium',c:'R$ 59,50'},{d:'14/09 13:00',s:'Hidratação',c:'R$ 66,50'},{d:'13/09 09:00',s:'Combo Navalha',c:'R$ 91,00'},{d:'13/09 14:30',s:'Barba Completa',c:'R$ 45,50'},{d:'12/09 11:00',s:'Corte Premium',c:'R$ 59,50'}].map(r=>`<div class="table-row" style="grid-template-columns:110px 1fr 100px"><span>${r.d}</span><span>${r.s}</span><span style="color:var(--gg);font-weight:400">${r.c}</span></div>`).join('')}
-</div></div>`;
-
-// ── BARBER: AGENDA ──
-RENDER['minha-agenda']=()=>`<div class="page active"><div class="page-title">Minha Agenda</div><div class="page-sub">Setembro 2026 · Ricardo</div><div class="calendar">${buildCalendar(barberAppts,null,null)}</div></div>`;
-
-// ── BARBER: COMISSÃO ──
-RENDER['meu-split']=()=>`<div class="page active"><div class="page-title">Minha Comissão</div><div class="page-sub">Split de 70% via Gates2B · Repasse automático todo dia 15</div>
-<div class="stats-grid">
-  <div class="stat-card kpi-highlight"><div class="stat-label">Comissão (Agosto)</div><div class="stat-value">R$ 6.830</div><div class="stat-delta">↑ 11%</div></div>
-  <div class="stat-card"><div class="stat-label">Total Recebido (2026)</div><div class="stat-value">R$ 48.450</div><div class="stat-sub">Jan — Ago</div></div>
-  <div class="stat-card"><div class="stat-label">Média Mensal</div><div class="stat-value">R$ 6.056</div><div class="stat-sub">8 meses</div></div>
-  <div class="stat-card"><div class="stat-label">Próximo Repasse</div><div class="stat-value">15/09</div><div class="stat-sub">R$ 7.100</div></div>
-</div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Histórico de repasses</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:100px 100px 80px"><span>Período</span><span>Comissão</span><span></span></div>
-${[{p:'Ago/26',s:'R$ 6.830'},{p:'Jul/26',s:'R$ 6.104'},{p:'Jun/26',s:'R$ 5.803'},{p:'Mai/26',s:'R$ 5.222'}].map(r=>`<div class="table-row" style="grid-template-columns:100px 100px 80px"><span>${r.p}</span><span style="color:var(--gg);font-weight:400">${r.s}</span><span><span class="badge badge-gr">Repassado</span></span></div>`).join('')}
-</div></div>`;
-
-// ── BARBER: DADOS BANCÁRIOS ──
-RENDER['meus-dados-bancarios']=()=>`<div class="page active"><div class="page-title">Dados Bancários</div><div class="page-sub">Chave Gates2B para receber sua comissão</div>
-<div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Chave API Gates2B</p>
-<div class="modal-field"><label>API Key (produção)</label><input type="password" value="g2b_sk_barber_ricardo_••••"></div>
-<div class="modal-field"><label>API Key (sandbox)</label><input type="password" value="g2b_sk_test_ricardo_••••"></div>
-<div class="modal-field"><label>Comissão negociada</label><div style="display:flex;align-items:center;gap:10px"><input type="range" min="0" max="100" value="70" style="flex:1" oninput="this.nextElementSibling.textContent=this.value+'%'"><span style="font-size:0.9rem;font-weight:400">70%</span></div></div>
-<p style="font-size:0.6rem;color:var(--gg);margin:8px 0">✅ Ativo — recebendo comissão normalmente</p>
-<div style="display:flex;gap:10px"><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Testar conexão</button><button class="btn-sm">Salvar</button></div></div></div>`;
-
-// ── BARBER: HORÁRIOS ──
-RENDER['meus-horarios']=()=>`<div class="page active"><div class="page-title">Meus Horários</div><div class="page-sub">Dias e horários de atendimento</div>
-${['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'].map((d,i)=>`<div class="table-row" style="grid-template-columns:110px 1fr 90px;display:grid;padding:14px 18px;border-bottom:1px solid var(--b)"><span style="font-weight:400;font-size:0.78rem">${d}</span><span style="font-size:0.78rem">${i===0?'Fechado':'09:00 — 19:00'}</span><button class="btn-sm">Editar</button></div>`).join('')}
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin:28px 0 12px">Bloqueios / Folgas</p>
-<div style="font-size:0.7rem;color:var(--m)">Nenhum bloqueio. <button class="btn-sm" style="margin-left:8px">+ Novo</button></div></div>`;
-
-// ── OWNER: DASHBOARD ──
-RENDER.dashboard=()=>`<div class="page active"><div class="page-title">Dashboard</div><div class="page-sub">Agosto 2026</div>
-<div class="stats-grid">
-  <div class="stat-card"><div class="stat-label">Faturamento Bruto</div><div class="stat-value">R$ 18.240</div><div class="stat-delta">↑ 18%</div></div>
-  <div class="stat-card"><div class="stat-label">Repasses (comissões)</div><div class="stat-value">R$ 18.233</div><div class="stat-sub">${barbers.length} profissionais</div></div>
-  <div class="stat-card kpi-highlight"><div class="stat-label">Faturamento Líquido</div><div class="stat-value">R$ 9.307</div><div class="stat-delta">↑ 12%</div></div>
-  <div class="stat-card"><div class="stat-label">Ocupação</div><div class="stat-value">78%</div><div class="stat-delta">↑ 3%</div></div>
-</div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Faturamento líquido por profissional</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 110px 110px 90px"><span>Profissional</span><span>Comissão%</span><span>Repasse</span><span>Líquido p/ shop</span><span>Ocup.</span></div>
-${barbers.map(b=>{const rep=repasse[b.id]||0;const liq=Math.round(rep/(b.comissao/100)*(1-b.comissao/100));return `<div class="table-row" style="grid-template-columns:1fr 100px 110px 110px 90px"><span>${b.n.split(' ')[0]}</span><span style="color:var(--gg)">${b.comissao}%</span><span style="color:var(--gg)">R$ ${rep.toLocaleString('pt-BR')}</span><span>R$ ${liq.toLocaleString('pt-BR')}</span><span>82%</span></div>`}).join('')}
-</div></div>`;
-
-// ── OWNER: AGENDA ──
-const ownerAppts=[{day:14,label:'Lucas M. · Corte · Ricardo',type:'avulso'},{day:14,label:'Pedro A. · Barba · Felipe',type:'combo'},{day:14,label:'Gabriel S. · Combo · André',type:'avulso'},{day:15,label:'Rafael C. · Corte · Ricardo',type:'combo'},{day:16,label:'Marcos T. · Barba · Felipe',type:'avulso'},{day:18,label:'André L. · Hidrat. · Ricardo',type:'combo'},{day:20,label:'Paulo R. · Combo · André',type:'avulso'}];
-RENDER.agenda=()=>`<div class="page active"><div class="page-title">Agenda</div><div class="page-sub">Setembro 2026</div><div class="calendar">${buildCalendar(ownerAppts,null,null)}</div></div>`;
-
-// ── OWNER: PROFISSIONAIS (CRUD completo) ──
-RENDER.barbeiros=()=>`<div class="page active"><div class="page-title">Profissionais</div><div class="page-sub">Cadastro completo com dados bancários e repasse</div>
-<button class="btn-add" onclick="showModal('barber')">+ Novo profissional</button>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:60px 1fr 130px 90px 110px 90px 90px"><span></span><span>Nome</span><span>Especialidade</span><span>Comissão</span><span>Repasse (mês)</span><span>Ativo</span><span></span></div>
-${barbers.map(b=>`<div class="table-row" style="grid-template-columns:60px 1fr 130px 90px 110px 90px 90px"><span><div class="avatar gold">${b.n[0]}</div></span><span>${b.n}<div style="font-size:0.55rem;color:var(--m)">${b.whats} · ${b.email}</div></span><span>${b.t}</span><span style="color:var(--gg)">${b.comissao}%</span><span style="color:var(--gg)">R$ ${(repasse[b.id]||0).toLocaleString('pt-BR')}</span><span><span class="status-dot ${b.a?'s-on':'s-off'}"></span>${b.a?'Sim':'Não'}</span><span><button class="btn-sm">Editar</button> <button class="btn-sm danger">Excluir</button></span></div>`).join('')}
-</div></div>`;
-
-// ── OWNER: SERVIÇOS (com upload imagem) ──
-RENDER.servicos=()=>`<div class="page active"><div class="page-title">Serviços</div><div class="page-sub">Catálogo com imagens</div>
-<button class="btn-add" onclick="showModal('svc')">+ Novo serviço</button>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:60px 1fr 100px 90px 80px 90px"><span></span><span>Nome</span><span>Preço</span><span>Duração</span><span>Ativo</span><span></span></div>
-${services.map(s=>`<div class="table-row" style="grid-template-columns:60px 1fr 100px 90px 80px 90px"><span><div class="avatar">${s.n[0]}</div></span><span>${s.n}</span><span>R$ ${s.p}</span><span>${s.d}min</span><span><span class="status-dot s-on"></span>Sim</span><span><button class="btn-sm">Editar</button></span></div>`).join('')}
-</div></div>`;
-
-// ── OWNER: COMBOS ──
-RENDER['combos-admin']=()=>`<div class="page active"><div class="page-title">Combos & Assinaturas</div><div class="page-sub">Planos com serviços incluídos</div><button class="btn-add" onclick="showModal('combo')">+ Novo combo</button>
-<div class="plan-grid">
-${combos.map(c=>`<div class="plan-card ${c.id===2?'active-plan':''}"><div class="plan-nome">${c.nome}</div><div class="plan-svcs">Inclui: ${c.svcs.map(sid=>services.find(s=>s.id===sid)?.n||'?').join(', ')}</div><div style="font-size:0.62rem;color:var(--m);margin-bottom:8px">${c.qtd===-1?'Ilimitado':c.qtd+' agendamento(s)/'+c.per}</div><div class="plan-preco">R$ ${c.preco}<span class="plan-periodo">/${c.per}</span></div><div style="margin-top:12px;display:flex;gap:6px"><button class="btn-sm">Editar</button><button class="btn-sm danger">Excluir</button></div></div>`).join('')}
-</div></div>`;
-
-// ── OWNER: CUPONS ──
-RENDER.cupons=()=>`<div class="page active"><div class="page-title">Cupons</div><div class="page-sub">Códigos promocionais</div><button class="btn-add" onclick="showModal('coupon')">+ Novo</button>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:130px 80px 90px 100px 90px 80px 80px"><span>Código</span><span>Tipo</span><span>Valor</span><span>Validade</span><span>Usos</span><span>Ativo</span><span></span></div>
-${coupons.map(c=>`<div class="table-row" style="grid-template-columns:130px 80px 90px 100px 90px 80px 80px"><span style="font-weight:400;letter-spacing:0.05em">${c.cod}</span><span>${c.tipo==='percentual'?'%':'R$'}</span><span>${c.tipo==='percentual'?c.valor+'%':'R$ '+c.valor}</span><span>${c.validade}</span><span>${c.usado}/${c.maxUsos}</span><span><span class="badge ${c.ativo?'badge-g':''}">${c.ativo?'Sim':'Não'}</span></span><span><button class="btn-sm">Editar</button> <button class="btn-sm danger">Excluir</button></span></div>`).join('')}
-</div></div>`;
-
-// ── OWNER: FINANCEIRO (repasse CRUD) ──
-RENDER.financeiro=()=>{const totalRep=Object.values(repasse).reduce((a,b)=>a+b,0);const liquido=FAT_BRUTO-totalRep;
-return `<div class="page active"><div class="page-title">Financeiro</div><div class="page-sub">Faturamento líquido e repasses dos profissionais</div>
-<div class="stats-grid">
-  <div class="stat-card"><div class="stat-label">Faturamento Bruto</div><div class="stat-value">R$ ${FAT_BRUTO.toLocaleString('pt-BR')}</div></div>
-  <div class="stat-card"><div class="stat-label">Total Repasses</div><div class="stat-value">R$ ${totalRep.toLocaleString('pt-BR')}</div><div class="stat-sub">comissões dos profissionais</div></div>
-  <div class="stat-card kpi-highlight"><div class="stat-label">Líquido da Barbearia</div><div class="stat-value">R$ ${liquido.toLocaleString('pt-BR')}</div><div class="stat-delta">↑ 12%</div></div>
-  <div class="stat-card"><div class="stat-label">Margem Líquida</div><div class="stat-value">${Math.round(liquido/FAT_BRUTO*100)}%</div></div>
-</div>
-<p style="font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,226,217,0.22);margin-bottom:12px">Repasses por profissional (Setembro)</p>
-<div class="table-wrap"><div class="table-row table-hd" style="grid-template-columns:1fr 100px 110px 110px 100px"><span>Profissional</span><span>Comissão%</span><span>Atend. Bruto</span><span>Repasse</span><span></span></div>
-${barbers.map(b=>{const rep=repasse[b.id]||0;return `<div class="table-row" style="grid-template-columns:1fr 100px 110px 110px 100px"><span>${b.n}</span><span style="color:var(--gg)">${b.comissao}%</span><span>R$ ${Math.round(rep/(b.comissao/100)).toLocaleString('pt-BR')}</span><span style="color:var(--gg);font-weight:400">R$ ${rep.toLocaleString('pt-BR')}</span><span><button class="btn-sm" onclick="showModal('repasse',${b.id})">Editar repasse</button></span></div>`}).join('')}
-</div></div>`};
-
-// ── OWNER: CONFIG ──
-RENDER.config=()=>`<div class="page active"><div class="page-title">Configurações</div><div class="page-sub">Identidade, pagamentos & notificações</div>
-<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Identidade visual</p>
-<div class="modal-field"><label>Nome</label><input value="Navalha & Arte"></div>
-<div class="modal-field"><label>Cor</label><input type="color" value="#0c0c0c" style="width:48px;height:32px;padding:2px"></div>
-<div class="modal-field"><label>Telefone</label><input value="(11) 3095-7100"></div>
-<div class="modal-field"><label>Endereço</label><input value="Rua Oscar Freire, 842 — SP"></div>
-<div class="modal-field"><label>Instagram</label><input value="@navalhaearte"></div>
-<button class="btn-sm" style="margin-top:10px">Salvar</button></div>
-<div style="border:1px solid var(--b);padding:32px;margin-bottom:24px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Pagamentos — Gates2B</p>
-<div class="modal-field"><label>API Key (produção)</label><input type="password" value="g2b_sk_live_••••••••••••"></div>
-<div class="modal-field"><label>API Key (sandbox)</label><input type="password" value="g2b_sk_test_••••••••••••"></div>
-<div class="modal-field"><label>Webhook Secret</label><input type="password" value="whsec_••••••••••••"></div>
-<div class="check-group" style="margin-bottom:14px"><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>PIX</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Cartão</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Google Pay</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Apple Pay</label></div>
-<button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Testar conexão</button> <button class="btn-sm">Salvar</button></div>
-<div style="border:1px solid var(--b);padding:32px"><p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin-bottom:18px">Notificações</p>
-<div class="check-group" style="margin-bottom:14px"><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>Email</label><label class="check-item checked" onclick="this.classList.toggle('checked')"><input type="checkbox" checked>WhatsApp</label><label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">SMS (V2)</label></div>
-<textarea rows="3" style="width:100%;padding:12px;background:rgba(232,226,217,0.03);border:1px solid var(--b);color:var(--t);font-size:0.72rem">Olá {cliente}! Seu horário na Navalha & Arte está confirmado: 📅 {data} às {hora} 💈 {servico} com {barbeiro}.</textarea>
-<button class="btn-sm" style="margin-top:14px">Salvar</button></div></div>`;
-
-RENDER.default=()=>`<div class="page active"><div class="page-title">${actPage}</div><div class="page-sub">Em desenvolvimento</div></div>`;
-
-// ════════════ MODAL ════════════
-function showModal(type,id){
-  document.getElementById('modal').classList.add('on');
-  const b=document.getElementById('modalBody');
-  if(type==='barber') b.innerHTML=`<div class="modal-title">${id?'Editar':'Novo'} Profissional</div>
-    <div class="modal-field"><label>Nome completo</label><input value="${id?barbers.find(x=>x.id===id).n:''}" placeholder="Nome completo"></div>
-    <div class="modal-field"><label>Especialidade</label><input value="${id?barbers.find(x=>x.id===id).t:''}" placeholder="ex: Especialista em Corte"></div>
-    <div class="modal-field"><label>Foto</label><div class="img-upload" onclick="document.getElementById('fBarberImg').click()"><div class="upload-icon">📷</div><div class="upload-text">Clique para importar imagem</div><img class="img-preview" id="barberImgPrev"></div><input type="file" id="fBarberImg" accept="image/*" style="display:none" onchange="previewImg(this,'barberImgPrev')"></div>
-    <div class="modal-field"><label>WhatsApp</label><input value="${id?barbers.find(x=>x.id===id).whats:''}" placeholder="(11) 99999-9999"></div>
-    <div class="modal-field"><label>Email</label><input value="${id?barbers.find(x=>x.id===id).email:''}" placeholder="email@navalha.com"></div>
-    <div class="modal-field"><label>Comissão (%)</label><input type="number" value="${id?barbers.find(x=>x.id===id).comissao:70}"></div>
-    <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,226,217,0.25);margin:20px 0 14px">Dados bancários (repasse)</p>
-    <div class="modal-field"><label>Banco</label><input value="${id?barbers.find(x=>x.id===id).banco:''}" placeholder="Nubank"></div>
-    <div class="modal-field"><label>Agência</label><input value="${id?barbers.find(x=>x.id===id).agencia:''}" placeholder="0001"></div>
-    <div class="modal-field"><label>Conta</label><input value="${id?barbers.find(x=>x.id===id).conta:''}" placeholder="123456-7"></div>
-    <div class="modal-field"><label>Chave PIX</label><input value="${id?barbers.find(x=>x.id===id).pix:''}" placeholder="pix@email.com"></div>
-    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='svc') b.innerHTML=`<div class="modal-title">Novo Serviço</div>
-    <div class="modal-field"><label>Nome</label><input placeholder="Nome do serviço"></div>
-    <div class="modal-field"><label>Imagem</label><div class="img-upload" onclick="document.getElementById('fSvcImg').click()"><div class="upload-icon">📷</div><div class="upload-text">Clique para importar imagem</div><img class="img-preview" id="svcImgPrev"></div><input type="file" id="fSvcImg" accept="image/*" style="display:none" onchange="previewImg(this,'svcImgPrev')"></div>
-    <div class="modal-field"><label>Preço (R$)</label><input type="number" placeholder="85"></div>
-    <div class="modal-field"><label>Duração (min)</label><input type="number" placeholder="45"></div>
-    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='combo') b.innerHTML=`<div class="modal-title">Novo Combo</div>
-    <div class="modal-field"><label>Nome</label><input></div>
-    <div class="modal-field"><label>Serviços incluídos</label><div class="check-group">${services.map(s=>`<label class="check-item" onclick="this.classList.toggle('checked')"><input type="checkbox">${s.n}</label>`).join('')}</div></div>
-    <div class="modal-field"><label>Agendamentos / período</label><input type="number" placeholder="2"></div>
-    <div class="modal-field"><label>Período</label><select><option>mês</option><option>semana</option></select></div>
-    <div class="modal-field"><label>Preço (R$)</label><input type="number" placeholder="139"></div>
-    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='coupon') b.innerHTML=`<div class="modal-title">Novo Cupom</div>
-    <div class="modal-field"><label>Código</label><input placeholder="PROMO20"></div>
-    <div class="modal-field"><label>Tipo</label><select><option>percentual</option><option>fixo</option></select></div>
-    <div class="modal-field"><label>Valor</label><input type="number" placeholder="20"></div>
-    <div class="modal-field"><label>Validade</label><input type="date" value="2026-12-31"></div>
-    <div class="modal-field"><label>Máximo de usos</label><input type="number" placeholder="100"></div>
-    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar</button></div>`;
-  else if(type==='repasse'){const bb=barbers.find(x=>x.id===id);b.innerHTML=`<div class="modal-title">Repasse — ${bb.n}</div>
-    <div class="modal-field"><label>Comissão (%)</label><input type="number" value="${bb.comissao}" id="repPct"></div>
-    <div class="modal-field"><label>Valor do repasse (Setembro, R$)</label><input type="number" value="${repasse[id]||0}" id="repVal"></div>
-    <p style="font-size:0.55rem;color:var(--m);margin:8px 0">Com ${bb.comissao}% de comissão, o repasse de R$ ${(repasse[id]||0).toLocaleString('pt-BR')} corresponde a R$ ${Math.round((repasse[id]||0)/(bb.comissao/100)).toLocaleString('pt-BR')} em atendimentos.</p>
-    <div class="modal-actions"><button class="btn-sm" onclick="closeModal()">Cancelar</button><button class="btn-sm" style="background:var(--t);color:var(--bg);border-color:var(--t)">Salvar repasse</button></div>`;}
+// ═══════════════ NAVEGAÇÃO ═══════════════
+function navigate(page){
+  actPage=page;
+  document.querySelectorAll('.side-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
+  document.getElementById('mainContent').innerHTML=(RENDER[page]||RENDER.default)();
+  // Atualiza sideUserName
+  if(actUser) document.getElementById('sideUserName').textContent=actUser.name;
 }
-function previewImg(input,prevId){
-  const f=input.files[0]; if(!f) return;
-  const r=new FileReader(); r.onload=e=>{const p=document.getElementById(prevId);p.src=e.target.result;p.style.display='block';}; r.readAsDataURL(f);
+function showLoginFromLanding(){
+  document.getElementById('landingPage').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
 }
-function closeModal(){document.getElementById('modal').classList.remove('on')}
-document.getElementById('modal').onclick=function(e){if(e.target===this)closeModal()};
+function showModal(id){ document.getElementById(id).classList.add('on'); }
+function closeModal(id){ document.getElementById(id).classList.remove('on'); }
 
-// ════════════ INIT ════════════
-renderLanding();
+// ═══════════════ SIDEBAR ═══════════════
+function buildSidebar(){
+  const navs={
+    dono:[['dashboard','📊 Dashboard'],['agenda','📅 Agenda'],['barbeiros','💈 Profissionais'],['servicos','✂️ Serviços'],['combos-admin','🎁 Combos'],['cupons','🏷️ Cupons'],['financeiro','💰 Financeiro'],['config','⚙️ Config']],
+    barbeiro:[['meu-dash','📊 Início'],['minha-agenda','📅 Agenda'],['meu-perfil','👤 Perfil'],['meus-horarios','🕐 Horários'],['meus-dados-bancarios','🏦 Dados Bancários'],['meu-split','💰 Comissão']],
+    cliente:[['cliente-inicio','🏠 Início'],['agendar','📅 Agendar'],['meus-agendamentos','📋 Meus Agendamentos'],['cliente-pagamentos','💳 Pagamentos']]
+  };
+  const items=navs[actRole]||navs.cliente;
+  const uname=actUser?actUser.name:'Usuário';
+  const s=document.getElementById('sideNav');
+  s.innerHTML='<div style=\"padding:1rem 0.75rem;font-weight:700;font-size:0.85rem;border-bottom:1px solid var(--s2);margin-bottom:0.5rem\">'+uname+'<div style=\"font-size:0.6rem;color:var(--m);text-transform:uppercase\">'+actRole+'</div></div>'+
+    items.map(([p,l])=>`<a href=\"#\" class=\"side-link\" data-page=\"${p}\" onclick=\"navigate('${p}');return false\">${l}</a>`).join('')+
+    '<div style=\"margin-top:auto;padding:0.75rem;border-top:1px solid var(--s2)\"><a href=\"#\" onclick=\"logout();return false\" style=\"color:var(--m);font-size:0.7rem\">🚪 Sair</a></div>';
+}
+
+// ═══════════════ INIT ═══════════════
+(function(){
+  const uid=DB.getSession();
+  if(uid){actUser=DB.getUser(uid);if(actUser){actRole=actUser.role;document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate(actUser.role==='dono'?'dashboard':actUser.role==='barbeiro'?'meu-dash':'cliente-inicio');return;}}
+  document.getElementById('landingPage').style.display='flex';
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appShell').style.display='none';
+  renderLanding();
+})();
 </script>
+
 </body>
 </html>
