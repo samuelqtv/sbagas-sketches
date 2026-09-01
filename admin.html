@@ -260,26 +260,20 @@ input,select,button,textarea{font-family:var(--f)}
   </div>
 </div>
 
-<!-- ═══════════ LOGIN (oculto no início) ═══════════ -->
+<!-- ═══════════ LOGIN ═══════════ -->
 <div class="login-overlay" id="loginScreen" style="display:none">
   <div class="login-card">
     <div class="login-title">Navalha & Arte</div><div class="login-sub">Painel</div>
     <div class="role-tabs" id="roleTabs">
-      <button class="role-tab active" data-role="OWNER">Dono</button>
-      <button class="role-tab" data-role="BARBER">Barbeiro</button>
-      <button class="role-tab" data-role="CLIENT">Cliente</button>
+      <button class="role-tab active" data-role="dono">Dono</button>
+      <button class="role-tab" data-role="barbeiro">Barbeiro</button>
+      <button class="role-tab" data-role="cliente">Cliente</button>
     </div>
-    <div class="login-field"><label>Email</label><input type="email" id="loginEmail" value="dono@navalha.com"></div>
-    <div class="login-field"><label>Senha</label><input type="password" id="loginPass"
-    <p id="loginError" style="display:none;color:#f44;font-size:0.75rem;margin-top:0.5rem">Email ou senha inválidos</p> value="••••••"></div>
-    <button class="login-btn" onclick="doLogin()
-    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">Entrar</button>
-    <div style="margin-top:20px;border-top:1px solid var(--b);padding-top:18px">
-      <p style="font-size:0.54rem;color:var(--mm);letter-spacing:0.1em;text-align:center;margin-bottom:10px;text-transform:uppercase">Ou entre com</p>
-      <div class="social-login"><button class="social-btn" onclick="doLogin()
-    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">🍎 Apple</button><button class="social-btn" onclick="doLogin()
-    <p style="text-align:center;margin-top:0.5rem;font-size:0.75rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--a)">Criar conta</a></p>">🔵 Google</button></div>
-    </div>
+    <div class="login-field"><label>Email</label><input type="email" id="loginEmail" placeholder="seu@email.com"></div>
+    <div class="login-field"><label>Senha</label><input type="password" id="loginPass" placeholder="Sua senha"></div>
+    <p id="loginError" style="display:none;color:#c0392b;font-size:0.72rem;margin-bottom:12px">Email ou senha inválidos</p>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <p style="text-align:center;margin-top:0.9rem;font-size:0.72rem;color:var(--m)">Não tem conta? <a href="#" onclick="showCadastro()" style="color:var(--g);text-decoration:none">Criar conta</a></p>
   </div>
 </div>
 
@@ -296,271 +290,849 @@ input,select,button,textarea{font-family:var(--f)}
 
 
 <!-- ═══════════ CADASTRO SCREEN ═══════════ -->
-<div id="cadastroScreen" style="display:none;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--b)">
-  <div style="background:var(--s);padding:2rem;border-radius:1rem;width:100%;max-width:400px;box-shadow:0 0 20px rgba(0,0,0,0.3)">
-    <h2 style="margin-bottom:1.5rem;text-align:center">Criar conta</h2>
-    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Nome</label><input id="cadNome" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="Seu nome"></div>
-    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Email</label><input id="cadEmail" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="email@exemplo.com"></div>
-    <div style="margin-bottom:1rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Senha</label><input id="cadPass" type="password" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)" placeholder="Mínimo 4 caracteres"></div>
-    <div style="margin-bottom:1.5rem"><label style="display:block;font-size:0.75rem;color:var(--m);margin-bottom:0.25rem">Tipo de conta</label>
-      <select id="cadRole" style="width:100%;padding:0.6rem;background:var(--b);border:1px solid var(--s2);border-radius:0.5rem;color:var(--f)">
+<div class="login-overlay" id="cadastroScreen" style="display:none">
+  <div class="login-card">
+    <div class="login-title">Navalha & Arte</div><div class="login-sub">Criar conta</div>
+    <div class="login-field"><label>Nome completo</label><input id="cadNome" placeholder="Seu nome"></div>
+    <div class="login-field"><label>Email</label><input type="email" id="cadEmail" placeholder="seu@email.com"></div>
+    <div class="login-field"><label>Senha</label><input type="password" id="cadPass" placeholder="Mínimo 4 caracteres"></div>
+    <div class="login-field"><label>Tipo de conta</label>
+      <select id="cadRole">
         <option value="cliente">Cliente</option><option value="barbeiro">Barbeiro</option><option value="dono">Dono</option>
       </select>
     </div>
-    <button onclick="doCadastro()" style="width:100%;padding:0.7rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;font-weight:600;cursor:pointer;font-size:0.9rem">Criar conta</button>
-    <p style="text-align:center;margin-top:1rem;font-size:0.75rem;color:var(--m)">Já tem conta? <a href="#" onclick="hideCadastro()" style="color:var(--a)">Entrar</a></p>
+    <p id="cadError" style="display:none;color:#c0392b;font-size:0.72rem;margin-bottom:12px"></p>
+    <button class="login-btn" onclick="doCadastro()">Criar conta</button>
+    <p style="text-align:center;margin-top:0.9rem;font-size:0.72rem;color:var(--m)">Já tem conta? <a href="#" onclick="hideCadastro()" style="color:var(--g);text-decoration:none">Entrar</a></p>
   </div>
 </div>
+
 <script>
+// ═══════════════════════════════════════════════════════════════
+// NAVALHA & ARTE — PAINEL v5 (P1 Functional)
+// Todas as 6 interações reais: Cadastro, Login, Checkout, 
+// Calendário, Persistência localStorage, Sessão sobrevive reload
+// ═══════════════════════════════════════════════════════════════
+
 // ═══════════════ LOCALSTORAGE PERSISTENCE LAYER ═══════════════
 const DB = {
-  _key: 'sbagas_db_v2',
+  _key: 'sbagas_db_v3',
   _init() {
-    if (!localStorage.getItem(this._key)) {
-      localStorage.setItem(this._key, JSON.stringify({
-        users: [],
-        sessions: {},
+    let db = localStorage.getItem(this._key);
+    if (!db) {
+      db = {
+        users: [
+          {id:'u1',nome:'Admin',email:'dono@navalha.com',senha:'1234',role:'dono',createdAt:'2026-01-01T00:00:00.000Z'},
+          {id:'u2',nome:'Ricardo Silva',email:'ricardo@navalha.com',senha:'1234',role:'barbeiro',createdAt:'2026-01-01T00:00:00.000Z'},
+          {id:'u3',nome:'Marcos Oliveira',email:'marcos@navalha.com',senha:'1234',role:'barbeiro',createdAt:'2026-01-01T00:00:00.000Z'},
+          {id:'u4',nome:'Thiago Santos',email:'thiago@navalha.com',senha:'1234',role:'barbeiro',createdAt:'2026-01-01T00:00:00.000Z'},
+          {id:'u5',nome:'João Cliente',email:'cliente@teste.com',senha:'1234',role:'cliente',createdAt:'2026-06-15T00:00:00.000Z'},
+        ],
+        session: {},
         bookings: [],
         barbers: [
-          {id:'b1',nome:'Ricardo', esp:'Barbearia Clássica', comissao:50, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
-          {id:'b2',nome:'Marcos',   esp:'Cortes Modernos',      comissao:45, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
-          {id:'b3',nome:'Thiago',   esp:'Barba & Navalha',      comissao:40, img:'', whatsapp:'', email:'', banco:'', agencia:'', conta:'', pix:''},
+          {id:'b1',nome:'Ricardo',esp:'Barbearia Clássica',comissao:50,img:'',whatsapp:'(11) 99999-0001',email:'ricardo@navalha.com',banco:'',agencia:'',conta:'',pix:''},
+          {id:'b2',nome:'Marcos',esp:'Cortes Modernos',comissao:45,img:'',whatsapp:'(11) 99999-0002',email:'marcos@navalha.com',banco:'',agencia:'',conta:'',pix:''},
+          {id:'b3',nome:'Thiago',esp:'Barba & Navalha',comissao:40,img:'',whatsapp:'(11) 99999-0003',email:'thiago@navalha.com',banco:'',agencia:'',conta:'',pix:''},
         ],
         servicos: [
-          {id:'s1',nome:'Corte Clássico',      preco:45, img:''},
-          {id:'s2',nome:'Barba Completa',      preco:35, img:''},
-          {id:'s3',nome:'Combo Corte + Barba', preco:65, img:''},
+          {id:'s1',nome:'Corte Clássico',preco:45,img:''},
+          {id:'s2',nome:'Barba Completa',preco:35,img:''},
+          {id:'s3',nome:'Combo Corte + Barba',preco:65,img:''},
+          {id:'s4',nome:'Hidratação Capilar',preco:55,img:''},
         ],
         combos: [
-          {id:'c1',nome:'Mensal Bronze', preco:79,  svcs:[0,1,2], desc:'4 cortes/mês'},
-          {id:'c2',nome:'Mensal Prata',  preco:129, svcs:[0,1,2], desc:'8 cortes/mês + 1 barba'},
+          {id:'c1',nome:'Mensal Bronze',preco:79,svcs:[0,1],desc:'4 cortes/mês'},
+          {id:'c2',nome:'Mensal Prata',preco:129,svcs:[0,1,2],desc:'8 cortes/mês + 1 barba'},
+          {id:'c3',nome:'Mensal Ouro',preco:199,svcs:[0,1,2,3],desc:'Ilimitado + Premium'},
         ],
-        cupons: [],
-      }));
+        cupons: [
+          {id:'cp1',codigo:'NAVALHA10',desconto:10,tipo:'percent',ativo:true},
+          {id:'cp2',codigo:'PRIMEIRA20',desconto:20,tipo:'percent',ativo:true},
+        ],
+      };
+      this._save(db);
     }
     return JSON.parse(localStorage.getItem(this._key));
   },
   _save(data) { localStorage.setItem(this._key, JSON.stringify(data)); },
-  // User ops
-  createUser(name, email, pass, role) {
+
+  // USER OPERATIONS
+  createUser(nome, email, senha, role) {
     const db = this._init();
-    if (db.users.find(u => u.email === email)) return null;
-    const user = {id:'u'+Date.now(), name, email, pass, role, createdAt: new Date().toISOString()};
-    db.users.push(user); this._save(db); return user;
+    if (db.users.find(u => u.email.toLowerCase() === email.toLowerCase())) return null;
+    const user = {id:'u'+Date.now(),nome,email,senha,role,createdAt:new Date().toISOString()};
+    db.users.push(user);
+    this._save(db);
+    return user;
   },
-  loginUser(email, pass) {
+  loginUser(email, senha) {
     const db = this._init();
-    return db.users.find(u => u.email === email && u.pass === pass) || null;
+    return db.users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha) || null;
   },
   getUser(id) { return this._init().users.find(u => u.id === id) || null; },
-  // Session
-  setSession(userId) { const db=this._init(); db.sessions.current=userId; this._save(db); },
-  getSession() { return this._init().sessions.current || null; },
-  clearSession() { const db=this._init(); delete db.sessions.current; this._save(db); },
-  // Bookings
-  createBooking(barberId, userId, day, slot) { const db=this._init(); const b={id:'bk'+Date.now(),barberId,userId,day,slot,status:'confirmed',createdAt:new Date().toISOString()}; db.bookings.push(b); this._save(db); return b; },
-  getBookings(filter={}) { const db=this._init(); return db.bookings.filter(b=>{for(let k in filter){if(b[k]!==filter[k]) return false;}return true;}); },
-  // Data
+  getUserByEmail(email) { return this._init().users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null; },
+
+  // SESSION
+  setSession(userId) { const db=this._init(); db.session.current=userId; this._save(db); },
+  getSession() { return this._init().session.current || null; },
+  clearSession() { const db=this._init(); delete db.session.current; this._save(db); },
+
+  // BOOKINGS
+  createBooking(barberId, userId, day, slot, servicoId) {
+    const db=this._init();
+    const b={id:'bk'+Date.now(),barberId,userId,day,slot,servicoId:servicoId||null,status:'confirmed',createdAt:new Date().toISOString()};
+    db.bookings.push(b);
+    this._save(db);
+    return b;
+  },
+  getBookings(filter={}) {
+    const db=this._init();
+    return db.bookings.filter(b=>{for(let k in filter){if(b[k]!==filter[k]) return false;}return true;});
+  },
+  cancelBooking(id) {
+    const db=this._init();
+    const idx=db.bookings.findIndex(b=>b.id===id);
+    if(idx>=0){db.bookings[idx].status='cancelled';this._save(db);return true;}
+    return false;
+  },
+
+  // DATA ACCESS
   getBarbers() { return this._init().barbers; },
   getServicos() { return this._init().servicos; },
   getCombos() { return this._init().combos; },
-}; DB._init();
+  getCupons() { return this._init().cupons; },
+  getAllUsers() { return this._init().users; },
+  getBookingsForBarber(barberId) { return this._init().bookings.filter(b=>b.barberId===barberId); },
+  getBookingsForUser(userId) { return this._init().bookings.filter(b=>b.userId===userId); },
+
+  // ADMIN: update barber
+  updateBarber(id, data) { const db=this._init(); const idx=db.barbers.findIndex(b=>b.id===id); if(idx>=0){Object.assign(db.barbers[idx],data);this._save(db);} },
+  updateServico(id, data) { const db=this._init(); const idx=db.servicos.findIndex(s=>s.id===id); if(idx>=0){Object.assign(db.servicos[idx],data);this._save(db);} },
+  updateCombo(id, data) { const db=this._init(); const idx=db.combos.findIndex(c=>c.id===id); if(idx>=0){Object.assign(db.combos[idx],data);this._save(db);} },
+};
+DB._init();
 
 // ═══════════════ GLOBALS ═══════════════
-let barbers = DB.getBarbers(), servicos = DB.getServicos(), combos = DB.getCombos();
-let actRole='', actPage='dashboard', actUser=null;
-let bk={barber:null,day:null,slot:null};
-let currentMonth=new Date().getMonth(), currentYear=new Date().getFullYear();
+let barbers = DB.getBarbers();
+let servicos = DB.getServicos();
+let combos = DB.getCombos();
+let actRole = '';
+let actPage = 'dashboard';
+let actUser = null;
+let bk = {barber:null, day:null, slot:null, servico:null};
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+
+// ═══════════════ TOAST SYSTEM ═══════════════
+function showToast(msg, type='success') {
+  const t = document.createElement('div');
+  t.id = 'appToast';
+  const bgColor = type==='error'?'rgba(192,57,43,0.95)':'rgba(76,175,80,0.95)';
+  const icon = type==='error'?'✕':'✓';
+  t.style.cssText = `position:fixed;top:24px;right:24px;z-index:99999;padding:14px 24px;background:${bgColor};color:#fff;font-size:0.78rem;border-radius:2px;font-family:var(--f);letter-spacing:0.04em;display:flex;align-items:center;gap:10px;animation:fadeInRight 0.3s ease;box-shadow:0 4px 24px rgba(0,0,0,0.5)`;
+  t.innerHTML = `<span style="font-weight:600;font-size:1rem">${icon}</span> ${msg}`;
+  document.body.appendChild(t);
+  setTimeout(() => { if(t.parentNode) { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); } }, 3500);
+}
+function showError(msg) { showToast(msg, 'error'); }
+
+// Helper: close all checkout modals (key in P1 flow)
+function closeAllModals() {
+  ['checkoutModal','bookingModal'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.classList.remove('on');
+  });
+}
 
 // ═══════════════ CADASTRO ═══════════════
-function showCadastro(){ document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('cadastroScreen').style.display='flex'; }
-function hideCadastro(){ document.getElementById('cadastroScreen').style.display='none';document.getElementById('loginScreen').style.display='flex'; }
-function doCadastro(){
-  const name=document.getElementById('cadNome').value.trim();
-  const email=document.getElementById('cadEmail').value.trim();
-  const pass=document.getElementById('cadPass').value;
-  const role=document.getElementById('cadRole').value;
-  if(!name||!email||!pass){alert('Preencha todos os campos');return;}
-  if(pass.length<4){alert('Senha mínima 4 caracteres');return;}
-  const user=DB.createUser(name,email,pass,role);
-  if(!user){alert('Email já cadastrado');return;}
-  actUser=user;actRole=role;
+function showCadastro() {
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('cadastroScreen').style.display = 'flex';
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('cadError').style.display = 'none';
+  ['cadNome','cadEmail','cadPass'].forEach(id=>document.getElementById(id).value='');
+}
+
+function hideCadastro() {
+  document.getElementById('cadastroScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+function doCadastro() {
+  const nome = document.getElementById('cadNome').value.trim();
+  const email = document.getElementById('cadEmail').value.trim();
+  const senha = document.getElementById('cadPass').value;
+  const role = document.getElementById('cadRole').value;
+  const errEl = document.getElementById('cadError');
+
+  // Validação
+  if (!nome || !email || !senha) {
+    errEl.textContent = 'Preencha todos os campos';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (nome.length < 2) {
+    errEl.textContent = 'Nome deve ter pelo menos 2 caracteres';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!email.includes('@') || !email.includes('.')) {
+    errEl.textContent = 'Email inválido';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (senha.length < 4) {
+    errEl.textContent = 'Senha deve ter no mínimo 4 caracteres';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const existing = DB.getUserByEmail(email);
+  if (existing) {
+    errEl.textContent = 'Este email já está cadastrado';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  const user = DB.createUser(nome, email, senha, role);
+  if (!user) {
+    errEl.textContent = 'Erro ao criar conta. Tente novamente.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  actUser = user;
+  actRole = role;
   DB.setSession(user.id);
-  document.getElementById('cadastroScreen').style.display='none';
-  document.getElementById('landingPage').style.display='none';
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appShell').style.display='flex';
-  buildSidebar();navigate(role==='dono'?'dashboard':role==='barbeiro'?'meu-dash':'cliente-inicio');
+
+  document.getElementById('cadastroScreen').style.display = 'none';
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  buildSidebar();
+  navigate(role === 'dono' ? 'dashboard' : role === 'barbeiro' ? 'meu-dash' : 'cliente-inicio');
+  showToast('Conta criada com sucesso! Bem-vindo, ' + nome);
 }
 
 // ═══════════════ LOGIN ═══════════════
-function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim();
-  const pass=document.getElementById('loginPass').value;
-  const user=DB.loginUser(email,pass);
-  if(!user){document.getElementById('loginError').style.display='block';return;}
-  document.getElementById('loginError').style.display='none';
-  actUser=user;actRole=user.role;
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const senha = document.getElementById('loginPass').value;
+
+  if (!email || !senha) {
+    document.getElementById('loginError').textContent = 'Preencha email e senha';
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+
+  const user = DB.loginUser(email, senha);
+  if (!user) {
+    document.getElementById('loginError').textContent = 'Email ou senha inválidos';
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('loginError').style.display = 'none';
+  actUser = user;
+  actRole = user.role;
   DB.setSession(user.id);
-  document.getElementById('landingPage').style.display='none';
-  document.getElementById('loginScreen').style.display='none';
-  if(document.getElementById('cadastroScreen')) document.getElementById('cadastroScreen').style.display='none';
-  document.getElementById('appShell').style.display='flex';
-  buildSidebar();navigate(user.role==='dono'?'dashboard':user.role==='barbeiro'?'meu-dash':'cliente-inicio');
+
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'none';
+  if (document.getElementById('cadastroScreen')) document.getElementById('cadastroScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  buildSidebar();
+  navigate(user.role === 'dono' ? 'dashboard' : user.role === 'barbeiro' ? 'meu-dash' : 'cliente-inicio');
 }
 
 // ═══════════════ LOGOUT ═══════════════
-function logout(){
-  actUser=null;actRole='';DB.clearSession();
-  document.getElementById('appShell').style.display='none';
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('landingPage').style.display='flex';
-  document.getElementById('loginEmail').value='';
-  document.getElementById('loginPass').value='';
-  document.getElementById('loginError').style.display='none';
+function logout() {
+  actUser = null;
+  actRole = '';
+  DB.clearSession();
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('landingPage').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  renderLanding();
 }
 
 // ═══════════════ CHECKOUT ═══════════════
-function openCheckout(comboId){
-  const c=combos.find(x=>x.id===comboId);
-  document.getElementById('checkoutTitle').textContent='Assinar '+c.nome;
-  document.getElementById('chkPlanName').textContent=c.nome;
-  document.getElementById('chkPlanPrice').textContent='R$'+c.preco+'/mês';
-  document.getElementById('chkTotal').textContent='R$'+c.preco;
+function openCheckout(comboId) {
+  const c = combos.find(x => x.id === comboId);
+  if (!c) return;
+  document.getElementById('checkoutTitle').textContent = 'Assinar ' + c.nome;
+  document.getElementById('chkPlanName').textContent = c.nome;
+  document.getElementById('chkPlanPrice').textContent = 'R$ ' + c.preco + '/mês';
+  document.getElementById('chkTotal').textContent = 'R$ ' + c.preco;
+  document.getElementById('chkNome').value = '';
+  document.getElementById('chkEmail').value = '';
+  document.getElementById('chkWhats').value = '';
+  document.getElementById('chkCupom').value = '';
+  document.getElementById('chkDiscountRow').style.display = 'none';
   document.getElementById('checkoutModal').classList.add('on');
-  window._chkCombo=c;
-}
-function processCheckout(){
-  const name=document.getElementById('chkNome').value.trim();
-  const email=document.getElementById('chkEmail').value.trim();
-  const whats=document.getElementById('chkWhats').value.trim();
-  if(!name||!email){alert('Preencha nome e email');return;}
-  const c=window._chkCombo;
-  document.getElementById('checkoutModal').classList.remove('on');
-  // AUTO-CADASTRO: cria conta com senha padrão e redireciona
-  const pass='cliente123';
-  let user=DB.createUser(name,email,pass,'cliente');
-  if(!user){user=DB.loginUser(email,pass);}
-  actUser=user;actRole='cliente';DB.setSession(user.id);
-  const t=document.createElement('div');t.id='successToast';t.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,0.7)';
-  t.innerHTML=`<div style=\"background:var(--s);padding:2rem;border-radius:1rem;text-align:center;max-width:400px;color:var(--f)\"><h3>✅ ${c.nome} ativado!</h3><p>Conta criada: ${email}<br>Senha: cliente123</p><p style=\"color:var(--m);font-size:0.75rem\">Você já pode agendar!</p><button onclick=\"this.parentElement.parentElement.remove();document.getElementById('landingPage').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate('cliente-inicio');\" style=\"margin-top:1rem;padding:0.5rem 1.5rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;cursor:pointer\">Começar</button></div>`;
-  document.body.appendChild(t);
+  window._chkCombo = c;
 }
 
-// ═══════════════ CALENDÁRIO FUNCIONAL ═══════════════
-function buildCalendar(barberAppts,highlight,selected){
-  let cal='<div style=\"display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;text-align:center\">';
-  cal+='<div style=\"grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem\"><button onclick=\"changeMonth(-1)\">&larr;</button><span style=\"font-weight:600\">'+['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][currentMonth]+' '+currentYear+'</span><button onclick=\"changeMonth(1)\">&rarr;</button></div>';
-  ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'].forEach(d=>cal+=`<div style=\"font-size:0.6rem;color:var(--m)\">${d}</div>`);
-  const firstDay=new Date(currentYear,currentMonth,1).getDay();
-  const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
-  for(let i=0;i<firstDay;i++) cal+='<div></div>';
-  const today = new Date(); today.setHours(0,0,0,0);
-  for(let d=1;d<=daysInMonth;d++){
-    const dateStr=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dayDate=new Date(currentYear,currentMonth,d);
-    const isPast=dayDate<today;
-    const isToday=dayDate.getTime()===today.getTime();
-    const isSel=selected===dateStr;
-    const cls=isPast?'past':isToday?'today':isSel?'sel':'';
-    const style=`padding:0.4rem;border-radius:0.25rem;cursor:${isPast?'default':'pointer'};background:${isSel?'var(--a)':isToday?'var(--s2)':''};color:${isPast?'var(--m)':isSel||isToday?'#fff':''}`;
-    cal+=`<div class=\"${cls}\" style=\"${style}\" onclick=\"${isPast?'':'selectDay(\x27'+dateStr+'\x27)'}\">${d}</div>`;
+function pickPayment(el) {
+  document.querySelectorAll('.check-item').forEach(i => i.classList.remove('checked'));
+  el.classList.add('checked');
+}
+
+function processCheckout() {
+  const nome = document.getElementById('chkNome').value.trim();
+  const email = document.getElementById('chkEmail').value.trim();
+  const whats = document.getElementById('chkWhats').value.trim();
+  const c = window._chkCombo;
+
+  if (!nome || !email) {
+    showError('Preencha nome e email');
+    return;
   }
-  cal+='</div>';
-  return cal;
+  if (!email.includes('@')) {
+    showError('Email inválido');
+    return;
+  }
+
+  document.getElementById('checkoutModal').classList.remove('on');
+
+  // AUTO-CADASTRO: cria conta automaticamente quando cliente assina
+  const senhaPadrao = 'cliente123';
+  let user = DB.getUserByEmail(email);
+  if (!user) {
+    user = DB.createUser(nome, email, senhaPadrao, 'cliente');
+  }
+
+  actUser = user;
+  actRole = 'cliente';
+  DB.setSession(user.id);
+
+  // Toast com link para ir ao dashboard
+  showToast('Plano ' + c.nome + ' ativado! Conta: ' + email + ' | Senha: ' + senhaPadrao);
+
+  // Redireciona para o dashboard
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'flex';
+  buildSidebar();
+  navigate('cliente-inicio');
 }
-function changeMonth(delta){
-  currentMonth+=delta;
-  if(currentMonth<0){currentMonth=11;currentYear--;}
-  if(currentMonth>11){currentMonth=0;currentYear++;}
-  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,bk.day);
-  document.getElementById('bookingSlots').innerHTML=generateSlots();
-}
-function selectDay(d){
-  bk.day=d;
-  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,d);
-  document.getElementById('bookingSlots').innerHTML=generateSlots();
-}
-function generateSlots(){
-  const slots=['09:00','09:45','10:30','11:15','12:00','13:00','13:45','14:30','15:15','16:00','16:45'];
-  const dayBookings=DB.getBookings({barberId:bk.barber,day:bk.day});
-  let html='<p style=\"font-size:0.62rem;color:var(--m);margin-bottom:0.5rem\">'+bk.day+'</p>';
-  slots.forEach(t=>{
-    const taken=dayBookings.some(b=>b.slot===t);
-    if(taken){
-      html+=`<div class=\"slot\" style=\"padding:0.5rem;background:var(--s2);border-radius:0.25rem;margin-bottom:0.25rem;color:var(--m);font-size:0.8rem;text-decoration:line-through\">${t} — ocupado</div>`;
-    }else{
-      html+=`<div class=\"slot\" style=\"padding:0.5rem;background:var(--s);border-radius:0.25rem;margin-bottom:0.25rem;cursor:pointer;font-size:0.8rem\" onclick=\"selectSlot('\''${t}'\'',this)\">${t}</div>`;
+
+// ═══════════════ CALENDÁRIO FUNCIONAL (REAL) ═══════════════
+function buildCalendar(highlight, selected) {
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const diasSemana = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  let html = '<div class="cal-month-header">';
+  html += '<span class="cal-month-title">' + meses[currentMonth] + ' ' + currentYear + '</span>';
+  html += '<div class="cal-nav">';
+  html += '<button class="btn-sm" onclick="changeMonth(-1)">←</button>';
+  html += '<button class="btn-sm" onclick="changeMonth(1)">→</button>';
+  html += '</div></div>';
+
+  html += '<div class="cal-header">';
+  diasSemana.forEach(d => html += '<div class="cal-header-day">'+d+'</div>');
+  html += '</div>';
+
+  html += '<div class="cal-grid">';
+  // Dias vazios antes do primeiro dia
+  for (let i=0; i<firstDay; i++) html += '<div class="cal-day"></div>';
+
+  for (let d=1; d<=daysInMonth; d++) {
+    const dateStr = currentYear+'-'+String(currentMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const dayDate = new Date(currentYear, currentMonth, d);
+    const isPast = dayDate < today;
+    const isToday = dayDate.getTime() === today.getTime();
+    const isSel = selected === dateStr;
+    
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (isSel) cls += ' selected';
+    if (isPast) cls += ' other-month';
+
+    // Verificar agendamentos neste dia
+    const dayBookings = bk.barber ? DB.getBookings({barberId:bk.barber, day:dateStr, status:'confirmed'}) : [];
+    
+    html += '<div class="'+cls+'"'+(isPast?'':' onclick="selectDay(\''+dateStr+'\')"')+'>';
+    html += '<div class="cal-num">'+d+'</div>';
+    if (dayBookings.length>0) {
+      html += '<div class="cal-event avulso">'+dayBookings.length+' agend.</div>';
     }
-  });
-  if(dayBookings.length===slots.length) html+='<p style=\"color:var(--m);font-size:0.7rem;margin-top:0.5rem\">Sem horários disponíveis neste dia</p>';
+    html += '</div>';
+  }
+  html += '</div>';
+
   return html;
 }
-function selectSlot(t,el){
-  document.querySelectorAll('#bookingSlots .slot').forEach(s=>s.classList.remove('sel'));
+
+function changeMonth(delta) {
+  currentMonth += delta;
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  const calEl = document.getElementById('bookingCalendar');
+  const slotsEl = document.getElementById('bookingSlots');
+  if (calEl) calEl.innerHTML = buildCalendar(null, bk.day);
+  if (slotsEl) slotsEl.innerHTML = bk.day ? generateSlots() : '<p style="color:var(--m);font-size:0.7rem;text-align:center;padding:20px">Selecione um dia para ver horários</p>';
+}
+
+function selectDay(d) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const selDate = new Date(d + 'T00:00:00');
+  if (selDate < today) return; // Dias passados bloqueados
+
+  bk.day = d;
+  bk.slot = null;
+  document.getElementById('bookingCalendar').innerHTML = buildCalendar(null, d);
+  document.getElementById('bookingSlots').innerHTML = generateSlots();
+  document.getElementById('bookingConfirmBtn').disabled = true;
+}
+
+function generateSlots() {
+  const slots = ['09:00','09:45','10:30','11:15','12:00','13:00','13:45','14:30','15:15','16:00','16:45','17:30','18:00'];
+  const dayBookings = bk.barber ? DB.getBookings({barberId: bk.barber, day: bk.day, status: 'confirmed'}) : [];
+  const takenSlots = dayBookings.map(b => b.slot);
+
+  let html = '<p style="font-size:0.62rem;color:var(--m);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em">Horários — ' + bk.day + '</p>';
+  html += '<div class="slot-grid">';
+
+  slots.forEach(t => {
+    const taken = takenSlots.includes(t);
+    if (taken) {
+      html += '<div class="slot" style="opacity:0.3;cursor:not-allowed;text-decoration:line-through" title="Ocupado">' + t + '</div>';
+    } else {
+      html += '<div class="slot" onclick="selectSlot(\''+t+'\',this)" style="cursor:pointer">' + t + '</div>';
+    }
+  });
+
+  html += '</div>';
+
+  const available = slots.filter(s => !takenSlots.includes(s));
+  if (available.length === 0) {
+    html += '<p style="color:#c0392b;font-size:0.7rem;text-align:center;margin-top:12px">Sem horários disponíveis neste dia</p>';
+  } else {
+    html += '<p style="color:var(--g);font-size:0.6rem;text-align:center;margin-top:8px">' + available.length + ' horários disponíveis</p>';
+  }
+
+  return html;
+}
+
+function selectSlot(t, el) {
+  document.querySelectorAll('#bookingSlots .slot').forEach(s => s.classList.remove('sel'));
   el.classList.add('sel');
-  bk.slot=t;document.getElementById('bookingConfirmBtn').disabled=false;
+  bk.slot = t;
+  document.getElementById('bookingConfirmBtn').disabled = false;
 }
 
 // ═══════════════ AGENDAMENTO ═══════════════
-function openBooking(barberId){
-  bk.barber=barberId;
+function openBooking(barberId) {
+  bk.barber = barberId;
+  bk.day = null;
+  bk.slot = null;
+  bk.servico = null;
+  currentMonth = new Date().getMonth();
+  currentYear = new Date().getFullYear();
   document.getElementById('bookingModal').classList.add('on');
-  document.getElementById('bookingCalendar').innerHTML=buildCalendar(null,null,null);
-  document.getElementById('bookingSlots').innerHTML='<p style=\"color:var(--m);font-size:0.7rem\">Selecione um dia</p>';
-  document.getElementById('bookingConfirmBtn').disabled=true;
+  document.getElementById('bookingCalendar').innerHTML = buildCalendar(null, null);
+  document.getElementById('bookingSlots').innerHTML = '<p style="color:var(--m);font-size:0.7rem;text-align:center;padding:20px">Selecione um dia no calendário</p>';
+  document.getElementById('bookingConfirmBtn').disabled = true;
 }
-function closeBooking(){ document.getElementById('bookingModal').classList.remove('on');bk={barber:null,day:null,slot:null}; }
-function confirmBooking(){
-  if(!bk.barber||!bk.day||!bk.slot||!actUser) return;
-  const booking=DB.createBooking(bk.barber,actUser.id,bk.day,bk.slot);
-  const barb=barbers.find(b=>b.id===bk.barber);
+
+function closeBooking() {
+  document.getElementById('bookingModal').classList.remove('on');
+  bk = {barber:null, day:null, slot:null, servico:null};
+}
+
+function confirmBooking() {
+  if (!bk.barber || !bk.day || !bk.slot || !actUser) {
+    showError('Selecione data e horário');
+    return;
+  }
+
+  const booking = DB.createBooking(bk.barber, actUser.id, bk.day, bk.slot, bk.servico);
+  const barb = barbers.find(b => b.id === bk.barber);
   closeBooking();
-  const t=document.createElement('div');t.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:rgba(0,0,0,0.7)';
-  t.innerHTML=`<div style=\"background:var(--s);padding:2rem;border-radius:1rem;text-align:center;max-width:400px;color:var(--f)\"><h3>✅ Agendado!</h3><p>${barb?barb.nome:'Profissional'} — ${bk.day} às ${bk.slot}</p><p style=\"color:var(--m);font-size:0.75rem\">Você receberá confirmação</p><button onclick=\"this.parentElement.parentElement.remove();navigate('meus-agendamentos')\" style=\"margin-top:1rem;padding:0.5rem 1.5rem;background:var(--a);border:none;border-radius:0.5rem;color:#fff;cursor:pointer\">Ver agendamentos</button></div>`;
-  document.body.appendChild(t);
+
+  showToast('Agendado! ' + (barb?barb.nome:'Profissional') + ' — ' + bk.day + ' às ' + bk.slot);
+
+  // Recarrega a página atual
+  if (actPage === 'agendar' || actPage === 'cliente-inicio') {
+    navigate(actPage);
+  }
 }
 
 // ═══════════════ NAVEGAÇÃO ═══════════════
-function navigate(page){
-  actPage=page;
-  document.querySelectorAll('.side-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
-  document.getElementById('mainContent').innerHTML=(RENDER[page]||RENDER.default)();
-  // Atualiza sideUserName
-  if(actUser) document.getElementById('sideUserName').textContent=actUser.name;
+function navigate(page) {
+  actPage = page;
+  document.querySelectorAll('.side-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === page);
+  });
+  if (actUser) {
+    document.getElementById('sideUserName').textContent = actUser.nome;
+    document.getElementById('sideUserRole').textContent = actUser.role.toUpperCase();
+  }
+  const renderFn = RENDER[page];
+  document.getElementById('mainContent').innerHTML = renderFn ? renderFn() : RENDER['default']();
 }
-function showLoginFromLanding(){
-  document.getElementById('landingPage').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
+
+function showLoginFromLanding() {
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
 }
-function showModal(id){ document.getElementById(id).classList.add('on'); }
-function closeModal(id){ document.getElementById(id).classList.remove('on'); }
 
 // ═══════════════ SIDEBAR ═══════════════
-function buildSidebar(){
-  const navs={
-    dono:[['dashboard','📊 Dashboard'],['agenda','📅 Agenda'],['barbeiros','💈 Profissionais'],['servicos','✂️ Serviços'],['combos-admin','🎁 Combos'],['cupons','🏷️ Cupons'],['financeiro','💰 Financeiro'],['config','⚙️ Config']],
-    barbeiro:[['meu-dash','📊 Início'],['minha-agenda','📅 Agenda'],['meu-perfil','👤 Perfil'],['meus-horarios','🕐 Horários'],['meus-dados-bancarios','🏦 Dados Bancários'],['meu-split','💰 Comissão']],
-    cliente:[['cliente-inicio','🏠 Início'],['agendar','📅 Agendar'],['meus-agendamentos','📋 Meus Agendamentos'],['cliente-pagamentos','💳 Pagamentos']]
+function buildSidebar() {
+  const navs = {
+    dono: [
+      ['dashboard','📊 Dashboard'],['agenda','📅 Agenda'],
+      ['barbeiros','💈 Profissionais'],['servicos','✂️ Serviços'],
+      ['combos-admin','🎁 Combos'],['cupons','🏷️ Cupons'],
+      ['financeiro','💰 Financeiro'],['config','⚙️ Config']
+    ],
+    barbeiro: [
+      ['meu-dash','📊 Início'],['minha-agenda','📅 Agenda'],
+      ['meu-perfil','👤 Perfil'],['meus-horarios','🕐 Horários'],
+      ['meus-dados-bancarios','🏦 Dados Bancários'],['meu-split','💰 Comissão']
+    ],
+    cliente: [
+      ['cliente-inicio','🏠 Início'],['agendar','📅 Agendar'],
+      ['meus-agendamentos','📋 Meus Agendamentos'],['cliente-pagamentos','💳 Pagamentos']
+    ]
   };
-  const items=navs[actRole]||navs.cliente;
-  const uname=actUser?actUser.name:'Usuário';
-  const s=document.getElementById('sideNav');
-  s.innerHTML='<div style=\"padding:1rem 0.75rem;font-weight:700;font-size:0.85rem;border-bottom:1px solid var(--s2);margin-bottom:0.5rem\">'+uname+'<div style=\"font-size:0.6rem;color:var(--m);text-transform:uppercase\">'+actRole+'</div></div>'+
-    items.map(([p,l])=>`<a href=\"#\" class=\"side-link\" data-page=\"${p}\" onclick=\"navigate('${p}');return false\">${l}</a>`).join('')+
-    '<div style=\"margin-top:auto;padding:0.75rem;border-top:1px solid var(--s2)\"><a href=\"#\" onclick=\"logout();return false\" style=\"color:var(--m);font-size:0.7rem\">🚪 Sair</a></div>';
+  const items = navs[actRole] || navs.cliente;
+  const uname = actUser ? actUser.nome : 'Usuário';
+  const s = document.getElementById('sideNav');
+  s.innerHTML = '<div style="padding:1rem 0.75rem;font-weight:700;font-size:0.85rem;border-bottom:1px solid var(--b);margin-bottom:0.5rem">'+uname+'<div style="font-size:0.6rem;color:var(--m);text-transform:uppercase;letter-spacing:0.15em">'+actRole+'</div></div>'+
+    items.map(([p,l]) => '<a href="#" class="side-link" data-page="'+p+'" onclick="navigate(\''+p+'\');return false">'+l+'</a>').join('')+
+    '<div style="margin-top:auto;padding:0.75rem;border-top:1px solid var(--b)"><a href="#" onclick="logout();return false" style="color:var(--m);font-size:0.7rem;text-decoration:none">🚪 Sair</a></div>';
 }
 
-// ═══════════════ INIT ═══════════════
-(function(){
-  const uid=DB.getSession();
-  if(uid){actUser=DB.getUser(uid);if(actUser){actRole=actUser.role;document.getElementById('landingPage').style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('appShell').style.display='flex';buildSidebar();navigate(actUser.role==='dono'?'dashboard':actUser.role==='barbeiro'?'meu-dash':'cliente-inicio');return;}}
-  document.getElementById('landingPage').style.display='flex';
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appShell').style.display='none';
+// ═══════════════ LANDING PAGE RENDER ═══════════════
+function renderLanding() {
+  // Serviços
+  let svcHtml = '';
+  servicos.forEach(s => {
+    svcHtml += '<div class="landing-card"><div class="landing-card-img"><div class="ph">✂</div></div>';
+    svcHtml += '<div class="landing-card-name">'+s.nome+'</div>';
+    svcHtml += '<div class="landing-card-price">R$ '+s.preco+'</div>';
+    svcHtml += '<div class="landing-card-period">por sessão</div></div>';
+  });
+  document.getElementById('lpServicos').innerHTML = svcHtml;
+
+  // Planos
+  let planHtml = '';
+  combos.forEach((c,i) => {
+    const featured = i===1 ? ' featured' : '';
+    planHtml += '<div class="landing-card'+featured+'"><div class="landing-card-name">'+c.nome+'</div>';
+    planHtml += '<div class="landing-card-sub">'+c.desc+'</div>';
+    planHtml += '<div class="landing-card-price">R$ '+c.preco+'</div>';
+    planHtml += '<div class="landing-card-period">por mês</div>';
+    planHtml += '<button class="landing-btn'+(featured?' featured':'')+'" onclick="openCheckout(\''+c.id+'\')">Assinar</button></div>';
+  });
+  document.getElementById('lpPlanos').innerHTML = planHtml;
+
+  // Barbeiros
+  let barbHtml = '';
+  barbers.forEach(b => {
+    barbHtml += '<div class="landing-card"><div class="landing-card-img"><div class="ph">👤</div></div>';
+    barbHtml += '<div class="landing-card-name">'+b.nome+'</div>';
+    barbHtml += '<div class="landing-card-sub">'+b.esp+'</div>';
+    barbHtml += '<button class="landing-btn" onclick="showLoginFromLanding()">Agendar</button></div>';
+  });
+  document.getElementById('lpBarbeiros').innerHTML = barbHtml;
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════ RENDER FUNCTIONS ═══════════════
+const RENDER = {
+  // ── DONO ──
+  'dashboard': function() {
+    const totalBookings = DB.getBookings().length;
+    const totalUsers = DB.getAllUsers().length;
+    const totalBarbers = barbers.length;
+    const activeBookings = DB.getBookings({status:'confirmed'}).length;
+    const receita = totalBookings * 65;
+
+    return `<div class="page active">
+      <div class="page-title">Dashboard</div><div class="page-sub">VISÃO GERAL DO NEGÓCIO</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Agendamentos</div><div class="stat-value">${activeBookings}</div><div class="stat-sub">Total: ${totalBookings}</div></div>
+        <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value">${totalUsers}</div><div class="stat-sub">Cadastrados</div></div>
+        <div class="stat-card"><div class="stat-label">Barbeiros</div><div class="stat-value">${totalBarbers}</div><div class="stat-sub">Ativos</div></div>
+        <div class="stat-card kpi-highlight"><div class="stat-label">Receita Est.</div><div class="stat-value">R$ ${receita}</div><div class="stat-delta">Base bookings</div></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-box">
+          <div class="chart-title">AGENDAMENTOS POR BARBEIRO</div>
+          <div class="bar-group">
+            ${barbers.map(b=>{
+              const cnt = DB.getBookings({barberId:b.id,status:'confirmed'}).length;
+              const h = Math.min(cnt*10, 100);
+              return '<div class="bar-col"><div class="bar-value">'+cnt+'</div><div class="bar" style="height:'+h+'px;background:var(--g)"></div><div class="bar-label">'+b.nome+'</div></div>';
+            }).join('')}
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-title">ÚLTIMOS AGENDAMENTOS</div>
+          <div style="margin-top:12px">
+            ${DB.getBookings().slice(-5).reverse().map(b=>{
+              const barb=barbers.find(x=>x.id===b.barberId);
+              const u=DB.getUser(b.userId);
+              return '<div style="padding:8px 0;border-bottom:1px solid var(--b);font-size:0.7rem"><span style="color:var(--g)">'+b.day+' '+b.slot+'</span> — '+(barb?barb.nome:'?')+' — '+(u?u.nome:'Cliente')+' <span class="badge badge-gr">'+b.status+'</span></div>';
+            }).join('')||'<div style="color:var(--m);padding:20px;text-align:center">Nenhum agendamento</div>'}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  },
+
+  'agenda': function() {
+    const bookings = DB.getBookings({status:'confirmed'}).sort((a,b)=>a.day.localeCompare(b.day)||a.slot.localeCompare(b.slot));
+    return `<div class="page active"><div class="page-title">Agenda Geral</div><div class="page-sub">TODOS OS AGENDAMENTOS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 1fr 1fr 1fr 0.6fr">
+          <span>Data</span><span>Horário</span><span>Barbeiro</span><span>Cliente</span><span></span>
+        </div>
+        ${bookings.map(b=>{
+          const barb=barbers.find(x=>x.id===b.barberId);
+          const u=DB.getUser(b.userId);
+          return '<div class="table-row" style="grid-template-columns:1fr 1fr 1fr 1fr 0.6fr"><span>'+b.day+'</span><span>'+b.slot+'</span><span>'+(barb?barb.nome:'?')+'</span><span>'+(u?u.nome:'?')+'</span><button class="btn-sm danger" onclick="DB.cancelBooking(\''+b.id+'\');navigate(\'agenda\')">Cancelar</button></div>';
+        }).join('')||'<div class="table-row" style="justify-content:center;color:var(--m)">Nenhum agendamento</div>'}
+      </div>
+    </div>`;
+  },
+
+  'barbeiros': function() {
+    return `<div class="page active"><div class="page-title">Profissionais</div><div class="page-sub">GERENCIAR BARBEIROS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 1fr 0.8fr 0.8fr">
+          <span>Nome</span><span>Especialidade</span><span>Comissão</span><span>Agend.</span>
+        </div>
+        ${barbers.map(b=>{
+          const cnt = DB.getBookings({barberId:b.id,status:'confirmed'}).length;
+          return '<div class="table-row" style="grid-template-columns:1fr 1fr 0.8fr 0.8fr"><span><strong>'+b.nome+'</strong></span><span>'+b.esp+'</span><span>'+b.comissao+'%</span><span>'+cnt+'</span></div>';
+        }).join('')}
+      </div>
+    </div>`;
+  },
+
+  'servicos': function() {
+    return `<div class="page active"><div class="page-title">Serviços</div><div class="page-sub">GERENCIAR SERVIÇOS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 0.6fr"><span>Serviço</span><span>Preço</span></div>
+        ${servicos.map(s=>'<div class="table-row" style="grid-template-columns:1fr 0.6fr"><span>'+s.nome+'</span><span style="color:var(--g)">R$ '+s.preco+'</span></div>').join('')}
+      </div>
+    </div>`;
+  },
+
+  'combos-admin': function() {
+    return `<div class="page active"><div class="page-title">Combos</div><div class="page-sub">GERENCIAR PLANOS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 0.5fr 1fr"><span>Plano</span><span>Preço</span><span>Descrição</span></div>
+        ${combos.map(c=>'<div class="table-row" style="grid-template-columns:1fr 0.5fr 1fr"><span><strong>'+c.nome+'</strong></span><span style="color:var(--g)">R$ '+c.preco+'</span><span>'+c.desc+'</span></div>').join('')}
+      </div>
+    </div>`;
+  },
+
+  'cupons': function() {
+    const cupons = DB.getCupons();
+    return `<div class="page active"><div class="page-title">Cupons</div><div class="page-sub">GERENCIAR CUPONS DE DESCONTO</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 0.5fr 0.5fr"><span>Código</span><span>Desconto</span><span>Status</span></div>
+        ${cupons.map(cp=>'<div class="table-row" style="grid-template-columns:1fr 0.5fr 0.5fr"><span><strong>'+cp.codigo+'</strong></span><span>'+cp.desconto+'%</span><span class="badge '+(cp.ativo?'badge-gr':'badge-r')+'">'+(cp.ativo?'Ativo':'Inativo')+'</span></div>').join('')}
+      </div>
+    </div>`;
+  },
+
+  'financeiro': function() {
+    const total = DB.getBookings().length * 65;
+    return `<div class="page active"><div class="page-title">Financeiro</div><div class="page-sub">VISÃO FINANCEIRA</div>
+      <div class="stats-grid">
+        <div class="stat-card kpi-highlight"><div class="stat-label">Receita Total</div><div class="stat-value">R$ ${total}</div><div class="stat-sub">Estimativa</div></div>
+        <div class="stat-card"><div class="stat-label">Comissões</div><div class="stat-value">R$ ${Math.round(total*0.45)}</div><div class="stat-sub">~45% barbeiros</div></div>
+      </div>
+    </div>`;
+  },
+
+  'config': function() {
+    return `<div class="page active"><div class="page-title">Configurações</div><div class="page-sub">AJUSTES DO SISTEMA</div>
+      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Configurações do sistema — em desenvolvimento</div>
+    </div>`;
+  },
+
+  // ── BARBEIRO ──
+  'meu-dash': function() {
+    if (!actUser) return '';
+    const barb = barbers.find(b=>{
+      const u = DB.getAllUsers().find(u=>u.id===actUser.id);
+      return u && b.email===u.email;
+    });
+    const myBookings = DB.getBookings({barberId:barb?barb.id:'',status:'confirmed'});
+    return `<div class="page active"><div class="page-title">Meu Painel</div><div class="page-sub">BEM-VINDO, ${actUser.nome.toUpperCase()}</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Agendamentos</div><div class="stat-value">${myBookings.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Comissão</div><div class="stat-value">${barb?barb.comissao:0}%</div></div>
+      </div>
+    </div>`;
+  },
+
+  'minha-agenda': function() {
+    if (!actUser) return '';
+    const u = DB.getAllUsers().find(u=>u.id===actUser.id);
+    const barb = barbers.find(b=>u&&b.email===u.email);
+    const myBookings = DB.getBookings({barberId:barb?barb.id:'',status:'confirmed'}).sort((a,b)=>a.day.localeCompare(b.day)||a.slot.localeCompare(b.slot));
+    return `<div class="page active"><div class="page-title">Minha Agenda</div><div class="page-sub">MEUS AGENDAMENTOS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 1fr 1fr"><span>Data</span><span>Horário</span><span>Cliente</span></div>
+        ${myBookings.map(b=>{
+          const cli = DB.getUser(b.userId);
+          return '<div class="table-row" style="grid-template-columns:1fr 1fr 1fr"><span>'+b.day+'</span><span>'+b.slot+'</span><span>'+(cli?cli.nome:'Cliente')+'</span></div>';
+        }).join('')||'<div class="table-row" style="justify-content:center;color:var(--m)">Nenhum agendamento</div>'}
+      </div>
+    </div>`;
+  },
+
+  'meu-perfil': function() {
+    if (!actUser) return '';
+    return `<div class="page active"><div class="page-title">Meu Perfil</div><div class="page-sub">DADOS PESSOAIS</div>
+      <div style="border:1px solid var(--b);padding:24px">
+        <div class="modal-field"><label>Nome</label><input value="${actUser.nome}" readonly></div>
+        <div class="modal-field"><label>Email</label><input value="${actUser.email}" readonly></div>
+        <div class="modal-field"><label>Função</label><input value="${actUser.role.toUpperCase()}" readonly></div>
+      </div>
+    </div>`;
+  },
+
+  'meus-horarios': function() {
+    return `<div class="page active"><div class="page-title">Meus Horários</div><div class="page-sub">DISPONIBILIDADE</div>
+      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Configure seus horários de atendimento</div>
+    </div>`;
+  },
+
+  'meus-dados-bancarios': function() {
+    return `<div class="page active"><div class="page-title">Dados Bancários</div><div class="page-sub">RECEBIMENTOS</div>
+      <div style="border:1px solid var(--b);padding:24px">
+        <div class="modal-field"><label>Banco</label><input placeholder="Nome do banco"></div>
+        <div class="modal-field"><label>Agência</label><input placeholder="Número da agência"></div>
+        <div class="modal-field"><label>Conta</label><input placeholder="Número da conta"></div>
+        <div class="modal-field"><label>Chave PIX</label><input placeholder="CPF/Email/Telefone"></div>
+      </div>
+    </div>`;
+  },
+
+  'meu-split': function() {
+    return `<div class="page active"><div class="page-title">Comissão</div><div class="page-sub">MEUS GANHOS</div>
+      <div class="stats-grid">
+        <div class="stat-card kpi-highlight"><div class="stat-label">Comissão Estimada</div><div class="stat-value">R$ ${DB.getBookings({status:'confirmed'}).length*65*0.45}</div></div>
+      </div>
+    </div>`;
+  },
+
+  // ── CLIENTE ──
+  'cliente-inicio': function() {
+    if (!actUser) return '';
+    const myBookings = DB.getBookingsForUser(actUser.id).filter(b=>b.status==='confirmed');
+    const nextBooking = myBookings.sort((a,b)=>a.day.localeCompare(b.day)||a.slot.localeCompare(b.slot))[0];
+
+    return `<div class="page active">
+      <div class="page-title">Olá, ${actUser.nome.split(' ')[0]}</div>
+      <div class="page-sub">BEM-VINDO À NAVALHA & ARTE</div>
+      ${nextBooking ? '<div class="stat-card kpi-highlight" style="margin-bottom:24px"><div class="stat-label">PRÓXIMO AGENDAMENTO</div><div class="stat-value" style="font-size:1.4rem">'+nextBooking.day+' às '+nextBooking.slot+'</div><div class="stat-sub">'+(barbers.find(b=>b.id===nextBooking.barberId)||{nome:'Profissional'}).nome+'</div></div>' : '<div style="color:var(--m);margin-bottom:24px">Você não tem agendamentos. <a href="#" onclick="navigate(\'agendar\')" style="color:var(--g)">Agende agora</a></div>'}
+
+      <h3 style="font-family:var(--d);font-size:1.2rem;margin:24px 0 12px;font-weight:300">Nossos Serviços</h3>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+        ${servicos.map(s=>'<div class="landing-card" style="padding:20px 16px"><div class="landing-card-name" style="font-size:1rem">'+s.nome+'</div><div class="landing-card-price" style="font-size:1.4rem">R$ '+s.preco+'</div><div class="landing-card-period">por sessão</div></div>').join('')}
+      </div>
+
+      <h3 style="font-family:var(--d);font-size:1.2rem;margin:24px 0 12px;font-weight:300">Nossos Planos</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px">
+        ${combos.map((c,i)=>{
+          const featured = i===1 ? ' featured' : '';
+          return '<div class="landing-card'+featured+'" style="padding:24px 20px"><div class="landing-card-name">'+c.nome+'</div><div class="landing-card-sub">'+c.desc+'</div><div class="landing-card-price">R$ '+c.preco+'</div><div class="landing-card-period">por mês</div><button class="landing-btn'+(featured?' featured':'')+'" onclick="openCheckout(\''+c.id+'\')" style="margin-top:16px">Assinar</button></div>';
+        }).join('')}
+      </div>
+
+      <h3 style="font-family:var(--d);font-size:1.2rem;margin:24px 0 12px;font-weight:300">Nossos Barbeiros</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        ${barbers.map(b=>'<div class="landing-card" style="padding:20px 16px"><div class="landing-card-name" style="font-size:1rem">'+b.nome+'</div><div class="landing-card-sub">'+b.esp+'</div><button class="landing-btn" onclick="openBooking(\''+b.id+'\')" style="margin-top:12px">Agendar</button></div>').join('')}
+      </div>
+    </div>`;
+  },
+
+  'agendar': function() {
+    return `<div class="page active">
+      <div class="page-title">Agendar</div><div class="page-sub">ESCOLHA SEU BARBEIRO E HORÁRIO</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        ${barbers.map(b=>'<div class="landing-card" style="padding:24px 20px"><div class="avatar gold" style="margin:0 auto 12px;width:56px;height:56px;font-size:1.6rem">'+b.nome[0]+'</div><div class="landing-card-name">'+b.nome+'</div><div class="landing-card-sub">'+b.esp+'</div><button class="landing-btn" onclick="openBooking(\''+b.id+'\')" style="margin-top:12px;width:100%">Agendar com '+b.nome+'</button></div>').join('')}
+      </div>
+    </div>`;
+  },
+
+  'meus-agendamentos': function() {
+    if (!actUser) return '';
+    const myBookings = DB.getBookingsForUser(actUser.id).sort((a,b)=>b.day.localeCompare(a.day)||b.slot.localeCompare(a.slot));
+    return `<div class="page active"><div class="page-title">Meus Agendamentos</div><div class="page-sub">HISTÓRICO DE AGENDAMENTOS</div>
+      <div class="table-wrap">
+        <div class="table-row table-hd" style="grid-template-columns:1fr 1fr 1fr 0.8fr 0.6fr"><span>Data</span><span>Horário</span><span>Barbeiro</span><span>Status</span><span></span></div>
+        ${myBookings.map(b=>{
+          const barb = barbers.find(x=>x.id===b.barberId);
+          const statusCls = b.status==='confirmed'?'badge-gr':b.status==='cancelled'?'badge-r':'';
+          const canCancel = b.status==='confirmed';
+          return '<div class="table-row" style="grid-template-columns:1fr 1fr 1fr 0.8fr 0.6fr"><span>'+b.day+'</span><span>'+b.slot+'</span><span>'+(barb?barb.nome:'?')+'</span><span class="badge '+statusCls+'">'+b.status+'</span>'+(canCancel?'<button class="btn-sm danger" onclick="DB.cancelBooking(\''+b.id+'\');navigate(\'meus-agendamentos\');showToast(\'Agendamento cancelado\')">Cancelar</button>':'<span></span>')+'</div>';
+        }).join('')||'<div class="table-row" style="justify-content:center;color:var(--m);padding:32px">Nenhum agendamento encontrado</div>'}
+      </div>
+    </div>`;
+  },
+
+  'cliente-pagamentos': function() {
+    return `<div class="page active"><div class="page-title">Pagamentos</div><div class="page-sub">HISTÓRICO DE PAGAMENTOS</div>
+      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Nenhum pagamento registrado ainda.</div>
+    </div>`;
+  },
+
+  'default': function() {
+    return `<div class="page active"><div class="page-title">Página</div><div class="page-sub">${actPage}</div>
+      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Conteúdo em construção</div>
+    </div>`;
+  },
+};
+
+// ═══════════════ INIT — SESSÃO SOBREVIVE RELOAD ═══════════════
+(function() {
+  const uid = DB.getSession();
+  if (uid) {
+    actUser = DB.getUser(uid);
+    if (actUser) {
+      actRole = actUser.role;
+      document.getElementById('landingPage').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appShell').style.display = 'flex';
+      buildSidebar();
+      navigate(actUser.role === 'dono' ? 'dashboard' : actUser.role === 'barbeiro' ? 'meu-dash' : 'cliente-inicio');
+      return;
+    }
+  }
+  // No session — show landing
+  document.getElementById('landingPage').style.display = 'flex';
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'none';
   renderLanding();
 })();
 </script>
+
 
 </body>
 </html>
