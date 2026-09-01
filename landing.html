@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navalha Barbearia</title>
+<style>
+/* �═══════════════ Apple-inspired — Navalha �═══════════════ */
+:root {
+  --amber: #c8873a;
+  --amber-hover: #a06d2e;
+  --amber-light: rgba(200,135,58,0.12);
+  --black: #000000;
+  --near-black: #1d1d1f;
+  --gray: #f5f5f7;
+  --text-secondary: rgba(0,0,0,0.8);
+  --text-tertiary: rgba(0,0,0,0.48);
+  --white: #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; color: var(--near-black); background: var(--white);
+}
+
+/* �═══════ Navigation �═══════ */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  height: 48px; display:flex; align-items: center; justify-content: space-between;
+  padding: 0 22px;
+  background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+nav .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.37px; color: var(--white); }
+nav .nav-links { display:flex; gap: 24px; align-items: center; }
+nav .nav-links a {
+  font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.8); text-decoration: none;
+  letter-spacing: -0.12px; transition: color 0.2s;
+}
+nav .nav-links a:hover { color: var(--white); }
+nav .nav-cta {
+  background: var(--amber); color: var(--white); border: none;
+  padding: 8px 15px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  cursor: pointer; letter-spacing: -0.12px; transition: background 0.2s;
+}
+nav .nav-cta:hover { background: var(--amber-hover); }
+
+/* �═══════ Hero — Black �═══════ */
+.hero {
+  min-height: 100vh; background: var(--black); color: var(--white);
+  display:flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 24px 60px; position: relative; overflow: hidden;
+}
+.hero .hero-ambient {
+  position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,135,58,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: 56px; font-weight: 600; line-height: 1.07; letter-spacing: -0.28px;
+  max-width: 700px; position: relative; z-index:1;
+}
+.hero .hero-sub {
+  font-size: 21px; font-weight: 400; line-height: 1.19; letter-spacing: 0.231px;
+  margin-top: 12px; color: rgba(255,255,255,0.7); max-width: 500px; position: relative; z-index:1;
+}
+.hero .hero-ctas {
+  display:flex; gap: 12px; margin-top: 28px; position: relative; z-index:1;
+}
+.hero .pill-outline {
+  display: inline-block; padding: 10px 22px; border-radius: 980px;
+  border: 1px solid var(--amber); color: var(--amber); text-decoration: none;
+  font-size: 14px; font-weight: 400; letter-spacing: -0.22px; cursor: pointer;
+  background: transparent; transition: all 0.2s;
+}
+.hero .pill-outline:hover { background: var(--amber-light); }
+.hero .pill-fill {
+  display: inline-block; padding: 10px 22px; border-radius: 980px;
+  background: var(--amber); color: var(--white); text-decoration: none;
+  font-size: 14px; font-weight: 500; letter-spacing: -0.22px; cursor: pointer;
+  border: none; transition: background 0.2s;
+}
+.hero .pill-fill:hover { background: var(--amber-hover); }
+
+/* �═══════ Sections �═══════ */
+.section { padding: 100px 24px; }
+.section-dark { background: var(--black); color: var(--white); }
+.section-light { background: var(--gray); }
+.section-white { background: var(--white); }
+.section .container { max-width: 980px; margin:0 auto; }
+.section h2 {
+  font-size: 40px; font-weight: 600; line-height: 1.10;
+  text-align: center; margin-bottom: 16px;
+}
+.section .section-sub {
+  font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.37px;
+  text-align: center; margin-bottom: 60px; max-width: 600px; margin-left: auto; margin-right: auto;
+}
+.section-dark .section-sub { color: rgba(255,255,255,0.6); }
+.section-light .section-sub, .section-white .section-sub { color: var(--text-secondary); }
+
+/* �═══════ Service Cards �═══════ */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
+.card {
+  background: var(--white); border-radius: 8px; overflow: hidden;
+  box-shadow: rgba(0,0,0,0.22) 3px 5px 30px 0px; transition: transform 0.3s;
+}
+.card:hover { transform: translateY(-4px); }
+.section-dark .card { background: #272729; }
+.section-dark .card h3 { color: var(--white); }
+.section-dark .card p { color: rgba(255,255,255,0.6); }
+.card .card-img {
+  width: 100%; height: 200px; object-fit: cover; background: var(--gray);
+  display:flex; align-items: center; justify-content: center; font-size: 48px;
+}
+.card .card-body { padding: 20px; }
+.card h3 { font-size: 21px; font-weight: 600; line-height: 1.19; margin-bottom: 6px; }
+.card p { font-size: 14px; line-height: 1.43; letter-spacing: -0.22px; color: var(--text-tertiary); margin-bottom: 12px; }
+.card .card-price { font-size: 28px; font-weight: 600; color: var(--amber); margin-bottom: 8px; display: block; }
+.card .card-link {
+  color: var(--amber); font-size: 14px; text-decoration: none; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;
+}
+.card .card-link:hover { text-decoration: underline; }
+
+/* �═══════ Barber Cards �═══════ */
+.barbers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
+.barber-card {
+  background: var(--white); border-radius: 8px; overflow: hidden;
+  box-shadow: rgba(0,0,0,0.22) 3px 5px 30px 0px; text-align: center;
+}
+.section-dark .barber-card { background: #272729; }
+.barber-card .barber-avatar {
+  width: 100%; height: 300px; object-fit: cover; background: var(--gray);
+  display:flex; align-items: center; justify-content: center; font-size: 64px;
+}
+.barber-card .barber-body { padding: 24px; }
+.barber-card h3 { font-size: 21px; font-weight: 600; margin-bottom: 4px; }
+.section-dark .barber-card h3 { color: var(--white); }
+.barber-card .barber-spec { font-size: 14px; color: var(--text-tertiary); margin-bottom: 12px; }
+.section-dark .barber-card .barber-spec { color: rgba(255,255,255,0.5); }
+.barber-card .barber-star { color: var(--amber); font-size: 14px; margin-bottom: 8px; }
+
+/* �═══════ CTA Section �═══════ */
+.cta-section {
+  background: var(--black); color: var(--white); text-align: center;
+  padding: 80px 24px;
+}
+.cta-section h2 { font-size: 40px; font-weight: 600; line-height: 1.10; margin-bottom: 12px; }
+.cta-section p { font-size: 17px; color: rgba(255,255,255,0.6); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+/* �═══════ Footer �═══════ */
+footer {
+  background: var(--gray); padding: 32px 24px; text-align: center;
+}
+footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); letter-spacing: -0.12px; }
+
+/* �═══════ Modal �═══════ */
+.modal-overlay {
+  display: none; position: fixed; inset:0; z-index:200;
+  background: rgba(0,0,0,0.5); align-items: center; justify-content: center;
+}
+.modal-overlay.on { display:flex; }
+.modal {
+  background: var(--white); border-radius: 12px; padding: 32px;
+  max-width: 400px; width: 90%; box-shadow: rgba(0,0,0,0.22) 3px 5px 30px 0px;
+}
+.modal h3 { font-size: 21px; font-weight: 600; margin-bottom: 20px; }
+.modal label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-tertiary); }
+.modal input {
+  width: 100%; padding: 10px 12px; margin-bottom: 16px; border: 1px solid #d2d2d7;
+  border-radius: 6px; font-size: 15px; outline: none;
+}
+.modal input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-light); }
+.modal .btn-amber {
+  width: 100%; padding: 12px; background: var(--amber); color: var(--white);
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.modal .btn-amber:hover { background: var(--amber-hover); }
+.modal .modal-error { color: #e03; font-size: 13px; margin-top: 8px; display: none; }
+
+@media (max-width: 734px) {
+  .hero h1 { font-size: 32px; }
+  .section h2 { font-size: 28px; }
+  .section { padding: 60px 16px; }
+  nav .nav-links { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- �═══════ NAV �═══════ -->
+<nav>
+  <div class="logo">Navalha</div>
+  <div class="nav-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#planos">Planos</a>
+    <a href="#barbeiros">Barbeiros</a>
+    <a href="#contato">Contato</a>
+  </div>
+  <button class="nav-cta" onclick="openLogin()">Entrar</button>
+</nav>
+
+<!-- �═══════ HERO — Black �═══════ -->
+<section class="hero">
+  <div class="hero-ambient"></div>
+  <h1>Barbearia que entende seu estilo.</h1>
+  <p class="hero-sub">Cortes, barba e cuidados com a precisão que você merece.</p>
+  <div class="hero-ctas">
+    <a href="#planos" class="pill-outline">Ver planos</a>
+    <a href="#servicos" class="pill-fill">Agendar →</a>
+  </div>
+</section>
+
+<!-- �═══════ SERVIÇOS — Gray �═══════ -->
+<section class="section section-light" id="servicos">
+  <div class="container">
+    <h2>Nossos servi&ccedil;os.</h2>
+    <p class="section-sub">Cada corte pensado nos detalhes. Profissionais que tratam sua barba como obra de arte.</p>
+    <div class="cards-grid" id="servicos-grid"></div>
+  </div>
+</section>
+
+<!-- �═══════ PLANOS — Black �═══════ -->
+<section class="section section-dark" id="planos">
+  <div class="container">
+    <h2>Escolha seu plano.</h2>
+    <p class="section-sub">Assinatura mensal com benefiícios que crescem com você.</p>
+    <div class="cards-grid" id="planos-grid"></div>
+  </div>
+</section>
+
+<!-- �═══════ BARBEIROS — White �═══════ -->
+<section class="section section-white" id="barbeiros">
+  <div class="container">
+    <h2>Conhe&ccedil;a os barbeiros.</h2>
+    <p class="section-sub">Profissionais selecionados. Cada um com sua especialidade.</p>
+    <div class="barbers-grid" id="barbeiros-grid"></div>
+      </div>
+</section>
+
+<!-- �═══════ CTA — Black �═══════ -->
+<section class="cta-section" id="contato">
+  <h2>Pronto pra uma navalha de verdade?</h2>
+  <p>Assine um plano e agente seu primeiro horário ainda hoje.</p>
+  <button class="pill-fill" style="font-size:17px; padding:12px 28px;" onclick="openCheckout('c1')">Come&ccedil;ar agora</button>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <p>Navalha Barbearia &copy; 2026 &mdash; S&atilde;o Paulo, SP</p>
+</footer>
+
+<!-- ═══════ MODAL: CHECKOUT ═══════ -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <h3 id="checkoutTitle">Assinar plano</h3>
+    <label>Nome</label><input id="chkNome" placeholder="Seu nome completo">
+    <label>Email</label><input id="chkEmail" placeholder="seu@email.com" type="email">
+    <label>WhatsApp</label><input id="chkWhats" placeholder="(11) 99999-9999">
+    <p style="text-align:center; margin:12px 0; font-weight:600" id="chkPlanName"></p>
+    <p style="text-align:center; font-size:28px; font-weight:600; color:var(--amber)" id="chkTotal"></p>
+    <p class="modal-error" id="checkoutError">Preencha todos os campos.</p>
+    <button class="btn-amber" onclick="processCheckout()">Confirmar e pagar</button>
+    <button style="width:100%; padding:8px; margin-top:8px; background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:13px" onclick="closeCheckout()">Cancelar</button>
+  </div>
+</div>
+
+<!-- �═══════ MODAL: LOGIN �═══════ -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <h3>Entrar</h3>
+    <label>Email</label><input id="loginEmail" placeholder="seu@email.com" type="email">
+    <label>Senha</label><input id="loginPass" type="password" placeholder="Sua senha">
+    <p class="modal-error" id="loginError">Email ou senha inv&aacute;lidos.</p>
+    <button class="btn-amber" onclick="doLogin()">Entrar</button>
+    <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-tertiary)">
+      Não tem conta? <a href="#" onclick="switchToCadastro()" style="color:var(--amber); text-decoration:none">Criar conta</a>
+    </p>
+    <button style="width:100%; padding:8px; margin-top:8px; background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:13px" onclick="closeLogin()">Fechar</button>
+  </div>
+</div>
+
+<!-- �═══════ MODAL: CADASTRO �═══════ -->
+<div class="modal-overlay" id="cadastroModal">
+  <div class="modal">
+    <h3>Criar conta</h3>
+    <label>Nome</label><input id="cadNome" placeholder="Seu nome">
+    <label>Email</label><input id="cadEmail" placeholder="seu@email.com" type="email">
+    <label>Senha</label><input id="cadPass" type="password" placeholder="Mi&iacute;nimo 4 caracteres">
+    <label>Tipo</label>
+    <select id="cadRole" style="width:100%; padding:10px 12px; margin-bottom:16px; border:1px solid #d2d2d7; border-radius:6px; font-size:15px">
+      <option value="cliente">Cliente</option>
+      <option value="barbeiro">Barbeiro</option>
+    </select>
+    <p class="modal-error" id="cadastroError">Preencha todos os campos.</p>
+    <button class="btn-amber" onclick="doCadastro()">Criar conta</button>
+    <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-tertiary)">
+      J&aacute; tem conta? <a href="#" onclick="switchToLogin()" style="color:var(--amber); text-decoration:none">Entrar</a>
+    </p>
+    <button style="width:100%; padding:8px; margin-top:8px; background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:13px" onclick="closeCadastro()">Fechar</button>
+  </div>
+</div>
+
+<script>
+// ═══════ DATABASE ═══════
+const DB = {
+  _key: 'navalha_db_v1',
+  _init() {
+    if (!localStorage.getItem(this._key)) {
+      const seed = {
+        users: [],
+        sessions: {},
+        servicos: [
+          {id:'s1',nome:'Corte Clássico', desc:'Tesoura e máquina. Finalização com navalha.', preco:45, emoji:'✂️'},
+          {id:'s2',nome:'Barba Completa', desc:'Toalha quente, óleos e navalha.', preco:35, emoji:'🪒'},
+          {id:'s3',nome:'Combo Corte + Barba', desc:'O ritual completo. Corte e barba.', preco:65, emoji:'💈'},
+          {id:'s4',nome:'Hidratação', desc:'Tratamento com queratina e óleos essenciais.', preco:55, emoji:'✨'},
+          {id:'s5',nome:'Sombrancelha', desc:'Design com navalha. Precisão.', preco:25, emoji:'👁'},
+          {id:'s6',nome:'Pezinho & Navalha', desc:'Acabamento com navalha quente.', preco:20, emoji:'🔥'},
+        ],
+        combos: [
+          {id:'c1',nome:'Mensal Bronze', preco:79, servicos:'4 cortes/mês', desc:'Ideal pra manter o estilo em dia.'},
+          {id:'c2',nome:'Mensal Prata', preco:129, servicos:'8 cortes/mês + 1 barba', desc:'Pra quem não abre mão de nada.'},
+          {id:'c3',nome:'Mensal Ouro', preco:199, servicos:'Ilimitado + barba + hidratação', desc:'O tratamento completo. Sem limites.'},
+        ],
+        barbeiros: [
+          {id:'b1',nome:'Ricardo', espec:'Barbearia Clássica', estrelas:5, emoji:'🧔'},
+          {id:'b2',nome:'Marcos', espec:'Cortes Modernos', estrelas:5, emoji:'💇'},
+          {id:'b3',nome:'Thiago', espec:'Barba & Navalha', estrelas:4, emoji:'🪒'},
+        ]
+      };
+      localStorage.setItem(this._key, JSON.stringify(seed));
+    }
+    return JSON.parse(localStorage.getItem(this._key));
+  },
+  _save(d) { localStorage.setItem(this._key, JSON.stringify(d)); },
+  createUser(n, e, p, r) {
+    const db=this._init(); if(db.users.find(u=>u.email===e)) return null;
+    const u={id:'u'+Date.now(),nome:n, email:e, senha:p, role:r, createdAt: new Date().toISOString()};
+    db.users.push(u); this._save(db); return u;
+  },
+  loginUser(e, p) { return this._init().users.find(u=>u.email===e && u.senha===p)||null; },
+  getUser(id) { return this._init().users.find(u=>u.id===id)||null; },
+  setSession(uid) { const db=this._init(); db.sessions.current=uid; this._save(db); },
+  getSession() { return this._init().sessions.current||null; },
+  clearSession() { const db=this._init(); delete db.sessions.current; this._save(db); },
+  getServicos() { return this._init().servicos; },
+  getCombos() { return this._init().combos; },
+  getBarbeiros() { return this._init().barbeiros; },
+}; DB._init();
+let actUser=null, actRole='';
+let _chkCombo=null;
+
+// ═══════ RENDER ═══════
+function renderServicos(){
+  const svcs=DB.getServicos();
+  const g=document.getElementById('servicos-grid');
+  g.innerHTML=svcs.map(s=>`
+    <div class="card">
+      <div class="card-img" style="font-size:56px">${s.emoji}</div>
+      <div class="card-body">
+        <h3>${s.nome}</h3>
+        <p>${s.desc}</p>
+        <span class="card-price">R$${s.preco}</span>
+        <a href="#" class="card-link" onclick="openCheckout('c1'); return false">Assinar →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPlanos(){
+  const cs=DB.getCombos();
+  const g=document.getElementById('planos-grid');
+  g.innerHTML=cs.map(c=>`
+    <div class="card" style="${c.id==='c2'?'border:2px solid var(--amber)':''}">
+      <div class="card-body" style="text-align:center; padding:32px 20px">
+        ${c.id==='c2'? '<span style="background:var(--amber); color:#fff; padding:2px 10px; border-radius:980px; font-size:11px; font-weight:600">MAIS POPULAR</span><br>':''}
+        <h3 style="margin-top:${c.id==='c2'?'8px':'0'}">${c.nome}</h3>
+        <p>${c.desc}</p>
+        <span class="card-price" style="display:block; text-align:center">R$${c.preco}<span style="font-size:14px; color:var(--text-tertiary)">/m&ecirc;s</span></span>
+        <p style="text-align:center; margin:8px 0">${c.servicos}</p>
+        <button class="pill-fill" style="width:100%; margin-top:12px" onclick="openCheckout('${c.id}')">Assinar</button>
+        <a href="#" class="card-link" style="margin-top:8px; justify-content:center" onclick="return false">Saiba mais →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBarbeiros(){
+  const bs=DB.getBarbeiros();
+  const g=document.getElementById('barbeiros-grid');
+  g.innerHTML=bs.map(b=>`
+    <div class="barber-card">
+      <div class="barber-avatar" style="font-size:72px">${b.emoji}</div>
+      <div class="barber-body">
+        <h3>${b.nome}</h3>
+        <p class="barber-spec">${b.espec}</p>
+        <p class="barber-star">${'★'.repeat(b.estrelas)}${'☆'.repeat(5-b.estrelas)}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// �═══════ MODALS �═══════
+function openLogin(){ document.getElementById('loginModal').classList.add('on'); }
+function closeLogin(){ document.getElementById('loginModal').classList.remove('on'); }
+function openCadastro(){ document.getElementById('cadastroModal').classList.add('on'); }
+function closeCadastro(){ document.getElementById('cadastroModal').classList.remove('on'); }
+function switchToCadastro(){ closeLogin(); openCadastro(); }
+function switchToLogin(){ closeCadastro(); openLogin(); }
+
+function openCheckout(cid){
+  const c=DB.getCombos().find(x=>x.id===cid);
+  _chkCombo=c;
+  document.getElementById('checkoutTitle').textContent='Assinar '+c.nome;
+  document.getElementById('chkPlanName').textContent=c.nome+' &mdash; R$'+c.preco+'/m&ecirc;s';
+  document.getElementById('chkTotal').textContent='R$'+c.preco;
+  document.getElementById('checkoutModal').classList.add('on');
+}
+function closeCheckout(){ document.getElementById('checkoutModal').classList.remove('on'); }
+
+// �═══════ ACTIONS �═══════
+function doLogin(){
+  const e=document.getElementById('loginEmail').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const u=DB.loginUser(e,p);
+  if(!u){ document.getElementById('loginError').style.display='block'; return; }
+  actUser=u; actRole=u.role; DB.setSession(u.id);
+  closeLogin();
+  if(actRole==='dono'||actRole==='barbeiro') window.location.href='admin.html';
+}
+
+function doCadastro(){
+  const n=document.getElementById('cadNome').value.trim();
+  const e=document.getElementById('cadEmail').value.trim();
+  const p=document.getElementById('cadPass').value;
+  const r=document.getElementById('cadRole').value;
+  if(!n||!e||!p||p.length<4){ document.getElementById('cadastroError').style.display='block'; return; }
+  const u=DB.createUser(n,e,p,r);
+  if(!u){ document.getElementById('cadastroError').textContent='Email j&aacute; cadastrado.'; document.getElementById('cadastroError').style.display='block'; return; }
+  actUser=u; actRole=r; DB.setSession(u.id);
+  closeCadastro();
+  if(r==='dono'||r==='barbeiro') window.location.href='admin.html';
+}
+
+function processCheckout(){
+  const n=document.getElementById('chkNome').value.trim();
+  const e=document.getElementById('chkEmail').value.trim();
+  if(!n||!e){ document.getElementById('checkoutError').style.display='block'; return; }
+  const p='cliente123';
+  let u=DB.createUser(n,e,p,'cliente');
+  if(!u) u=DB.loginUser(e,p);
+  actUser=u; actRole='cliente'; DB.setSession(u.id);
+  closeCheckout();
+  window.location.href='admin.html';
+}
+
+// �═══════ INIT �═══════
+renderServicos(); renderPlanos(); renderBarbeiros();
+</script>
+</body>
+</html>
