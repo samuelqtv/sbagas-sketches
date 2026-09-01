@@ -112,8 +112,8 @@ nav .nav-cta:hover { background: var(--amber-hover); }
 .section-dark .card h3 { color: var(--white); }
 .section-dark .card p { color: rgba(255,255,255,0.6); }
 .card .card-img {
-  width: 100%; height: 200px; object-fit: cover; background: var(--gray);
-  display:flex; align-items: center; justify-content: center; font-size: 48px;
+  width: 100%; height: 200px; object-fit: cover;
+  border-radius: 8px 8px 0 0;
 }
 .card .card-body { padding: 20px; }
 .card h3 { font-size: 21px; font-weight: 600; line-height: 1.19; margin-bottom: 6px; }
@@ -133,8 +133,7 @@ nav .nav-cta:hover { background: var(--amber-hover); }
 }
 .section-dark .barber-card { background: #272729; }
 .barber-card .barber-avatar {
-  width: 100%; height: 300px; object-fit: cover; background: var(--gray);
-  display:flex; align-items: center; justify-content: center; font-size: 64px;
+  width: 100%; height: 300px; object-fit: cover;
 }
 .barber-card .barber-body { padding: 24px; }
 .barber-card h3 { font-size: 21px; font-weight: 600; margin-bottom: 4px; }
@@ -371,7 +370,7 @@ function renderServicos(){
   const g=document.getElementById('servicos-grid');
   g.innerHTML=svcs.map(s=>`
     <div class="card">
-      <div class="card-img" style="font-size:56px">${s.emoji}</div>
+      <img class="card-img" style="width:100%;height:200px;object-fit:cover;border-radius:8px 8px 0 0" src="https://picsum.photos/400/300?random=${s.id.charCodeAt(1)}" alt="${s.nome}" loading="lazy">
       <div class="card-body">
         <h3>${s.nome}</h3>
         <p>${s.desc}</p>
@@ -405,7 +404,7 @@ function renderBarbeiros(){
   const g=document.getElementById('barbeiros-grid');
   g.innerHTML=bs.map(b=>`
     <div class="barber-card">
-      <div class="barber-avatar" style="font-size:72px">${b.emoji}</div>
+      <img class="barber-avatar" style="width:100%;height:300px;object-fit:cover" src="https://ui-avatars.com/api/?name=${encodeURIComponent(b.nome)}&size=400&background=c8873a&color=fff&bold=true&font-size=0.4&length=1" alt="${b.nome}" loading="lazy">
       <div class="barber-body">
         <h3>${b.nome}</h3>
         <p class="barber-spec">${b.espec}</p>
