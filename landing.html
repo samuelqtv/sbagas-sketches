@@ -187,12 +187,23 @@ footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); lette
   .section { padding: 60px 16px; }
   nav .nav-links { display:none; }
 }
+<style>
+@media (max-width: 734px) {
+  nav .nav-links { display:none; }
+  nav .nav-links.open { display:flex; flex-direction:column; position:absolute; top:48px; left:0; right:0; background:rgba(0,0,0,0.95); padding:16px 22px; gap:12px; }
+  nav .nav-links.open a { font-size:16px; }
+  nav .hamburger { display:block !important; }
+}
+nav .hamburger { display:none; background:transparent; border:none; color:#fff; font-size:24px; cursor:pointer; padding:4px 8px; }
+
 </style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💈</text></svg>">
 </head>
 <body>
 
 <!-- �═══════ NAV �═══════ -->
 <nav>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
   <div class="logo">Navalha</div>
   <div class="nav-links">
     <a href="#servicos">Serviços</a>
@@ -204,13 +215,13 @@ footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); lette
 </nav>
 
 <!-- �═══════ HERO — Black �═══════ -->
-<section class="hero">
+<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('https://picsum.photos/1920/1080?random=99') center/cover no-repeat">
   <div class="hero-ambient"></div>
   <h1>Barbearia que entende seu estilo.</h1>
   <p class="hero-sub">Cortes, barba e cuidados com a precisão que você merece.</p>
   <div class="hero-ctas">
     <a href="#planos" class="pill-outline">Ver planos</a>
-    <a href="#servicos" class="pill-fill">Agendar →</a>
+    <a onclick="openCadastro()" class="pill-fill" style="cursor:pointer">Agendar →</a></a>
   </div>
 </section>
 
@@ -254,7 +265,7 @@ footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); lette
 </footer>
 
 <!-- ═══════ MODAL: CHECKOUT ═══════ -->
-<div class="modal-overlay" id="checkoutModal">
+<div class="modal-overlay" id="checkoutModal" onclick="if(event.target===this){closeCheckout()}">
   <div class="modal">
     <h3 id="checkoutTitle">Assinar plano</h3>
     <label>Nome</label><input id="chkNome" placeholder="Seu nome completo">
@@ -269,7 +280,7 @@ footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); lette
 </div>
 
 <!-- �═══════ MODAL: LOGIN �═══════ -->
-<div class="modal-overlay" id="loginModal">
+<div class="modal-overlay" id="loginModal" onclick="if(event.target===this){closeLogin()}">
   <div class="modal">
     <h3>Entrar</h3>
     <label>Email</label><input id="loginEmail" placeholder="seu@email.com" type="email">
@@ -284,7 +295,7 @@ footer p { font-size: 12px; font-weight: 400; color: var(--text-tertiary); lette
 </div>
 
 <!-- �═══════ MODAL: CADASTRO �═══════ -->
-<div class="modal-overlay" id="cadastroModal">
+<div class="modal-overlay" id="cadastroModal" onclick="if(event.target===this){closeCadastro()}">
   <div class="modal">
     <h3>Criar conta</h3>
     <label>Nome</label><input id="cadNome" placeholder="Seu nome">
