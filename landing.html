@@ -214,7 +214,7 @@ nav .hamburger { display:none; background:transparent; border:none; color:#fff; 
 </nav>
 
 <!-- �═══════ HERO — Black �═══════ -->
-<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('https://picsum.photos/1920/1080?random=99') center/cover no-repeat">
+<section class="hero" style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), url('assets/img/hero-1.jpg') center/cover no-repeat">
   <div class="hero-ambient"></div>
   <h1>Barbearia que entende seu estilo.</h1>
   <p class="hero-sub">Cortes, barba e cuidados com a precisão que você merece.</p>
@@ -324,12 +324,12 @@ const DB = {
         users: [],
         sessions: {},
         servicos: [
-          {id:'s1',nome:'Corte Clássico', desc:'Tesoura e máquina. Finalização com navalha.', preco:45, emoji:'✂️'},
-          {id:'s2',nome:'Barba Completa', desc:'Toalha quente, óleos e navalha.', preco:35, emoji:'🪒'},
-          {id:'s3',nome:'Combo Corte + Barba', desc:'O ritual completo. Corte e barba.', preco:65, emoji:'💈'},
-          {id:'s4',nome:'Hidratação', desc:'Tratamento com queratina e óleos essenciais.', preco:55, emoji:'✨'},
-          {id:'s5',nome:'Sombrancelha', desc:'Design com navalha. Precisão.', preco:25, emoji:'👁'},
-          {id:'s6',nome:'Pezinho & Navalha', desc:'Acabamento com navalha quente.', preco:20, emoji:'🔥'},
+          {id:'s1',img:'assets/img/service-1.jpg',nome:'Corte Clássico', desc:'Tesoura e máquina. Finalização com navalha.', preco:45, emoji:'✂️'},
+          {id:'s2',img:'assets/img/service-2.jpg',nome:'Barba Completa', desc:'Toalha quente, óleos e navalha.', preco:35, emoji:'🪒'},
+          {id:'s3',img:'assets/img/service-3.jpg',nome:'Combo Corte + Barba', desc:'O ritual completo. Corte e barba.', preco:65, emoji:'💈'},
+          {id:'s4',img:'assets/img/service-4.jpg',nome:'Hidratação', desc:'Tratamento com queratina e óleos essenciais.', preco:55, emoji:'✨'},
+          {id:'s5',img:'assets/img/service-5.jpg',nome:'Sombrancelha', desc:'Design com navalha. Precisão.', preco:25, emoji:'👁'},
+          {id:'s6',img:'assets/img/service-6.jpg',nome:'Pezinho & Navalha', desc:'Acabamento com navalha quente.', preco:20, emoji:'🔥'},
         ],
         combos: [
           {id:'c1',nome:'Mensal Bronze', preco:79, servicos:'4 cortes/mês', desc:'Ideal pra manter o estilo em dia.'},
@@ -337,8 +337,8 @@ const DB = {
           {id:'c3',nome:'Mensal Ouro', preco:199, servicos:'Ilimitado + barba + hidratação', desc:'O tratamento completo. Sem limites.'},
         ],
         barbeiros: [
-          {id:'b1',nome:'Ricardo', espec:'Barbearia Clássica', estrelas:5, emoji:'🧔'},
-          {id:'b2',nome:'Marcos', espec:'Cortes Modernos', estrelas:5, emoji:'💇'},
+          {id:'b1',img:'assets/img/barber-1.jpg',nome:'Ricardo', espec:'Barbearia Clássica', estrelas:5, emoji:'🧔'},
+          {id:'b2',img:'assets/img/barber-2.jpg',nome:'Marcos', espec:'Cortes Modernos', estrelas:5, emoji:'💇'},
           {id:'b3',nome:'Thiago', espec:'Barba & Navalha', estrelas:4, emoji:'🪒'},
         ]
       };
@@ -370,7 +370,7 @@ function renderServicos(){
   const g=document.getElementById('servicos-grid');
   g.innerHTML=svcs.map(s=>`
     <div class="card">
-      <img class="card-img" style="width:100%;height:200px;object-fit:cover;border-radius:8px 8px 0 0" src="https://picsum.photos/400/300?random=${s.id.charCodeAt(1)}" alt="${s.nome}" loading="lazy">
+      <img class="card-img" style="width:100%;height:200px;object-fit:cover;border-radius:8px 8px 0 0" src="assets/img/placeholder.jpg" alt="${s.nome}" loading="lazy">
       <div class="card-body">
         <h3>${s.nome}</h3>
         <p>${s.desc}</p>

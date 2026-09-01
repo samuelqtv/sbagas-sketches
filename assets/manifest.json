@@ -1,0 +1,16 @@
+{
+  "category": "barbearia",
+  "hero": "assets/img/hero-1.jpg",
+  "services": [
+    "assets/img/service-1.jpg",
+    "assets/img/service-2.jpg",
+    "assets/img/service-3.jpg",
+    "assets/img/service-4.jpg",
+    "assets/img/service-5.jpg",
+    "assets/img/service-6.jpg"
+  ],
+  "barbers": [
+    "assets/img/barber-1.jpg",
+    "assets/img/barber-2.jpg"
+  ]
+}
