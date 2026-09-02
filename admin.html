@@ -417,6 +417,21 @@ const DB = {
 
   // Helper: barbeiro vinculado ao usuário logado (match por email)
   getBarberForUser(user) { if(!user) return null; return this.getBarbers().find(b=>b.email&&b.email.toLowerCase()===user.email.toLowerCase()) || null; },
+
+  // PAYMENTS: histórico de pagamentos do cliente (vinculado ao userId)
+  createPayment(userId, comboId, valor, metodo) {
+    const db=this._init();
+    if(!db.payments) db.payments=[];
+    const p={id:'pg'+Date.now(),userId,comboId:comboId||null,valor:valor||0,metodo:metodo||'plano',status:'pago',createdAt:new Date().toISOString()};
+    db.payments.push(p);
+    this._save(db);
+    return p;
+  },
+  getPayments(userId) {
+    const db=this._init();
+    if(!db.payments) return [];
+    return db.payments.filter(p=>p.userId===userId).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+  },
 };
 DB._init();
 
@@ -650,6 +665,9 @@ function processCheckout() {
   actUser = user;
   actRole = 'cliente';
   DB.setSession(user.id);
+
+  // Registra pagamento do plano no histórico do cliente
+  DB.createPayment(user.id, c.id, c.preco, 'plano');
 
   // Toast com link para ir ao dashboard
   showToast('Plano ' + c.nome + ' ativado! Conta: ' + email + ' | Senha: ' + senhaPadrao);
@@ -1157,8 +1175,22 @@ const RENDER = {
   },
 
   'cliente-pagamentos': function() {
+    if (!actUser) return '';
+    const pays = DB.getPayments(actUser.id);
+    const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    const fmtData = iso => { try { const d=new Date(iso); return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); } catch(e){ return iso; } };
+    const comboNome = id => { const c=combos.find(x=>x.id===id); return c?c.nome:'Plano'; };
+    let corpo;
+    if (pays.length === 0) {
+      corpo = '<div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Nenhum pagamento registrado ainda.</div>';
+    } else {
+      corpo = '<div class="table-wrap">'+
+        '<div class="table-row table-hd" style="grid-template-columns:1fr 0.8fr 0.8fr 0.8fr"><span>Data</span><span>Plano</span><span>Valor</span><span>Status</span></div>'+
+        pays.map(p=>'<div class="table-row" style="grid-template-columns:1fr 0.8fr 0.8fr 0.8fr"><span>'+esc(fmtData(p.createdAt))+'</span><span>'+esc(comboNome(p.comboId))+'</span><span style="color:var(--g)">R$ '+p.valor+'</span><span class="badge badge-gr">'+esc(p.status)+'</span></div>').join('')+
+        '</div>';
+    }
     return `<div class="page active"><div class="page-title">Pagamentos</div><div class="page-sub">HISTÓRICO DE PAGAMENTOS</div>
-      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Nenhum pagamento registrado ainda.</div>
+      ${corpo}
     </div>`;
   },
 
