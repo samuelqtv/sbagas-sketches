@@ -265,9 +265,9 @@ input,select,button,textarea{font-family:var(--f)}
   <div class="login-card">
     <div class="login-title">Navalha & Arte</div><div class="login-sub">Painel</div>
     <div class="role-tabs" id="roleTabs">
-      <button class="role-tab active" data-role="dono">Dono</button>
-      <button class="role-tab" data-role="barbeiro">Barbeiro</button>
-      <button class="role-tab" data-role="cliente">Cliente</button>
+      <button class="role-tab active" data-role="dono" onclick="selecionarRole('dono')">Dono</button>
+      <button class="role-tab" data-role="barbeiro" onclick="selecionarRole('barbeiro')">Barbeiro</button>
+      <button class="role-tab" data-role="cliente" onclick="selecionarRole('cliente')">Cliente</button>
     </div>
     <div class="login-field"><label>Email</label><input type="email" id="loginEmail" placeholder="seu@email.com"></div>
     <div class="login-field"><label>Senha</label><input type="password" id="loginPass" placeholder="Sua senha"></div>
@@ -412,6 +412,39 @@ const DB = {
   updateCombo(id, data) { const db=this._init(); const idx=db.combos.findIndex(c=>c.id===id); if(idx>=0){Object.assign(db.combos[idx],data);this._save(db);} },
 };
 DB._init();
+
+// ═══════════════ ROLE-TABS (login rápido demo) ═══════════════
+// Preenche email/senha de teste ao clicar nas abas Dono/Barbeiro/Cliente.
+// As credenciais existem no seed do DB (users u1, u2/u3/u4, u5).
+(function initRoleTabs() {
+  const credenciaisDemo = {
+    dono: { email: 'dono@navalha.com', senha: '1234' },
+    barbeiro: { email: 'ricardo@navalha.com', senha: '1234' },
+    cliente: { email: 'cliente@teste.com', senha: '1234' },
+  };
+  function selecionarRole(role) {
+    document.querySelectorAll('.role-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.role === role);
+    });
+    const cred = credenciaisDemo[role];
+    if (!cred) return;
+    const emailEl = document.getElementById('loginEmail');
+    const passEl = document.getElementById('loginPass');
+    const errEl = document.getElementById('loginError');
+    if (emailEl) emailEl.value = cred.email;
+    if (passEl) passEl.value = cred.senha;
+    if (errEl) errEl.style.display = 'none';
+  }
+  // Expõe globalmente para uso inline e attach delegado
+  window.selecionarRole = selecionarRole;
+  // Attach delegado: liga quando o DOM já tem os botões
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('#roleTabs .role-tab');
+    tabs.forEach(t => {
+      t.addEventListener('click', function() { selecionarRole(t.dataset.role); });
+    });
+  });
+})();
 
 // ═══════════════ GLOBALS ═══════════════
 let barbers = DB.getBarbers();
