@@ -410,6 +410,13 @@ const DB = {
   updateBarber(id, data) { const db=this._init(); const idx=db.barbers.findIndex(b=>b.id===id); if(idx>=0){Object.assign(db.barbers[idx],data);this._save(db);} },
   updateServico(id, data) { const db=this._init(); const idx=db.servicos.findIndex(s=>s.id===id); if(idx>=0){Object.assign(db.servicos[idx],data);this._save(db);} },
   updateCombo(id, data) { const db=this._init(); const idx=db.combos.findIndex(c=>c.id===id); if(idx>=0){Object.assign(db.combos[idx],data);this._save(db);} },
+
+  // BARBEARIA CONFIG (dono): dados do estabelecimento
+  getConfig() { const db=this._init(); if(!db.config) { db.config={barbeariaNome:'',endereco:'',telefone:'',horarioFunc:''}; this._save(db); } return db.config; },
+  updateConfig(data) { const db=this._init(); if(!db.config) db.config={}; Object.assign(db.config,data); this._save(db); },
+
+  // Helper: barbeiro vinculado ao usuário logado (match por email)
+  getBarberForUser(user) { if(!user) return null; return this.getBarbers().find(b=>b.email&&b.email.toLowerCase()===user.email.toLowerCase()) || null; },
 };
 DB._init();
 
@@ -1001,8 +1008,16 @@ const RENDER = {
   },
 
   'config': function() {
-    return `<div class="page active"><div class="page-title">Configurações</div><div class="page-sub">AJUSTES DO SISTEMA</div>
-      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Configurações do sistema — em desenvolvimento</div>
+    const cfg = DB.getConfig();
+    const esc = s => (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    return `<div class="page active"><div class="page-title">Configurações</div><div class="page-sub">DADOS DA BARBEARIA</div>
+      <div style="border:1px solid var(--b);padding:24px">
+        <div class="modal-field"><label>Nome da barbearia</label><input id="cfgNome" value="${esc(cfg.barbeariaNome)}" placeholder="Navalha & Arte"></div>
+        <div class="modal-field"><label>Endereço</label><input id="cfgEnd" value="${esc(cfg.endereco)}" placeholder="Rua, número, cidade"></div>
+        <div class="modal-field"><label>Telefone</label><input id="cfgTel" value="${esc(cfg.telefone)}" placeholder="(11) 99999-9999"></div>
+        <div class="modal-field"><label>Horário de funcionamento</label><input id="cfgHor" value="${esc(cfg.horarioFunc)}" placeholder="Seg-Sex 9-19, Sáb 8-17"></div>
+        <button class="landing-btn" style="margin-top:16px" onclick="saveConfig()">Salvar Configurações</button>
+      </div>
     </div>`;
   },
 
@@ -1050,18 +1065,29 @@ const RENDER = {
   },
 
   'meus-horarios': function() {
+    if (!actUser) return '';
+    const barb = DB.getBarberForUser(actUser);
+    const esc = s => (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    const horarios = (barb && barb.horarios) ? barb.horarios : '';
     return `<div class="page active"><div class="page-title">Meus Horários</div><div class="page-sub">DISPONIBILIDADE</div>
-      <div style="color:var(--m);padding:40px;text-align:center;border:1px solid var(--b)">Configure seus horários de atendimento</div>
+      <div style="border:1px solid var(--b);padding:24px">
+        <div class="modal-field"><label>Dias e horários de trabalho</label><input id="hrTrabalho" value="${esc(horarios)}" placeholder="Ex: Seg-Sex 9-18, Sáb 8-14"></div>
+        <button class="landing-btn" style="margin-top:16px" onclick="saveHorarios()">Salvar Horários</button>
+      </div>
     </div>`;
   },
 
   'meus-dados-bancarios': function() {
+    if (!actUser) return '';
+    const barb = DB.getBarberForUser(actUser);
+    const esc = s => (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
     return `<div class="page active"><div class="page-title">Dados Bancários</div><div class="page-sub">RECEBIMENTOS</div>
       <div style="border:1px solid var(--b);padding:24px">
-        <div class="modal-field"><label>Banco</label><input placeholder="Nome do banco"></div>
-        <div class="modal-field"><label>Agência</label><input placeholder="Número da agência"></div>
-        <div class="modal-field"><label>Conta</label><input placeholder="Número da conta"></div>
-        <div class="modal-field"><label>Chave PIX</label><input placeholder="CPF/Email/Telefone"></div>
+        <div class="modal-field"><label>Banco</label><input id="dbBanco" value="${esc(barb?barb.banco:'')}" placeholder="Nome do banco"></div>
+        <div class="modal-field"><label>Agência</label><input id="dbAgencia" value="${esc(barb?barb.agencia:'')}" placeholder="Número da agência"></div>
+        <div class="modal-field"><label>Conta</label><input id="dbConta" value="${esc(barb?barb.conta:'')}" placeholder="Número da conta"></div>
+        <div class="modal-field"><label>Chave PIX</label><input id="dbPix" value="${esc(barb?barb.pix:'')}" placeholder="CPF/Email/Telefone"></div>
+        <button class="landing-btn" style="margin-top:16px" onclick="saveDadosBancarios()">Salvar Dados</button>
       </div>
     </div>`;
   },
@@ -1142,6 +1168,44 @@ const RENDER = {
     </div>`;
   },
 };
+
+// ═══════════════ PERSISTÊNCIA DAS TELAS (Config, Horários, Dados Bancários) ═══════════════
+// Handlers que leem os inputs já renderizados, salvam no DB (localStorage) e
+// recarregam a tela para confirmar a persistência round-trip.
+function saveConfig() {
+  const nome = document.getElementById('cfgNome').value.trim();
+  const endereco = document.getElementById('cfgEnd').value.trim();
+  const telefone = document.getElementById('cfgTel').value.trim();
+  const horarioFunc = document.getElementById('cfgHor').value.trim();
+  DB.updateConfig({ barbeariaNome: nome, endereco: endereco, telefone: telefone, horarioFunc: horarioFunc });
+  showToast('Configurações salvas');
+  navigate('config');
+}
+
+function saveHorarios() {
+  if (!actUser) return;
+  const barb = DB.getBarberForUser(actUser);
+  if (!barb) { showError('Barbeiro não vinculado ao usuário'); return; }
+  const horarios = document.getElementById('hrTrabalho').value.trim();
+  DB.updateBarber(barb.id, { horarios: horarios });
+  barbers = DB.getBarbers();
+  showToast('Horários salvos');
+  navigate('meus-horarios');
+}
+
+function saveDadosBancarios() {
+  if (!actUser) return;
+  const barb = DB.getBarberForUser(actUser);
+  if (!barb) { showError('Barbeiro não vinculado ao usuário'); return; }
+  const banco = document.getElementById('dbBanco').value.trim();
+  const agencia = document.getElementById('dbAgencia').value.trim();
+  const conta = document.getElementById('dbConta').value.trim();
+  const pix = document.getElementById('dbPix').value.trim();
+  DB.updateBarber(barb.id, { banco, agencia, conta, pix });
+  barbers = DB.getBarbers();
+  showToast('Dados bancários salvos');
+  navigate('meus-dados-bancarios');
+}
 
 // ═══════════════ INIT — SESSÃO SOBREVIVE RELOAD ═══════════════
 (function() {
